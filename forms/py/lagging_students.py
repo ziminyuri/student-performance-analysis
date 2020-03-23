@@ -1,20 +1,12 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forms/qt/lagging_students.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
+from PyQt5 import QtCore, QtWidgets
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 534)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class form_lagging_students(object):
+    def __init__(self, MainWindow):
+        self.lagging_students_window = MainWindow.lagging_students_window
+        self.lagging_students_window.setObjectName("MainWindow")
+        self.lagging_students_window.resize(800, 534)
+        self.centralwidget = QtWidgets.QWidget(self.lagging_students_window)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 141, 16))
@@ -42,13 +34,14 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(670, 470, 112, 32))
         self.pushButton.setObjectName("pushButton")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.pushButton.clicked.connect(self.close_window)
+        self.lagging_students_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.lagging_students_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.lagging_students_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.lagging_students_window)
+        QtCore.QMetaObject.connectSlotsByName(self.lagging_students_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -59,12 +52,5 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Наименование группы"))
         self.pushButton.setText(_translate("MainWindow", "Закрыть"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def close_window(self):
+        self.lagging_students_window.close()

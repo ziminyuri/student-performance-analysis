@@ -1,20 +1,13 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forms/qt/diagram.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
+from PyQt5 import QtCore, QtWidgets
+from forms.py.lagging_students import form_lagging_students
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 563)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class form_diagram(object):
+    def __init__(self, MainWindow):
+        self.diagram_window = MainWindow.diagram_window
+        self.diagram_window.setObjectName("MainWindow")
+        self.diagram_window.resize(800, 563)
+        self.centralwidget = QtWidgets.QWidget(self.diagram_window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 20, 781, 471))
@@ -53,6 +46,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label_4, 5, 1, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.gridLayoutWidget)
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.show_lagging_students_window)
         self.gridLayout.addWidget(self.pushButton_2, 9, 1, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_5.setObjectName("label_5")
@@ -63,13 +57,17 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(680, 500, 112, 32))
         self.pushButton.setObjectName("pushButton")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.pushButton.clicked.connect(self.close_window)
+        self.diagram_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.diagram_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.diagram_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.lagging_students_window = QtWidgets.QMainWindow()
+        self.lagging_students_ui = form_lagging_students(self)
+
+        self.retranslateUi(self.diagram_window)
+        QtCore.QMetaObject.connectSlotsByName(self.diagram_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -83,12 +81,9 @@ class Ui_MainWindow(object):
         self.label_6.setText(_translate("MainWindow", "Наименование группы"))
         self.pushButton.setText(_translate("MainWindow", "Закрыть"))
 
+    def show_lagging_students_window(self):
+        self.lagging_students_window.show()
+        self.diagram_window.hide()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def close_window(self):
+        self.diagram_window.close()

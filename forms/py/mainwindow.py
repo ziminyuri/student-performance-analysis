@@ -1,17 +1,15 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forms/qt/mainwindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
-
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+from forms.py.login import form_login
+from forms.py.analytics import form_analytics
+from forms.py.subject_list import form_subject_list
+from forms.py.group_choice import form_group_choice
+from forms.py.report import form_report
+from forms.py.grades import form_grade
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+class form_mainwindow(object):
+    def __init__(self, MainWindow):
+        self.main_window = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -22,6 +20,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.pushButton_reports = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_reports.setObjectName("pushButton_reports")
+        self.pushButton_reports.clicked.connect(self.show_report_window)
         self.gridLayout.addWidget(self.pushButton_reports, 0, 4, 1, 1)
         self.pushButton_close = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -30,12 +29,15 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.pushButton_close.sizePolicy().hasHeightForWidth())
         self.pushButton_close.setSizePolicy(sizePolicy)
         self.pushButton_close.setObjectName("pushButton_close")
+        self.pushButton_close.clicked.connect(self.close_window)
         self.gridLayout.addWidget(self.pushButton_close, 0, 5, 1, 1)
         self.pushButton_analytics = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_analytics.setObjectName("pushButton_analytics")
+        self.pushButton_analytics.clicked.connect(self.show_analytics_window)
         self.gridLayout.addWidget(self.pushButton_analytics, 0, 3, 1, 1)
         self.pushButton_student = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_student.setObjectName("pushButton_student")
+        self.pushButton_student.clicked.connect(self.show_group_choice_window)
         self.gridLayout.addWidget(self.pushButton_student, 0, 1, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName("tableWidget")
@@ -49,6 +51,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.line, 1, 0, 1, 6)
         self.pushButton_lesson = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_lesson.setObjectName("pushButton_lesson")
+        self.pushButton_lesson.clicked.connect(self.show_subject_window)
         self.gridLayout.addWidget(self.pushButton_lesson, 0, 0, 1, 1)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setAlignment(QtCore.Qt.AlignCenter)
@@ -56,6 +59,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label, 2, 0, 1, 6)
         self.pushButton_grade = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_grade.setObjectName("pushButton_grade")
+        self.pushButton_grade.clicked.connect(self.show_grade_window)
         self.gridLayout.addWidget(self.pushButton_grade, 0, 2, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -63,12 +67,31 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        # Инициализируем окна
+        self.login_window = QtWidgets.QMainWindow()
+        self.login_ui = form_login(self)
+
+        self.subject_window = QtWidgets.QMainWindow()
+        self.subject_ui = form_subject_list(self)
+
+        self.group_choice_window = QtWidgets.QMainWindow()
+        self.group_choice_ui = form_group_choice(self)
+
+        self.grade_window = QtWidgets.QMainWindow()
+        self.grade_ui = form_grade(self)
+
+        self.analytics_window = QtWidgets.QMainWindow()
+        self.analytics_ui = form_analytics(self)
+
+        self.report_window = QtWidgets.QMainWindow()
+        self.report_ui = form_report(self)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Личный кабинет преподавателя"))
         self.pushButton_reports.setText(_translate("MainWindow", "Отчеты"))
         self.pushButton_close.setText(_translate("MainWindow", "Выход"))
         self.pushButton_analytics.setText(_translate("MainWindow", "Аналитика"))
@@ -77,12 +100,32 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Отстаующие студенты"))
         self.pushButton_grade.setText(_translate("MainWindow", "Оценки"))
 
+    def show(self):
+        self.main_window.show()
+        self.show_login_window()
+        self.main_window.hide()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def show_login_window(self):
+        self.login_window.show()
+
+    def show_subject_window(self):
+        self.subject_window.show()
+
+    def show_group_choice_window(self):
+        self.group_choice_window.show()
+
+    def show_grade_window(self):
+        self.grade_window.show()
+
+    def show_analytics_window(self):
+        self.analytics_window.show()
+
+    def show_report_window(self):
+        self.report_window.show()
+
+    def close_window(self):
+        self.main_window.close()
+
+
+
+

@@ -1,20 +1,12 @@
-# -*- coding: utf-8 -*-
+from PyQt5 import QtCore, QtWidgets
+from forms.py.diagram import form_diagram
 
-# Form implementation generated from reading ui file 'forms/qt/analytics.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
-
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(589, 306)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class form_analytics(object):
+    def __init__(self, MainWindow):
+        self.analytics_window = MainWindow.analytics_window
+        self.analytics_window.setObjectName("MainWindow")
+        self.analytics_window.resize(589, 306)
+        self.centralwidget = QtWidgets.QWidget(self.analytics_window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(12, 12, 561, 221))
@@ -55,16 +47,22 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(280, 240, 191, 32))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.show_diagram_window)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(470, 240, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.pushButton_2.clicked.connect(self.close_window)
+        self.analytics_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.analytics_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.analytics_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.diagram_window = QtWidgets.QMainWindow()
+        self.diagram_ui = form_diagram(self)
+
+        self.retranslateUi(self.analytics_window)
+        QtCore.QMetaObject.connectSlotsByName(self.analytics_window)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -79,12 +77,9 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Построить диаграмму"))
         self.pushButton_2.setText(_translate("MainWindow", "Закрыть"))
 
+    def show_diagram_window(self):
+        self.diagram_window.show()
+        self.analytics_window.hide()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def close_window(self):
+        self.analytics_window.close()

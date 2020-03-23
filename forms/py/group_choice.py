@@ -1,20 +1,13 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forms/qt/group_choice.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
+from PyQt5 import QtCore, QtWidgets
+from forms.py.student_list import form_student_list
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(510, 187)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class form_group_choice(object):
+    def __init__(self, MainWindow):
+        self.group_choice_window = MainWindow.group_choice_window
+        self.group_choice_window.setObjectName("MainWindow")
+        self.group_choice_window.resize(510, 187)
+        self.centralwidget = QtWidgets.QWidget(self.group_choice_window)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 241, 32))
@@ -25,9 +18,11 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(380, 120, 121, 32))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(280, 50, 221, 32))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.show_student_list)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(280, 20, 221, 32))
         self.pushButton_4.setObjectName("pushButton_4")
@@ -36,13 +31,16 @@ class Ui_MainWindow(object):
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.group_choice_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.group_choice_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.group_choice_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.student_list_window = QtWidgets.QMainWindow()
+        self.student_list_ui = form_student_list(self)
+
+        self.retranslateUi(self.group_choice_window)
+        QtCore.QMetaObject.connectSlotsByName(self.group_choice_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -52,12 +50,9 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Просмотреть список группы"))
         self.pushButton_4.setText(_translate("MainWindow", "Добавить группу"))
 
+    def show_student_list(self):
+        self.student_list_window.show()
+        self.group_choice_window.hide()
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def close_window(self):
+        self.group_choice_window.close()

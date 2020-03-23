@@ -1,20 +1,12 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forms/qt/add_subject.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
+from PyQt5 import QtCore, QtWidgets
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(493, 285)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+class form_add_subject(object):
+    def __init__(self, MainWindow):
+        self.add_subject_window = MainWindow.add_subject_window
+        self.add_subject_window.setObjectName("MainWindow")
+        self.add_subject_window.resize(493, 285)
+        self.centralwidget = QtWidgets.QWidget(self.add_subject_window)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 191, 16))
@@ -28,6 +20,7 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(350, 220, 131, 32))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.close_window)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(10, 70, 58, 16))
         self.label_2.setObjectName("label_2")
@@ -45,13 +38,13 @@ class Ui_MainWindow(object):
         self.checkBox_2.setGeometry(QtCore.QRect(10, 40, 86, 20))
         self.checkBox_2.setObjectName("checkBox_2")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.add_subject_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.add_subject_window)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.add_subject_window.setStatusBar(self.statusbar)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(self.add_subject_window)
+        QtCore.QMetaObject.connectSlotsByName(self.add_subject_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -63,12 +56,5 @@ class Ui_MainWindow(object):
         self.checkBox.setText(_translate("MainWindow", "78678"))
         self.checkBox_2.setText(_translate("MainWindow", "54365"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def close_window(self):
+        self.add_subject_window.close()

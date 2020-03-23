@@ -19,6 +19,8 @@ class form_analytics(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.gridLayoutWidget)
         self.comboBox.setObjectName("comboBox")
+        ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
+        self.comboBox.addItems(ls)
         self.gridLayout.addWidget(self.comboBox, 1, 0, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_2.setObjectName("label_2")
@@ -34,12 +36,16 @@ class form_analytics(object):
         self.gridLayout.addWidget(self.label_3, 0, 1, 1, 1)
         self.comboBox_3 = QtWidgets.QComboBox(self.gridLayoutWidget)
         self.comboBox_3.setObjectName("comboBox_3")
+        ls_3 = ['Круговая', 'Столбчатая']
+        self.comboBox_3.addItems(ls_3)
         self.gridLayout.addWidget(self.comboBox_3, 1, 1, 1, 1)
         self.label_4 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 2, 1, 1, 1)
         self.comboBox_2 = QtWidgets.QComboBox(self.gridLayoutWidget)
         self.comboBox_2.setObjectName("comboBox_2")
+        ls_2 = ['324234', '423234']
+        self.comboBox_2.addItems(ls_2)
         self.gridLayout.addWidget(self.comboBox_2, 3, 0, 1, 1)
         self.radioButton_3 = QtWidgets.QRadioButton(self.gridLayoutWidget)
         self.radioButton_3.setObjectName("radioButton_3")

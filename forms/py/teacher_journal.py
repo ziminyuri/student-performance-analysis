@@ -15,8 +15,34 @@ class form_teacher_journal(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setStyleSheet("")
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
+        self.tableWidget.setColumnCount(13)
+        self.tableWidget.setRowCount(5)
+        self.tableWidget.setHorizontalHeaderLabels(["ФИО студента",
+                                                    "Лабораторная работа №1", "Дата защиты",
+                                                    "Лабораторная работа №2", "Дата защиты",
+                                                    "Лабораторная работа №3", "Дата защиты",
+                                                    "Лабораторная работа №4", "Дата защиты",
+                                                    "Лабораторная работа №5", "Дата защиты",
+                                                    "Лабораторная работа №6", "Дата защиты"])
+        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Антонов Варлам Парфеньевич"))
+        self.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.setItem(1, 0, QtWidgets.QTableWidgetItem("Гусев Гаянэ Ростиславович"))
+        self.tableWidget.setItem(1, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(1, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.setItem(2, 0, QtWidgets.QTableWidgetItem("Иванов Оскар Иосифович"))
+        self.tableWidget.setItem(2, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(2, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.setItem(3, 0, QtWidgets.QTableWidgetItem("Лыткин Герман Олегович"))
+        self.tableWidget.setItem(3, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(3, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.setItem(4, 0, QtWidgets.QTableWidgetItem("Носов Мечислав Яковович"))
+        self.tableWidget.setItem(4, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(4, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.setItem(5, 0, QtWidgets.QTableWidgetItem("Силин Тарас Якунович"))
+        self.tableWidget.setItem(5, 1, QtWidgets.QTableWidgetItem("90"))
+        self.tableWidget.setItem(5, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
+        self.tableWidget.resizeColumnsToContents()
         self.tableWidget.horizontalHeader().setSortIndicatorShown(False)
         self.gridLayout_2.addWidget(self.tableWidget, 0, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)

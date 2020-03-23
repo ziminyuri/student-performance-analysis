@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from forms.py.student_list import form_student_list
+from forms.py.add_group import form_add_group
 
 
 class form_group_choice(object):
@@ -12,6 +13,8 @@ class form_group_choice(object):
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 241, 32))
         self.comboBox.setObjectName("comboBox")
+        ls = ['3234234', '3242342' ]
+        self.comboBox.addItems(ls)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 141, 16))
         self.label.setObjectName("label")
@@ -26,6 +29,7 @@ class form_group_choice(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(280, 20, 221, 32))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.show_add_group_window)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 100, 471, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -38,6 +42,9 @@ class form_group_choice(object):
 
         self.student_list_window = QtWidgets.QMainWindow()
         self.student_list_ui = form_student_list(self)
+
+        self.add_group_window = QtWidgets.QMainWindow()
+        self.add_group_ui = form_add_group(self)
 
         self.retranslateUi(self.group_choice_window)
         QtCore.QMetaObject.connectSlotsByName(self.group_choice_window)
@@ -53,6 +60,9 @@ class form_group_choice(object):
     def show_student_list(self):
         self.student_list_window.show()
         self.group_choice_window.hide()
+
+    def show_add_group_window(self):
+        self.add_group_window.show()
 
     def close_window(self):
         self.group_choice_window.close()

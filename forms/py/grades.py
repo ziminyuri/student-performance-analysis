@@ -30,6 +30,8 @@ class form_grade(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setObjectName("comboBox")
+        ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
+        self.comboBox.addItems(ls)
         self.gridLayout.addWidget(self.comboBox, 2, 0, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -42,6 +44,8 @@ class form_grade(object):
         self.gridLayout.addWidget(self.pushButton_2, 3, 2, 1, 1)
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_2.setObjectName("comboBox_2")
+        ls_2 = ['324234', '423234']
+        self.comboBox_2.addItems(ls_2)
         self.gridLayout.addWidget(self.comboBox_2, 2, 1, 1, 2)
         self.verticalLayout.addLayout(self.gridLayout)
         self.grade_window.setCentralWidget(self.centralwidget)

@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 
+
 class form_student_list(object):
     def __init__(self, MainWindow):
         self.student_window = MainWindow.student_list_window
@@ -21,6 +22,15 @@ class form_student_list(object):
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(20, 30, 641, 321))
         self.listWidget.setObjectName("listWidget")
+        ls = ["Антонов Варлам Парфеньевич",
+              "Гусев Гаянэ Ростиславович",
+              "Иванов Оскар Иосифович",
+              "Лыткин Герман Олегович",
+              "Носов Мечислав Яковович",
+              "Силин Тарас Якунович",
+              "Ширяев Яков Филиппович"
+              ]
+        self.listWidget.addItems(ls)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(20, 360, 141, 32))
         self.pushButton_3.setObjectName("pushButton_3")

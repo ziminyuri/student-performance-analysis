@@ -14,6 +14,9 @@ class form_report(object):
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(0, 30, 551, 32))
         self.comboBox.setObjectName("comboBox")
+        ls = ['Оценки | Группа №342342',
+              'Количество сданных лабораторных точек | Группа №342342']
+        self.comboBox.addItems(ls)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(260, 90, 181, 32))
         self.pushButton.setObjectName("pushButton")

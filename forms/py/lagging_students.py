@@ -30,6 +30,15 @@ class form_lagging_students(object):
         self.listWidget = QtWidgets.QListWidget(self.scrollAreaWidgetContents)
         self.listWidget.setGeometry(QtCore.QRect(-5, -9, 591, 461))
         self.listWidget.setObjectName("listWidget")
+        ls = ["Антонов Варлам Парфеньевич",
+              "Гусев Гаянэ Ростиславович",
+              "Иванов Оскар Иосифович",
+              "Лыткин Герман Олегович",
+              "Носов Мечислав Яковович",
+              "Силин Тарас Якунович",
+              "Ширяев Яков Филиппович"
+              ]
+        self.listWidget.addItems(ls)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(670, 470, 112, 32))

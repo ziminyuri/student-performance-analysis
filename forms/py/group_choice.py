@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.student_list import form_student_list
-from forms.py.add_group import form_add_group
+from forms.py.student_list_2 import form_student_list
+from forms.py.group_list import form_group_window
 
 
 class form_group_choice(object):
@@ -29,7 +29,7 @@ class form_group_choice(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(280, 20, 221, 32))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.clicked.connect(self.show_add_group_window)
+        self.pushButton_4.clicked.connect(self.show_group_window)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 100, 471, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -43,26 +43,26 @@ class form_group_choice(object):
         self.student_list_window = QtWidgets.QMainWindow()
         self.student_list_ui = form_student_list(self)
 
-        self.add_group_window = QtWidgets.QMainWindow()
-        self.add_group_ui = form_add_group(self)
+        self.group_window = QtWidgets.QMainWindow()
+        self.group_ui = form_group_window(self)
 
         self.retranslateUi(self.group_choice_window)
         QtCore.QMetaObject.connectSlotsByName(self.group_choice_window)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Выберите группу"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Студенты"))
         self.label.setText(_translate("MainWindow", "Выберите группу"))
         self.pushButton_2.setText(_translate("MainWindow", "Закрыть"))
         self.pushButton_3.setText(_translate("MainWindow", "Просмотреть список группы"))
-        self.pushButton_4.setText(_translate("MainWindow", "Добавить группу"))
+        self.pushButton_4.setText(_translate("MainWindow", "Группы"))
 
     def show_student_list(self):
         self.student_list_window.show()
         self.group_choice_window.hide()
 
-    def show_add_group_window(self):
-        self.add_group_window.show()
+    def show_group_window(self):
+        self.group_window.show()
 
     def close_window(self):
         self.group_choice_window.close()

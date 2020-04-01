@@ -24,14 +24,14 @@
      </rect>
     </property>
     <property name="text">
-     <string>Список группы</string>
+     <string>Список группы №423342</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>390</y>
+      <x>160</x>
+      <y>360</y>
       <width>141</width>
       <height>32</height>
      </rect>
@@ -51,16 +51,6 @@
     </property>
     <property name="text">
      <string>Закрыть</string>
-    </property>
-   </widget>
-   <widget class="QListWidget" name="listWidget">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>641</width>
-      <height>321</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -92,7 +82,7 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>300</x>
       <y>360</y>
       <width>141</width>
       <height>32</height>
@@ -105,7 +95,7 @@
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>300</x>
       <y>390</y>
       <width>141</width>
       <height>32</height>
@@ -113,6 +103,29 @@
     </property>
     <property name="text">
      <string>Импорт из Moodle</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>631</width>
+      <height>321</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_6">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>390</y>
+      <width>141</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Удалить</string>
     </property>
    </widget>
   </widget>

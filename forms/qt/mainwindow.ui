@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Личный кабинет</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -68,20 +68,27 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="6">
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_grade">
+        <property name="text">
+         <string>Оценки</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2" colspan="4">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Отстаующие студенты</string>
+         <string>Отстающие студенты</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="pushButton_grade">
+      <item row="2" column="0" colspan="2">
+       <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>Оценки</string>
+         <string>Список не сданных работ студента</string>
         </property>
        </widget>
       </item>

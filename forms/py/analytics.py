@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from forms.py.diagram import form_diagram
 
+
 class form_analytics(object):
     def __init__(self, MainWindow):
         self.analytics_window = MainWindow.analytics_window

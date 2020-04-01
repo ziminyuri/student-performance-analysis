@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from forms.py.mainwindow import form_mainwindow
+from forms.py.mainwindow_2 import form_mainwindow
 import sys
 
 

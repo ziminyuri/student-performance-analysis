@@ -1,14 +1,16 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py.login import form_login
-from forms.py.analytics import form_analytics
+from forms.py.choice_analytics import form_choice_analytics_window
 from forms.py.subject_list import form_subject_list
 from forms.py.group_choice import form_group_choice
 from forms.py.report import form_report
 from forms.py.grades import form_grade
+from forms.py.not_submitted_work import form_not_submitted_work
 
 
 class form_mainwindow(object):
-    def __init__(self, MainWindow):
+    def __init__(self, MainWindow, session):
+        self.session = session
         self.main_window = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
@@ -33,7 +35,7 @@ class form_mainwindow(object):
         self.gridLayout.addWidget(self.pushButton_close, 0, 5, 1, 1)
         self.pushButton_analytics = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_analytics.setObjectName("pushButton_analytics")
-        self.pushButton_analytics.clicked.connect(self.show_analytics_window)
+        self.pushButton_analytics.clicked.connect(self.show_choice_analytics_window)
         self.gridLayout.addWidget(self.pushButton_analytics, 0, 3, 1, 1)
         self.pushButton_student = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_student.setObjectName("pushButton_student")
@@ -41,20 +43,17 @@ class form_mainwindow(object):
         self.gridLayout.addWidget(self.pushButton_student, 0, 1, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(2)
-        self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Группа", "Дисциплина", "Не сданные лабораторные работы",
-                                                    "Процент отставания"])
+        self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Группа", "Дисциплина", "Процент отставания"])
         self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Иванов Иван Иванович"))
         self.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("123432"))
         self.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Операционные системы"))
-        self.tableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem("№3, №4, №5"))
-        self.tableWidget.setItem(0, 4, QtWidgets.QTableWidgetItem("60%"))
+        self.tableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem("60%"))
         self.tableWidget.setItem(1, 0, QtWidgets.QTableWidgetItem("Петров Дмитрий Константинович"))
         self.tableWidget.setItem(1, 1, QtWidgets.QTableWidgetItem("123432"))
         self.tableWidget.setItem(1, 2, QtWidgets.QTableWidgetItem("Операционные системы"))
-        self.tableWidget.setItem(1, 3, QtWidgets.QTableWidgetItem("№4, №5"))
-        self.tableWidget.setItem(1, 4, QtWidgets.QTableWidgetItem("40%"))
+        self.tableWidget.setItem(1, 3, QtWidgets.QTableWidgetItem("40%"))
         self.tableWidget.resizeColumnsToContents()
         self.gridLayout.addWidget(self.tableWidget, 3, 0, 1, 6)
         self.line = QtWidgets.QFrame(self.centralwidget)
@@ -66,14 +65,18 @@ class form_mainwindow(object):
         self.pushButton_lesson.setObjectName("pushButton_lesson")
         self.pushButton_lesson.clicked.connect(self.show_subject_window)
         self.gridLayout.addWidget(self.pushButton_lesson, 0, 0, 1, 1)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 2, 0, 1, 6)
         self.pushButton_grade = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_grade.setObjectName("pushButton_grade")
         self.pushButton_grade.clicked.connect(self.show_grade_window)
         self.gridLayout.addWidget(self.pushButton_grade, 0, 2, 1, 1)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 2, 2, 1, 4)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.show_not_submitted_work_window)
+        self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -93,25 +96,29 @@ class form_mainwindow(object):
         self.grade_window = QtWidgets.QMainWindow()
         self.grade_ui = form_grade(self)
 
-        self.analytics_window = QtWidgets.QMainWindow()
-        self.analytics_ui = form_analytics(self)
+        self.choice_analytics_window = QtWidgets.QMainWindow()
+        self.choice_analytics_ui = form_choice_analytics_window(self)
 
         self.report_window = QtWidgets.QMainWindow()
         self.report_ui = form_report(self)
+
+        self.not_submitted_work_window = QtWidgets.QMainWindow()
+        self.not_submitted_work_ui = form_not_submitted_work(self)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Личный кабинет преподавателя"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Личный кабинет"))
         self.pushButton_reports.setText(_translate("MainWindow", "Отчеты"))
         self.pushButton_close.setText(_translate("MainWindow", "Выход"))
         self.pushButton_analytics.setText(_translate("MainWindow", "Аналитика"))
         self.pushButton_student.setText(_translate("MainWindow", "Студенты"))
         self.pushButton_lesson.setText(_translate("MainWindow", "Дисциплины"))
-        self.label.setText(_translate("MainWindow", "Отстаующие студенты"))
         self.pushButton_grade.setText(_translate("MainWindow", "Оценки"))
+        self.label.setText(_translate("MainWindow", "Отстающие студенты"))
+        self.pushButton.setText(_translate("MainWindow", "Список не сданных работ студента"))
 
     def show(self):
         self.main_window.show()
@@ -130,15 +137,14 @@ class form_mainwindow(object):
     def show_grade_window(self):
         self.grade_window.show()
 
-    def show_analytics_window(self):
-        self.analytics_window.show()
+    def show_choice_analytics_window(self):
+        self.choice_analytics_window.show()
 
     def show_report_window(self):
         self.report_window.show()
 
+    def show_not_submitted_work_window(self):
+        self.not_submitted_work_window.show()
+
     def close_window(self):
         self.main_window.close()
-
-
-
-

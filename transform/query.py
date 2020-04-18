@@ -1,0 +1,36 @@
+import numpy as np
+
+
+def query_to_list_of_name(query):
+    result_list =[]
+
+    try:
+        for i in query:
+            value = i.name
+            result_list.append(value)
+
+    except:
+        pass
+
+    return result_list
+
+
+def query_to_list_of_student_all(query):
+    result_list = []
+
+    try:
+        for i in query:
+            list_i = []
+            name: str = i.name
+            record_book: str = str(i.record_book)
+            list_i.append(name)
+            list_i.append(record_book)
+
+            result_list.append(list_i)
+
+    except:
+        pass
+
+    result_list = np.array(result_list)
+
+    return result_list

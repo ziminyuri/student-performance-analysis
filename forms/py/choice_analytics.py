@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py.analytics_2 import form_analytics
+from forms.py.analytics import form_analytics
 
 
 class form_choice_analytics_window(object):

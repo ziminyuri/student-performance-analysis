@@ -1,10 +1,11 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.student_list_2 import form_student_list
+from forms.py.student_list import form_student_list
 from forms.py.group_list import form_group_window
 
 
 class form_group_choice(object):
     def __init__(self, MainWindow):
+        self.session = MainWindow.session
         self.group_choice_window = MainWindow.group_choice_window
         self.group_choice_window.setObjectName("MainWindow")
         self.group_choice_window.resize(510, 187)

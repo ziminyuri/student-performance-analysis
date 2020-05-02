@@ -1,11 +1,12 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from forms.py.login import form_login
 from forms.py.choice_analytics import form_choice_analytics_window
-from forms.py.subject_list import form_subject_list
-from forms.py.group_choice import form_group_choice
+from forms.py.subject.subject_list import form_subject_list
+from forms.py.student.group_choice import form_group_choice
 from forms.py.report import form_report
 from forms.py.grades import form_grade
 from forms.py.not_submitted_work import form_not_submitted_work
+from db.models import Group
 
 
 class form_mainwindow(object):
@@ -132,6 +133,9 @@ class form_mainwindow(object):
         self.subject_window.show()
 
     def show_group_choice_window(self):
+        group = Group()
+        ls_name = group.show_name(self.session)
+        self.group_choice_ui.comboBox.addItems(ls_name)
         self.group_choice_window.show()
 
     def show_grade_window(self):

@@ -1,9 +1,9 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from db.student import Student
 from transform.items import set_items_to_table
 from transform.query import query_to_list_of_student_all
-from forms.py.add_student import FormAddStudent
-from forms.py.update_student import FormUpdateStudent
+from forms.py.student.add_student import FormAddStudent
+from forms.py.student.update_student import FormUpdateStudent
 import csv
 
 

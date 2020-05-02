@@ -1,6 +1,10 @@
 from PyQt5 import QtCore, QtWidgets
 from forms.py.student_list import form_student_list
-from forms.py.group_list import form_group_window
+from forms.py.student.group_list import form_group_window
+from db.models import Group
+import numpy as np
+from transform.items import set_items_to_table
+
 
 
 class form_group_choice(object):
@@ -14,8 +18,6 @@ class form_group_choice(object):
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 241, 32))
         self.comboBox.setObjectName("comboBox")
-        ls = ['3234234', '3242342' ]
-        self.comboBox.addItems(ls)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 141, 16))
         self.label.setObjectName("label")
@@ -63,6 +65,11 @@ class form_group_choice(object):
         self.group_choice_window.hide()
 
     def show_group_window(self):
+        group = Group()
+        ls_all = group.show_all(self.session)
+        ls_all = np.array(ls_all)
+        self.group_ui.tableWidget = set_items_to_table(self.group_ui.tableWidget, ls_all)
+        self.group_ui.tableWidget.resizeColumnsToContents()
         self.group_window.show()
 
     def close_window(self):

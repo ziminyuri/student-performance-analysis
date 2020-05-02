@@ -40,14 +40,14 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>200</x>
       <y>120</y>
-      <width>131</width>
+      <width>191</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Добавить</string>
+     <string>Сохранить изменения</string>
     </property>
    </widget>
    <widget class="QComboBox" name="comboBox">

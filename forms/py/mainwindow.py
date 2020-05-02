@@ -4,9 +4,9 @@ from forms.py.choice_analytics import form_choice_analytics_window
 from forms.py.subject.subject_list import form_subject_list
 from forms.py.student.group_choice import form_group_choice
 from forms.py.report import form_report
-from forms.py.grades import form_grade
+from forms.py.grade.grades import form_grade
 from forms.py.not_submitted_work import form_not_submitted_work
-from db.models import Group
+from db.models import Group, Discipline
 
 
 class form_mainwindow(object):
@@ -139,6 +139,14 @@ class form_mainwindow(object):
         self.group_choice_window.show()
 
     def show_grade_window(self):
+        group = Group()
+        ls_name = group.show_name(self.session)
+        self.grade_ui.comboBox_2.addItems(ls_name)
+
+        discipline = Discipline
+        d_name = discipline.show_name(self.session)
+        self.grade_ui.comboBox.addItems(d_name)
+
         self.grade_window.show()
 
     def show_choice_analytics_window(self):

@@ -1,9 +1,12 @@
 from PyQt5 import QtCore, QtWidgets
 from forms.py.teacher_journal import form_teacher_journal
-
+from db.models import Work, Grade
+import numpy as np
+from transform.items import set_items_to_table
 
 class form_grade(object):
     def __init__(self, MainWindow):
+        self.session = MainWindow.session
         self.grade_window = MainWindow.grade_window
         self.grade_window.setObjectName("MainWindow")
         self.grade_window.resize(458, 158)
@@ -30,8 +33,8 @@ class form_grade(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setObjectName("comboBox")
-        ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
-        self.comboBox.addItems(ls)
+        # ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
+        # self.comboBox.addItems(ls)
         self.gridLayout.addWidget(self.comboBox, 2, 0, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -44,8 +47,8 @@ class form_grade(object):
         self.gridLayout.addWidget(self.pushButton_2, 3, 2, 1, 1)
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_2.setObjectName("comboBox_2")
-        ls_2 = ['324234', '423234']
-        self.comboBox_2.addItems(ls_2)
+        # ls_2 = ['324234', '423234']
+        # self.comboBox_2.addItems(ls_2)
         self.gridLayout.addWidget(self.comboBox_2, 2, 1, 1, 2)
         self.verticalLayout.addLayout(self.gridLayout)
         self.grade_window.setCentralWidget(self.centralwidget)
@@ -68,8 +71,21 @@ class form_grade(object):
         self.pushButton_2.setText(_translate("MainWindow", "Закрыть"))
 
     def show_teacher_journal_window(self):
+        work = Work()
+        discipline = self.comboBox.currentText()
+        group_number = self.comboBox_2.currentText()
+        w_name = work.show_name(self.session, discipline, group_number)
+        column_count = len(w_name)
+        self.teacher_journal_window_ui.tableWidget.setColumnCount(column_count)
+        self.teacher_journal_window_ui.tableWidget.setHorizontalHeaderLabels(w_name)
+        self.teacher_journal_window_ui.tableWidget.resizeColumnsToContents()
+
+        grade = Grade
+        g_all: list = grade.all(self.session, discipline, group_number)
+        g_all: np.ndarray = np.array(g_all)
+        self.teacher_journal_window_ui.tableWidget = set_items_to_table(self.teacher_journal_window_ui.tableWidget, g_all)
+        self.teacher_journal_window_ui.tableWidget.resizeColumnsToContents()
         self.teacher_journal_window.show()
-        self.grade_window.hide()
 
     def close_window(self):
         self.grade_window.close()

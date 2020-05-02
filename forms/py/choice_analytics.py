@@ -1,9 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py.analytics import form_analytics
+from db.models import Group, Discipline
 
 
 class form_choice_analytics_window(object):
     def __init__(self, MainWindow):
+        self.session = MainWindow.session
         self.choice_analytics_window = MainWindow.choice_analytics_window
         self.choice_analytics_window.setObjectName("MainWindow")
         self.choice_analytics_window.resize(349, 172)
@@ -43,5 +45,13 @@ class form_choice_analytics_window(object):
         self.pushButton_2.setText(_translate("MainWindow", "Закрыть"))
 
     def show_analytics_window(self):
+        group = Group()
+        ls_name = group.show_name(self.session)
+        self.analytics_ui.comboBox_2.addItems(ls_name)
+
+        discipline = Discipline
+        d_name = discipline.show_name(self.session)
+        self.analytics_ui.comboBox.addItems(d_name)
+
         self.analytics_window.show()
         self.choice_analytics_window.hide()

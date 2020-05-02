@@ -22,8 +22,6 @@ class form_analytics(object):
         self.gridLayout.addWidget(self.comboBox_3, 1, 1, 1, 1)
         self.comboBox_2 = QtWidgets.QComboBox(self.gridLayoutWidget)
         self.comboBox_2.setObjectName("comboBox_2")
-        ls_2 = ['324234', '423234']
-        self.comboBox_2.addItems(ls_2)
         self.gridLayout.addWidget(self.comboBox_2, 3, 0, 1, 1)
         self.label_2 = QtWidgets.QLabel(self.gridLayoutWidget)
         self.label_2.setObjectName("label_2")
@@ -49,8 +47,6 @@ class form_analytics(object):
         self.gridLayout.addWidget(self.comboBox_4, 5, 0, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.gridLayoutWidget)
         self.comboBox.setObjectName("comboBox")
-        ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
-        self.comboBox.addItems(ls)
         self.gridLayout.addWidget(self.comboBox, 1, 0, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(470, 280, 112, 32))

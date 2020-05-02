@@ -15,6 +15,8 @@ class form_teacher_journal(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setStyleSheet("")
         self.tableWidget.setObjectName("tableWidget")
+
+        """
         self.tableWidget.setColumnCount(13)
         self.tableWidget.setRowCount(5)
         self.tableWidget.setHorizontalHeaderLabels(["ФИО студента",
@@ -43,6 +45,7 @@ class form_teacher_journal(object):
         self.tableWidget.setItem(5, 1, QtWidgets.QTableWidgetItem("90"))
         self.tableWidget.setItem(5, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
         self.tableWidget.resizeColumnsToContents()
+        """
         self.tableWidget.horizontalHeader().setSortIndicatorShown(False)
         self.gridLayout_2.addWidget(self.tableWidget, 0, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
@@ -71,4 +74,5 @@ class form_teacher_journal(object):
         self.pushButton.setText(_translate("MainWindow", "Закрыть"))
 
     def close_window(self):
+        self.tableWidget.setRowCount(0)
         self.teacher_journal_window.close()

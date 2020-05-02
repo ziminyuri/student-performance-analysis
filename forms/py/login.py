@@ -1,8 +1,12 @@
 from PyQt5 import QtCore, QtWidgets
+from transform.errors import login_error
+from transform.hash import get_hash
+from transform.query import get_user_or_None
 
 
 class form_login(object):
     def __init__(self, MainWindow):
+        self.session = MainWindow.session
         self.login_window = MainWindow.login_window
         self.main_window = MainWindow.main_window
         self.login_window.setObjectName("Личный кабинет преподавателя")
@@ -19,6 +23,7 @@ class form_login(object):
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_2.setGeometry(QtCore.QRect(100, 180, 241, 21))
         self.lineEdit_2.setObjectName("lineEdit_2")
+        self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(100, 70, 131, 16))
         self.label.setObjectName("label")
@@ -41,7 +46,25 @@ class form_login(object):
         self.label_2.setText(_translate("MainWindow", "Пароль"))
 
     def auth(self):
-        self.main_window.show()
-        self.login_window.hide()
+        login = self.lineEdit.text()
+        password = get_hash(self.lineEdit_2.text())
 
+        try:
+            user = get_user_or_None(self.session, login)
+
+            if user is None:
+                login_error()
+
+            else:
+                user_password = user.password
+
+                if user_password == password:
+                    self.user = user
+                    self.main_window.show()
+                    self.login_window.hide()
+                else:
+                    login_error()
+
+        except Exception as e:
+            login_error()
 

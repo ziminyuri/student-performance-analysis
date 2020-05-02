@@ -133,9 +133,6 @@ class form_student_list(object):
                 self.tableWidget.setRowCount(number + 1)
                 self.tableWidget.setItem(number, 0, QtWidgets.QTableWidgetItem(name))
                 self.tableWidget.setItem(number, 1, QtWidgets.QTableWidgetItem(str(record_book)))
-                # print(row)
-
-       # print(reader)
 
     def import_from_moodle(self):
         pass

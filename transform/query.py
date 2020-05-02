@@ -1,4 +1,5 @@
 import numpy as np
+from db.models import Users
 
 
 def query_to_list_of_name(query):
@@ -34,3 +35,11 @@ def query_to_list_of_student_all(query):
     result_list = np.array(result_list)
 
     return result_list
+
+def get_user_or_None(session, login):
+    try:
+        user = session.query(Users).filter_by(login=login).first()
+        return user
+
+    except:
+        return None

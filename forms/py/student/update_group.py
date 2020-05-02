@@ -1,8 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from db.models import Group
 
 
 class FormUpdateGroup(object):
     def __init__(self, main_window):
+        self.session = main_window.session
+        self.row: int = 0
+        self.update_value: str = ''
+        self.table = main_window.tableWidget
+
         self.update_group_window = main_window.update_group_window
         self.update_group_window.setObjectName("MainWindow")
         self.update_group_window.resize(410, 197)
@@ -40,4 +46,13 @@ class FormUpdateGroup(object):
         self.label_2.setText(_translate("MainWindow", "Специальность"))
 
     def update(self):
-        pass
+        number = self.lineEdit.text()
+        specialty: str = self.comboBox.currentText()
+
+        group = Group()
+        group.update(self.session, self.update_value, number, specialty)
+
+        self.table.setItem(self.row, 0, QtWidgets.QTableWidgetItem(specialty))
+        self.table.setItem(self.row, 1, QtWidgets.QTableWidgetItem(number))
+
+        self.update_group_window.close()

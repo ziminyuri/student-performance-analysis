@@ -96,3 +96,27 @@ class Group(Base):
             session.flush()
         except Exception as e:
             bd_error()
+
+    @staticmethod
+    def update(session, old_number, number, specialty):
+        try:
+            s = session.query(Specialty).filter_by(name=specialty).first()
+            id_specialty = s.id_specialty
+            g = session.query(Group).filter_by(number=old_number)
+            g.update({Group.number: number, Group.id_specialty: id_specialty})
+            session.commit()
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def delete(session, number):
+        try:
+            s = session.query(Group).filter_by(number=number)
+            s.delete()
+            session.commit()
+
+        except Exception as e:
+            session.rollback()
+            bd_error()

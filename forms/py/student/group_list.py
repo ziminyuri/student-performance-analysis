@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py.student.add_group import FormAddGroup
 from forms.py.student.update_group import FormUpdateGroup
-from db.models import Specialty
+from db.models import Specialty, Group
 
 
 class form_group_window(object):
@@ -34,6 +34,7 @@ class form_group_window(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(170, 390, 151, 32))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.delete)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(30, 420, 621, 16))
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
@@ -71,4 +72,37 @@ class form_group_window(object):
         self.add_group_window.show()
 
     def show_update_group(self):
-        self.update_group_window.show()
+        items = self.tableWidget.selectedItems()
+
+        for i in items:
+            row = self.tableWidget.row(i)
+
+            specialty = self.tableWidget.item(row, 0).text()
+            number = self.tableWidget.item(row, 1).text()
+            self.update_group_ui.lineEdit.setText(number)
+
+            s = Specialty()
+            ls_name = s.show_name(self.session)
+            self.update_group_ui.comboBox.addItems(ls_name)
+            current_index = ls_name.index(specialty)
+            self.update_group_ui.comboBox.setCurrentIndex(current_index)
+
+            self.update_group_ui.update_value = number
+            self.update_group_ui.row = row
+
+            self.update_group_window.show()
+            break
+
+    def delete(self):
+        items = self.tableWidget.selectedItems()
+        for i in items:
+            row = self.tableWidget.row(i)
+            number = self.tableWidget.item(row, 1).text()
+
+            group = Group()
+            group.delete(self.session, number)
+
+            self.tableWidget.removeRow(row)
+            self.combo.clear()
+            ls_name = group.show_name(self.session)
+            self.combo.addItems(ls_name)

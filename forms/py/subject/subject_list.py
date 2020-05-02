@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from db.discipline import Discipline
+from db.models import Discipline
 from transform.query import query_to_list_of_name
 
 

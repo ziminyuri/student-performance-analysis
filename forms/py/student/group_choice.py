@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.student_list import form_student_list
+from forms.py.student.student_list import form_student_list
 from forms.py.student.group_list import form_group_window
-from db.models import Group
+from db.models import Group, Student
 import numpy as np
 from transform.items import set_items_to_table
 
@@ -61,8 +61,17 @@ class form_group_choice(object):
         self.pushButton_4.setText(_translate("MainWindow", "Группы"))
 
     def show_student_list(self):
+        student = Student()
+        group_number: str = self.comboBox.currentText()
+        ls_all: list = student.all(self.session, group_number)
+        ls_all: np.ndarray = np.array(ls_all)
+        self.student_list_ui.tableWidget = set_items_to_table(self.student_list_ui.tableWidget, ls_all)
+        self.student_list_ui.tableWidget.resizeColumnsToContents()
+        self.student_list_ui.label.setText("Список группы: №" + str(group_number))
+        self.student_list_ui.group_number = str(group_number)
+
         self.student_list_window.show()
-        self.group_choice_window.hide()
+        # self.group_choice_window.hide()
 
     def show_group_window(self):
         group = Group()
@@ -73,4 +82,5 @@ class form_group_choice(object):
         self.group_window.show()
 
     def close_window(self):
+        self.comboBox.clear()
         self.group_choice_window.close()

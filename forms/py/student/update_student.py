@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from db.student import Student
+from db.models import Student
 
 
 class FormUpdateStudent(object):

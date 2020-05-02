@@ -24,6 +24,20 @@ class Users(Base):
     password = Column(String(255), nullable=False)
 
 
+class Discipline(Base):
+    __tablename__ = 'discipline'
+    id_discipline = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+
+    def all(self, session):
+        try:
+            list_name = session.query(Discipline.name).all()
+            return list_name
+        except Exception as e:
+            session.rollback()
+            print(str(e))
+
+
 class Specialty(Base):
     __tablename__ = 'specialty'
     id_specialty = Column(Integer, primary_key=True)
@@ -120,3 +134,64 @@ class Group(Base):
         except Exception as e:
             session.rollback()
             bd_error()
+
+
+class Student(Base):
+    __tablename__ = 'student'
+    id_student = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    record_book = Column(Integer, nullable=False)
+    id_group = Column(Integer, ForeignKey('group_table.id_group'), nullable=False, primary_key=True)
+    group = relationship(Group, primaryjoin=id_group == Group.id_group, backref="parent_group")
+
+    @staticmethod
+    def all(session, group_number: str):
+        try:
+            student_list: list = session.query(Student).all()
+            ls: list = []
+            for i in student_list:
+                if i.group.number == group_number:
+                    ls1: list = []
+                    ls1.append(i.name)
+                    ls1.append(i.record_book)
+
+                    ls.append(ls1)
+
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def add(session, name, record_book, group_number):
+        try:
+            g = session.query(Group).filter_by(number=group_number).first()
+            id_group = g.id_group
+            new_student = Student(name=name, record_book=record_book, id_group=id_group)
+            session.add(new_student)
+            session.flush()
+
+        except Exception as e:
+            bd_error()
+
+    @staticmethod
+    def update(session, old_record_book, new_name, new_record_book):
+        try:
+            s = session.query(Student).filter_by(record_book=old_record_book)
+            s.update({Student.record_book: new_record_book, Student.name: new_name})
+            session.commit()
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def delete(session, record_book):
+        try:
+            s = session.query(Student).filter_by(record_book=record_book)
+            s.delete()
+            session.commit()
+
+        except Exception as e:
+            session.rollback()

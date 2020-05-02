@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
-from db.student import Student
+from db.models import Student
 from transform.items import set_items_to_table
 from transform.query import query_to_list_of_student_all
 from forms.py.student.add_student import FormAddStudent
@@ -9,6 +9,7 @@ import csv
 
 class form_student_list(object):
     def __init__(self, MainWindow):
+        self.group_number: str = ''
         self.session = MainWindow.session
         self.student_window = MainWindow.student_list_window
         self.student_window.setObjectName("MainWindow")
@@ -25,6 +26,7 @@ class form_student_list(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(530, 460, 141, 32))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(20, 360, 141, 32))
         self.pushButton_3.setObjectName("pushButton_3")
@@ -47,11 +49,11 @@ class form_student_list(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
 
-        student = Student()
-        ls_all = student.all(self.session)
-        ls = query_to_list_of_student_all(ls_all)
+        # student = Student()
+        # ls_all = student.all(self.session)
+        # ls = query_to_list_of_student_all(ls_all)
 
-        self.tableWidget = set_items_to_table(self.tableWidget, ls)
+        # self.tableWidget = set_items_to_table(self.tableWidget, ls)
 
         self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Номер зачетной книжки"])
         self.tableWidget.resizeColumnsToContents()
@@ -85,6 +87,7 @@ class form_student_list(object):
         self.pushButton_6.setText(_translate("MainWindow", "Удалить"))
 
     def add(self):
+        self.add_student_ui.group_number = self.group_number
         self.add_student_window.show()
 
     def update(self):
@@ -138,5 +141,6 @@ class form_student_list(object):
         pass
 
     def close_window(self):
+        self.tableWidget.setRowCount(0)
         self.student_window.close()
 

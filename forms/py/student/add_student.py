@@ -1,8 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from db.student import Student
+from db.models import Student
+
 
 class FormAddStudent(object):
     def __init__(self, main_window):
+        self.group_number: str = ''
         self.session = main_window.session
         self.table = main_window.tableWidget
         self.add_student_window = main_window.add_student_window
@@ -46,11 +48,14 @@ class FormAddStudent(object):
         record_book = self.lineEdit_2.text()
 
         student = Student()
-        student.add(self.session, name, record_book)
+        student.add(self.session, name, record_book, self.group_number)
         number = self.table.rowCount()
 
         self.table.setRowCount(number + 1)
         self.table.setItem(number, 0, QtWidgets.QTableWidgetItem(name))
         self.table.setItem(number, 1, QtWidgets.QTableWidgetItem(record_book))
+
+        self.lineEdit.clear()
+        self.lineEdit_2.clear()
 
         self.add_student_window.close()

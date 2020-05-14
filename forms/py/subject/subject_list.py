@@ -18,8 +18,6 @@ class form_subject_list(object):
         discipline = Discipline()
         query_list = discipline.all(self.session)
         ls = query_to_list_of_name(query_list)
-
-        # ls = ["Операционные системы", "Алгоритмы и структуры данных"]
         self.listWidget.addItems(ls)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 171, 16))

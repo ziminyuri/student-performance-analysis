@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from forms.py.mainwindow import form_mainwindow
+from forms.py.mainwindow import FormMainwindow
 import sys
 
 from sqlalchemy import *
@@ -20,7 +20,7 @@ def main():
     session = Session()
 
     main_window = QtWidgets.QMainWindow()
-    f = form_mainwindow(main_window, session)
+    f = FormMainwindow(main_window, session)
     f.show()
     sys.exit(app.exec_())
 

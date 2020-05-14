@@ -1,15 +1,15 @@
 from PyQt5 import QtCore, QtWidgets
 from forms.py.login import form_login
-from forms.py.choice_analytics import form_choice_analytics_window
+from forms.py_analytics.choice_analytics import form_choice_analytics_window
 from forms.py.subject.subject_list import form_subject_list
 from forms.py.student.group_choice import form_group_choice
 from forms.py.report import form_report
 from forms.py.grade.grades import form_grade
 from forms.py.not_submitted_work import form_not_submitted_work
-from db.models import Group, Discipline
+from db.models import Group, Discipline, Grade
 
 
-class form_mainwindow(object):
+class FormMainwindow(object):
     def __init__(self, MainWindow, session):
         self.session = session
         self.main_window = MainWindow
@@ -122,9 +122,9 @@ class form_mainwindow(object):
         self.pushButton.setText(_translate("MainWindow", "Список не сданных работ студента"))
 
     def show(self):
+        grade = Grade()
+        result = grade.lagging_students(self.session)
         self.main_window.show()
-        self.show_login_window()
-        self.main_window.hide()
 
     def show_login_window(self):
         self.login_window.show()

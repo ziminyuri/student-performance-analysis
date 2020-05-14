@@ -4,6 +4,7 @@ from db.models import Work, Grade
 import numpy as np
 from transform.items import set_items_to_table
 
+
 class form_grade(object):
     def __init__(self, MainWindow):
         self.session = MainWindow.session

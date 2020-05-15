@@ -7,6 +7,8 @@ from forms.py.report import form_report
 from forms.py.grade.grades import form_grade
 from forms.py.not_submitted_work import form_not_submitted_work
 from db.models import Group, Discipline, Grade
+import numpy as np
+from transform.items import set_items_to_table
 
 
 class FormMainwindow(object):
@@ -44,17 +46,6 @@ class FormMainwindow(object):
         self.gridLayout.addWidget(self.pushButton_student, 0, 1, 1, 1)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(4)
-        self.tableWidget.setRowCount(2)
-        self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Группа", "Дисциплина", "Процент отставания"])
-        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Иванов Иван Иванович"))
-        self.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("123432"))
-        self.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("Операционные системы"))
-        self.tableWidget.setItem(0, 3, QtWidgets.QTableWidgetItem("60%"))
-        self.tableWidget.setItem(1, 0, QtWidgets.QTableWidgetItem("Петров Дмитрий Константинович"))
-        self.tableWidget.setItem(1, 1, QtWidgets.QTableWidgetItem("123432"))
-        self.tableWidget.setItem(1, 2, QtWidgets.QTableWidgetItem("Операционные системы"))
-        self.tableWidget.setItem(1, 3, QtWidgets.QTableWidgetItem("40%"))
         self.tableWidget.resizeColumnsToContents()
         self.gridLayout.addWidget(self.tableWidget, 3, 0, 1, 6)
         self.line = QtWidgets.QFrame(self.centralwidget)
@@ -77,6 +68,7 @@ class FormMainwindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.show_not_submitted_work_window)
+        self.pushButton.hide()
         self.gridLayout.addWidget(self.pushButton, 2, 0, 1, 2)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -124,6 +116,9 @@ class FormMainwindow(object):
     def show(self):
         grade = Grade()
         result = grade.lagging_students(self.session)
+        self.tableWidget = set_items_to_table(self.tableWidget, result)
+        self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Группа", "Дисциплина", "Список не сданных работ"])
+        self.tableWidget.resizeColumnsToContents()
         self.main_window.show()
 
     def show_login_window(self):
@@ -141,10 +136,12 @@ class FormMainwindow(object):
     def show_grade_window(self):
         group = Group()
         ls_name = group.show_name(self.session)
+        self.grade_ui.comboBox_2.clear()
         self.grade_ui.comboBox_2.addItems(ls_name)
 
         discipline = Discipline
         d_name = discipline.show_name(self.session)
+        self.grade_ui.comboBox.clear()
         self.grade_ui.comboBox.addItems(d_name)
 
         self.grade_window.show()

@@ -240,16 +240,25 @@ class Work(Base):
                               backref="parent_work_group")
 
     @staticmethod
-    def show_name(session, discipline, group_number):
+    def show_name(session, group_number: str, discipline_name: str, flag_header=False):
         try:
-            list_all = session.query(Work).all()
-            ls = []
-            ls.append("ФИО студента")
-            for i in list_all:
-                if i.discipline.name == discipline:
-                    if i.group.number == group_number:
-                        ls.append(i.name)
-                        ls.append("Дата защиты")
+            work_all: list = session.query(Work).join(Group).join(Discipline).filter(
+                Group.number == group_number).filter(
+                Discipline.name == discipline_name).order_by(Work.id_work).all()
+
+            work_count: int = len(work_all)
+
+            if flag_header:
+                ls = []
+                ls.append('ФИО студента')
+            else:
+                ls = []
+
+            # Заполняем шапку таблицы
+            for i in range(work_count):
+                ls.append(work_all[i].name)
+                if flag_header:
+                    ls.append('Дата защиты')
             return ls
 
         except Exception as e:
@@ -267,41 +276,79 @@ class Grade(Base):
     id_student = Column(Integer, ForeignKey('student.id_student'), nullable=False, primary_key=True)
     student = relationship(Student, primaryjoin=id_student == Student.id_student, backref="parent_grade_student")
 
-    @staticmethod
-    def all(session, discipline, group_number):
+    def all(self, session, discipline, group_number):
         try:
-            grade_all = session.query(Grade).join(Work).join(Discipline).join(Group).join(Student).filter(
-                Discipline.name == discipline).filter(Group.number == group_number).order_by(Grade.id_student).all()
-            student_all = session.query(Student).join(Group).filter(Group.number == group_number).order_by(
+            student_all: list = session.query(Student).join(Group).filter(Group.number == group_number).order_by(
                 Student.name).all()
-            work_all = session.query(Work).join(Discipline).join(Group).filter(Discipline.name == discipline).filter(
-                Group.number == group_number).order_by(Work.name).all()
+
+            work_all: list = session.query(Work).join(Group).join(Discipline).filter(
+                Group.number == group_number).filter(Discipline.name == discipline).order_by(Work.id_work).all()
+
             ls = []
+
             for i in student_all:
                 row = []
                 row.append(i.name)
+
                 for j in work_all:
-                    for k in grade_all:
-                        if k.id_work == j.id_work and k.id_student == i.id_student:
-                            row.append(k.value)
-                            row.append(str(k.date))
+                    grade = session.query(Grade).join(Student).join(Work). \
+                        filter(Student.id_student == i.id_student).filter(Work.id_work == j.id_work).first()
+
+                    if grade:
+                        row.append(str(grade.value))
+                        row.append(str(grade.date))
+                    else:
+                        row.append('')
+                        row.append('')
+
                 ls.append(row)
+
+            ls = np.array(ls)
+
             return ls
 
         except Exception as e:
             session.rollback()
             bd_error()
 
-    @staticmethod
-    def lagging_students(session):
+    def lagging_students(self, session):
         try:
-            work_all = session.query(Work).join(Discipline).order_by(Discipline.name).all()
-
+            final_grade_all = session.query(FinalGrade).join(SessionType).filter(SessionType.id_session_type == 2).all()
             ls = []
-            for work in work_all:
-                if work.deadline.year == YEAR:
-                    ls.append(work)
-            print('dfsdf')
+            for final_grade in final_grade_all:
+                if final_grade.date.year == YEAR:
+                    ls.append(final_grade)
+
+            result = []
+            for final_grade in ls:
+                discipline_name = final_grade.discipline.name
+                group_number = final_grade.group.number
+                grade_all = self.all(session, discipline_name, group_number)
+
+                work = Work()
+                table_header: list = work.show_name(session, group_number, discipline_name, flag_header=True)
+
+                flag = 0
+
+                for grade in grade_all:
+                    row = []
+                    row.append(grade[0])
+                    row.append(group_number)
+                    row.append(discipline_name)
+                    row.append('')
+                    for g in range(1, len(grade), 2):
+                        if grade[g] == '':
+                            if row[3] == '':
+                                row[3] = row[3] + table_header[g]
+                            else:
+                                row[3] = row[3] + ", " + table_header[g]
+                            flag = 1
+                    if flag:
+                        result.append(row)
+                    flag = 0
+
+            result = np.array(result)
+            return result
         except Exception as e:
             session.rollback()
             bd_error()

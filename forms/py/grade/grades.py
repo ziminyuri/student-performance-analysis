@@ -34,8 +34,6 @@ class form_grade(object):
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setObjectName("comboBox")
-        # ls = ['Алгоритмы и сруктуры данных', 'Операционные системы']
-        # self.comboBox.addItems(ls)
         self.gridLayout.addWidget(self.comboBox, 2, 0, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -73,19 +71,24 @@ class form_grade(object):
 
     def show_teacher_journal_window(self):
         work = Work()
-        discipline = self.comboBox.currentText()
-        group_number = self.comboBox_2.currentText()
-        w_name = work.show_name(self.session, discipline, group_number)
-        column_count = len(w_name)
-        self.teacher_journal_window_ui.tableWidget.setColumnCount(column_count)
-        self.teacher_journal_window_ui.tableWidget.setHorizontalHeaderLabels(w_name)
+        group_number: str = self.comboBox_2.currentText()
+        discipline_name: str = self.comboBox.currentText()
+
+        grade = Grade()
+        table_content: np.ndarray = grade.all(self.session, discipline_name, group_number)
+        self.teacher_journal_window_ui.tableWidget = set_items_to_table(self.teacher_journal_window_ui.tableWidget, table_content)
+
+        table_header: list = work.show_name(self.session, group_number, discipline_name, flag_header=True)
+        self.teacher_journal_window_ui.tableWidget.setHorizontalHeaderLabels(table_header)
+
         self.teacher_journal_window_ui.tableWidget.resizeColumnsToContents()
 
-        grade = Grade
-        g_all: list = grade.all(self.session, discipline, group_number)
-        g_all: np.ndarray = np.array(g_all)
-        self.teacher_journal_window_ui.tableWidget = set_items_to_table(self.teacher_journal_window_ui.tableWidget, g_all)
-        self.teacher_journal_window_ui.tableWidget.resizeColumnsToContents()
+        # self.teacher_journal_ui.group_number = group_number
+        # self.teacher_journal_ui.discipline_name = discipline_name
+        # d = "Дисциплина: " + str(discipline_name)
+        # self.teacher_journal_ui.label.setText(d)
+        # g = "Группа: №" + str(group_number)
+        # self.teacher_journal_ui.label_2.setText(g)
         self.teacher_journal_window.show()
 
     def close_window(self):

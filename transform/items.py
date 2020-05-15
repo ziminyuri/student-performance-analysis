@@ -9,6 +9,7 @@ def set_items_to_table(table, items: np.ndarray):
         return table
 
     table.setRowCount(rows)
+    table.setColumnCount(columns)
 
     for i in range(rows):
         for j in range(columns):

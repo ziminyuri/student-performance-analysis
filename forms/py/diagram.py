@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.lagging_students import form_lagging_students
+from forms.py.lagging_students import FormLaggingStudents
 
 
-class form_diagram(object):
-    def __init__(self, MainWindow):
-        self.diagram_window = MainWindow.diagram_window
+class FormDiagram(object):
+    def __init__(self, main_window):
+        self.diagram_window = main_window.diagram_window
         self.diagram_window.setObjectName("MainWindow")
         self.diagram_window.resize(800, 563)
         self.centralwidget = QtWidgets.QWidget(self.diagram_window)
@@ -64,7 +64,7 @@ class form_diagram(object):
         self.diagram_window.setStatusBar(self.statusbar)
 
         self.lagging_students_window = QtWidgets.QMainWindow()
-        self.lagging_students_ui = form_lagging_students(self)
+        self.lagging_students_ui = FormLaggingStudents(self)
 
         self.retranslateUi(self.diagram_window)
         QtCore.QMetaObject.connectSlotsByName(self.diagram_window)

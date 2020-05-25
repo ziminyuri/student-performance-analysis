@@ -1,37 +1,46 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.student.student_list import form_student_list
-from forms.py.student.group_list import form_group_window
+from forms.py.student.student_list import FormStudentList
+from forms.py.student.group_list import FormGroupWindow
 from db.models import Group, Student
 import numpy as np
 from transform.items import set_items_to_table
 
 
-
-class form_group_choice(object):
-    def __init__(self, MainWindow):
-        self.session = MainWindow.session
-        self.group_choice_window = MainWindow.group_choice_window
+class FormGroupChoice(object):
+    def __init__(self, main_window):
+        self.session = main_window.session
+        self.group_choice_window = main_window.group_choice_window
         self.group_choice_window.setObjectName("MainWindow")
-        self.group_choice_window.resize(510, 187)
+        self.group_choice_window.setFixedSize(510, 187)
+        self.group_choice_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.group_choice_window)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 241, 32))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setStyleSheet(
+            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 141, 16))
         self.label.setObjectName("label")
+        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(380, 120, 121, 32))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(280, 50, 221, 32))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_3.clicked.connect(self.show_student_list)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(280, 20, 221, 32))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_4.clicked.connect(self.show_group_window)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 100, 471, 16))
@@ -44,10 +53,10 @@ class form_group_choice(object):
         self.group_choice_window.setStatusBar(self.statusbar)
 
         self.student_list_window = QtWidgets.QMainWindow()
-        self.student_list_ui = form_student_list(self)
+        self.student_list_ui = FormStudentList(self)
 
         self.group_window = QtWidgets.QMainWindow()
-        self.group_ui = form_group_window(self)
+        self.group_ui = FormGroupWindow(self)
 
         self.retranslateUi(self.group_choice_window)
         QtCore.QMetaObject.connectSlotsByName(self.group_choice_window)

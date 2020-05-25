@@ -1,11 +1,12 @@
 from PyQt5 import QtCore, QtWidgets
 
 
-class form_teacher_journal(object):
-    def __init__(self, MainWindow):
-        self.teacher_journal_window = MainWindow.teacher_journal_window
+class FormTeacherJournal(object):
+    def __init__(self, main_window):
+        self.teacher_journal_window = main_window.teacher_journal_window
         self.teacher_journal_window.setObjectName("MainWindow")
-        self.teacher_journal_window.resize(800, 600)
+        self.teacher_journal_window.setFixedSize(800, 600)
+        self.teacher_journal_window.setStyleSheet("background-color: #1a222c; border-color: #24303f; border-width: 1px;")
         self.centralwidget = QtWidgets.QWidget(self.teacher_journal_window)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -15,38 +16,10 @@ class form_teacher_journal(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setStyleSheet("")
         self.tableWidget.setObjectName("tableWidget")
-
-        """
-        self.tableWidget.setColumnCount(13)
-        self.tableWidget.setRowCount(5)
-        self.tableWidget.setHorizontalHeaderLabels(["ФИО студента",
-                                                    "Лабораторная работа №1", "Дата защиты",
-                                                    "Лабораторная работа №2", "Дата защиты",
-                                                    "Лабораторная работа №3", "Дата защиты",
-                                                    "Лабораторная работа №4", "Дата защиты",
-                                                    "Лабораторная работа №5", "Дата защиты",
-                                                    "Лабораторная работа №6", "Дата защиты"])
-        self.tableWidget.setItem(0, 0, QtWidgets.QTableWidgetItem("Антонов Варлам Парфеньевич"))
-        self.tableWidget.setItem(0, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(0, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.setItem(1, 0, QtWidgets.QTableWidgetItem("Гусев Гаянэ Ростиславович"))
-        self.tableWidget.setItem(1, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(1, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.setItem(2, 0, QtWidgets.QTableWidgetItem("Иванов Оскар Иосифович"))
-        self.tableWidget.setItem(2, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(2, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.setItem(3, 0, QtWidgets.QTableWidgetItem("Лыткин Герман Олегович"))
-        self.tableWidget.setItem(3, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(3, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.setItem(4, 0, QtWidgets.QTableWidgetItem("Носов Мечислав Яковович"))
-        self.tableWidget.setItem(4, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(4, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.setItem(5, 0, QtWidgets.QTableWidgetItem("Силин Тарас Якунович"))
-        self.tableWidget.setItem(5, 1, QtWidgets.QTableWidgetItem("90"))
-        self.tableWidget.setItem(5, 2, QtWidgets.QTableWidgetItem("23.02.2020"))
-        self.tableWidget.resizeColumnsToContents()
-        """
         self.tableWidget.horizontalHeader().setSortIndicatorShown(False)
+        self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
+        self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
+        self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
         self.gridLayout_2.addWidget(self.tableWidget, 0, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -57,6 +30,8 @@ class form_teacher_journal(object):
         self.pushButton.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.pushButton.setStyleSheet("t")
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.close_window)
         self.gridLayout_2.addWidget(self.pushButton, 1, 0, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout_2)

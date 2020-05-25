@@ -1,9 +1,9 @@
 from PyQt5 import QtCore, QtWidgets
 
 
-class form_lagging_students(object):
-    def __init__(self, MainWindow):
-        self.lagging_students_window = MainWindow.lagging_students_window
+class FormLaggingStudents(object):
+    def __init__(self, main_window):
+        self.lagging_students_window = main_window.lagging_students_window
         self.lagging_students_window.setObjectName("MainWindow")
         self.lagging_students_window.resize(800, 534)
         self.centralwidget = QtWidgets.QWidget(self.lagging_students_window)

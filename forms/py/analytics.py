@@ -1,12 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py.diagram import form_diagram
+from forms.py.diagram import FormDiagram
 
 
-class form_analytics(object):
-    def __init__(self, MainWindow):
-        self.analytics_window = MainWindow.analytics_window
+class FormAnalytics(object):
+    def __init__(self, main_window):
+        self.analytics_window = main_window.analytics_window
         self.analytics_window.setObjectName("MainWindow")
-        self.analytics_window.resize(589, 350)
+        self.analytics_window.setFixedSize(589, 350)
+        self.analytics_window.setStyleSheet(
+            "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
         self.centralwidget = QtWidgets.QWidget(self.analytics_window)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -61,7 +63,7 @@ class form_analytics(object):
         self.analytics_window.setStatusBar(self.statusbar)
 
         self.diagram_window = QtWidgets.QMainWindow()
-        self.diagram_ui = form_diagram(self)
+        self.diagram_ui = FormDiagram(self)
 
         self.retranslateUi(self.analytics_window)
         QtCore.QMetaObject.connectSlotsByName(self.analytics_window)

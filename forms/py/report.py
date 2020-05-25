@@ -1,9 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class form_report(object):
-    def __init__(self, MainWindow):
-        self.report_window = MainWindow.report_window
+class FormReport(object):
+    def __init__(self, main_window):
+        self.report_window = main_window.report_window
         self.report_window.setObjectName("MainWindow")
         self.report_window.resize(581, 188)
         self.centralwidget = QtWidgets.QWidget(self.report_window)

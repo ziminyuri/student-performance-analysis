@@ -1,5 +1,5 @@
 import numpy as np
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 
 
 def set_items_to_table(table, items: np.ndarray):
@@ -10,9 +10,15 @@ def set_items_to_table(table, items: np.ndarray):
 
     table.setRowCount(rows)
     table.setColumnCount(columns)
-
+    flag = 0
     for i in range(rows):
+        if i%2 == 0:
+            flag = 1
         for j in range(columns):
-            table.setItem(i, j, QtWidgets.QTableWidgetItem(items[i][j]))
+            newitem = QtWidgets.QTableWidgetItem(items[i][j])
+            if flag == 0:
+                newitem.setBackground(QtGui.QColor(36, 48, 63))
+            table.setItem(i, j, QtWidgets.QTableWidgetItem(newitem))
+        flag = 0
 
     return table

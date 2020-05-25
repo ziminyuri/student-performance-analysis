@@ -41,6 +41,21 @@ class Discipline(Base):
             print(str(e))
 
     @staticmethod
+    def all_for_table(session):
+        try:
+            list_name = session.query(Discipline.name).order_by(Discipline.name).all()
+            ls = []
+            for i in list_name:
+                ls1 = []
+                ls1.append(i.name)
+                ls.append(ls1)
+
+            return ls
+        except Exception as e:
+            session.rollback()
+            print(str(e))
+
+    @staticmethod
     def show_name(session):
         try:
             list_all = session.query(Discipline).order_by(Discipline.name).all()

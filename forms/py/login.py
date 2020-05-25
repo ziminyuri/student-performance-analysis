@@ -4,11 +4,11 @@ from transform.hash import get_hash
 from transform.query import get_user_or_None
 
 
-class form_login(object):
-    def __init__(self, MainWindow):
-        self.session = MainWindow.session
-        self.login_window = MainWindow.login_window
-        self.main_window = MainWindow.main_window
+class FormLogin(object):
+    def __init__(self, main_window):
+        self.session = main_window.session
+        self.login_window = main_window.login_window
+        self.main_window = main_window.main_window
         self.login_window.setObjectName("Личный кабинет преподавателя")
         self.login_window.resize(431, 342)
         self.centralwidget = QtWidgets.QWidget(self.login_window)

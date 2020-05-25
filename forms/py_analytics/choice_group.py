@@ -9,23 +9,33 @@ class FormChoiceGroup(object):
         self.session = main_window.session
         self.choice_group_window = main_window.choice_group_window
         self.choice_group_window.setObjectName("MainWindow")
-        self.choice_group_window.resize(347, 145)
+        self.choice_group_window.setFixedSize(347, 145)
+        self.choice_group_window.setStyleSheet(
+            "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
         self.centralwidget = QtWidgets.QWidget(self.choice_group_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(120, 80, 112, 32))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.next)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(230, 80, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+
         self.pushButton_2.clicked.connect(self.previous_page)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 30, 331, 32))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setStyleSheet(
+            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 241, 16))
         self.label.setObjectName("label")
+        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.choice_group_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.choice_group_window)
         self.statusbar.setObjectName("statusbar")

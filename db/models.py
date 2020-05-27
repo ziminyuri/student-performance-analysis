@@ -368,6 +368,236 @@ class Grade(Base):
             session.rollback()
             bd_error()
 
+    @staticmethod
+    def analysis_student_average_rating(session, student, stud_session, period):
+        try:
+            ls = []
+            average_value = 0
+            year_begin = YEAR
+            count = 0
+
+            if period == "За последний год":
+                period_all = 1
+            elif period == 'За последние 2 года':
+                period_all = 2
+            elif period == 'За последние 3 года':
+                period_all = 3
+            else:
+                period_all = 4
+
+            average_all = []
+            for i in range(period_all):
+                average_all1 = []
+                average_all1.append(str(year_begin))
+                average_all1.append(average_value)
+                average_all1.append(count)
+                average_all.append(average_all1)
+                year_begin -= 1
+
+            student_grade_all = session.query(Grade).join(Student).filter(Student.name == student). \
+                order_by(Grade.date).all()
+
+            for j in average_all:
+                for i in student_grade_all:
+                    if stud_session == "Все сессии" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        j[1] = j[1] + i.value
+                        j[2] = j[2] + 1
+                    elif stud_session == "Все сессии" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        j[1] = j[1] + i.value
+                        j[2] = j[2] + 1
+                    elif stud_session == "Летняя" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        j[1] = j[1] + i.value
+                        j[2] = j[2] + 1
+                    elif stud_session == "Зимняя" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        j[1] = j[1] + i.value
+                        j[2] = j[2] + 1
+
+            for j in average_all:
+                if j[2] != 0:
+                    ls1 = []
+                    year = int(j[0])
+                    year_value = str(year - 1) + '-' + str(year)
+                    ls1.append(year_value)
+                    value = j[1] / j[2]
+                    value = round(value,2)
+                    ls1.append(value)
+                    ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_student_average_rating_discipline(session, student, group_number, discipline):
+        try:
+            ls = []
+            average_value = 0
+            count = 0
+
+            student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline).\
+                filter(Student.name == student).filter(Group.number == group_number).\
+                filter(Discipline.name == discipline).all()
+
+            for i in student_grade_all:
+                average_value += i.value
+                count += 1
+
+            ls1 = []
+            value = average_value / j[2]
+            value = round(value,2)
+            ls1.append(value)
+            ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_student_rating_semester(session, student, stud_session, period, max: bool = True):
+        try:
+            ls = []
+            average_value = 0
+            year_begin = YEAR
+
+            if period == "За последний год":
+                period_all = 1
+            elif period == 'За последние 2 года':
+                period_all = 2
+            elif period == 'За последние 3 года':
+                period_all = 3
+            else:
+                period_all = 4
+
+            average_all = []
+            for i in range(period_all):
+                average_all1 = []
+                average_all1.append(str(year_begin))
+                average_all1.append(average_value)
+                average_all.append(average_all1)
+                year_begin -= 1
+
+            student_grade_all = session.query(Grade).join(Student).filter(Student.name == student). \
+                order_by(Grade.date).all()
+
+            for j in average_all:
+                for i in student_grade_all:
+                    if stud_session == "Все сессии" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        if j[1] == 0:
+                            j[1] = i.value
+                        elif j[1] < i.value and max is True:
+                            j[1] = i.value
+                        elif j[1] > i.value and max is False:
+                            j[1] = i.value
+                    elif stud_session == "Все сессии" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        if j[1] == 0:
+                            j[1] = i.value
+                        elif j[1] < i.value and max is True:
+                            j[1] = i.value
+                        elif j[1] > i.value and max is False:
+                            j[1] = i.value
+                    elif stud_session == "Летняя" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        if j[1] == 0:
+                            j[1] = i.value
+                        elif j[1] < i.value and max is True:
+                            j[1] = i.value
+                        elif j[1] > i.value and max is False:
+                            j[1] = i.value
+                    elif stud_session == "Зимняя" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        if j[1] == 0:
+                            j[1] = i.value
+                        elif j[1] < i.value and max is True:
+                            j[1] = i.value
+                        elif j[1] > i.value and max is False:
+                            j[1] = i.value
+
+            for j in average_all:
+                ls1 = []
+                year = int(j[0])
+                year_value = str(year - 1) + '-' + str(year)
+                ls1.append(year_value)
+                value = j[1]
+                ls1.append(value)
+                ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+
+    @staticmethod
+    def analysis_student_number_works(session, student, stud_session, period):
+        try:
+            ls = []
+            count_work = 0
+            year_begin = YEAR
+            count_works = 0
+
+            if period == "За последний год":
+                period_all = 1
+            elif period == 'За последние 2 года':
+                period_all = 2
+            elif period == 'За последние 3 года':
+                period_all = 3
+            else:
+                period_all = 4
+
+            average_all = []
+            for i in range(period_all):
+                average_all1 = []
+                average_all1.append(str(year_begin))
+                average_all1.append(count_work)
+                average_all1.append(count_works)
+                average_all.append(average_all1)
+                year_begin -= 1
+
+            student_grade_all = session.query(Grade).join(Student).filter(Student.name == student). \
+                order_by(Grade.date).all()
+
+            for j in average_all:
+                for i in student_grade_all:
+                    if stud_session == "Все сессии" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        if i.value >= 25:
+                            j[1] = j[1] + 1
+                        j[2] = j[2] + 1
+                    elif stud_session == "Все сессии" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        if i.value >= 25:
+                            j[1] = j[1] + 1
+                        j[2] = j[2] + 1
+                    elif stud_session == "Летняя" and i.date.month < 7 and int(j[0]) == i.date.year:
+                        if i.value >= 25:
+                            j[1] = j[1] + 1
+                        j[2] = j[2] + 1
+                    elif stud_session == "Зимняя" and i.date.month > 7 and int(j[0]) - 1 == i.date.year:
+                        if i.value >= 25:
+                            j[1] = j[1] + 1
+                        j[2] = j[2] + 1
+
+            for j in average_all:
+                ls1 = []
+                year = int(j[0])
+                year_value = str(year - 1) + '-' + str(year)
+                ls1.append(year_value)
+                value = j[1]
+                ls1.append(value)
+                value = j[2]
+                ls1.append(value)
+                ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
 
 class SessionType(Base):
     __tablename__ = 'session_type'
@@ -413,10 +643,10 @@ class Control(Base):
     student = relationship(Student, primaryjoin=id_student == Student.id_student, backref="parent_SesstionType_Control")
 
     @staticmethod
-    def analysis_student(session, student, stud_session, period):
+    def analysis_student_average_rating(session, student, stud_session, period):
         try:
             if stud_session == 'Все сессии':
-                student_control_all = session.query(Control).join(Student).filter(Student.name == student).\
+                student_control_all = session.query(Control).join(Student).filter(Student.name == student). \
                     order_by(Control.date).all()
             else:
                 student_control_all = session.query(Control).join(Student).join(FinalGrade).join(SessionType).filter(
@@ -539,14 +769,75 @@ class Control(Base):
             session.rollback()
             bd_error()
 
+    # Максимальная/минимальная оценка по итогам сессии
+    @staticmethod
+    def analysis_student_rating(session, student, stud_session, period, max: bool = True):
+        try:
+            if stud_session == 'Все сессии':
+                student_control_all = session.query(Control).join(Student).filter(Student.name == student). \
+                    order_by(Control.date).all()
+            else:
+                student_control_all = session.query(Control).join(Student).join(FinalGrade).join(SessionType).filter(
+                    Student.name == student). \
+                    filter(SessionType.name == stud_session).order_by(Control.date).all()
+
+            ls = []
+            average_value = 0
+            year_begin = YEAR
+
+            if period == "За последний год":
+                period_all = 1
+            elif period == 'За последние 2 года':
+                period_all = 2
+            elif period == 'За последние 3 года':
+                period_all = 3
+            else:
+                period_all = 4
+
+            average_all = []
+            for i in range(period_all):
+                average_all1 = []
+                average_all1.append(str(year_begin))
+                average_all1.append(average_value)
+                average_all.append(average_all1)
+                year_begin -= 1
+
+            for j in average_all:
+                for i in student_control_all:
+                    if i.final_grade.type_final_grade.name == 'Экзамен':
+                        if int(j[0]) == i.date.year:
+                            if j[1] == 0:
+                                j[1] = i.value
+                            elif j[1] < i.value and max is True:
+                                j[1] = i.value
+                            elif j[1] > i.value and max is False:
+                                j[1] = i.value
+
+            for j in average_all:
+                if j[1] != 0:
+                    ls1 = []
+                    year = int(j[0])
+                    year_value = str(year - 1) + '-' + str(year)
+                    ls1.append(year_value)
+                    ls1.append(j[1])
+                    ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
     @staticmethod
     def analysis_group(session, group, stud_session, period):
         try:
             if stud_session == 'Все сессии':
-                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).\
+                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade). \
                     filter(Group.number == group).all()
             else:
-                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(SessionType). \
+                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(
+                    SessionType). \
                     filter(Group.number == group).filter(SessionType.name == stud_session).all()
 
             ls = []
@@ -604,7 +895,8 @@ class Control(Base):
                 student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade). \
                     filter(Group.number == group).all()
             else:
-                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(SessionType). \
+                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(
+                    SessionType). \
                     filter(Group.number == group).filter(SessionType.name == stud_session).all()
 
             ls = []

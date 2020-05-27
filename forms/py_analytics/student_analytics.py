@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py_analytics.analytics_table_student import FormAnalyticsTableStudent
-from db.models import Control
+from db.models import Control, Grade
 import numpy as np
 from transform.items import set_items_to_table
 
@@ -11,7 +11,7 @@ class FormStudentAnalytics(object):
         self.choice_group_window = main_window.choice_group_window
         self.student_analytics_window = main_window.student_analytics_window
         self.student_analytics_window.setObjectName("MainWindow")
-        self.student_analytics_window.setFixedSize(320, 369)
+        self.student_analytics_window.setFixedSize(380, 369)
         self.student_analytics_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.student_analytics_window)
         self.centralwidget.setObjectName("centralwidget")
@@ -20,12 +20,12 @@ class FormStudentAnalytics(object):
         self.label.setObjectName("label")
         self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.setGeometry(QtCore.QRect(10, 40, 301, 32))
+        self.comboBox.setGeometry(QtCore.QRect(10, 40, 361, 32))
         self.comboBox.setObjectName("comboBox")
         self.comboBox.setStyleSheet(
             "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_2.setGeometry(QtCore.QRect(10, 100, 301, 32))
+        self.comboBox_2.setGeometry(QtCore.QRect(10, 100, 361, 32))
         self.comboBox_2.setObjectName("comboBox_2")
         ls_2 = ['Зимняя', 'Летняя', 'Все сессии']
         self.comboBox_2.addItems(ls_2)
@@ -40,7 +40,7 @@ class FormStudentAnalytics(object):
         self.label_3.setObjectName("label_3")
         self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox_3 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_3.setGeometry(QtCore.QRect(10, 160, 301, 32))
+        self.comboBox_3.setGeometry(QtCore.QRect(10, 160, 361, 32))
         self.comboBox_3.setObjectName("comboBox_3")
         self.comboBox_3.setStyleSheet(
             "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
@@ -52,12 +52,15 @@ class FormStudentAnalytics(object):
         self.label_4.setObjectName("label_4")
         self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox_4 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_4.setGeometry(QtCore.QRect(10, 220, 301, 32))
+        self.comboBox_4.setGeometry(QtCore.QRect(10, 220, 361, 32))
         self.comboBox_4.setObjectName("comboBox_4")
         self.comboBox_4.setStyleSheet(
             "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
 
-        ls_4 = ['Средняя оценка по итогам сессии', 'Средняя оценка за работы в семестре']
+        ls_4 = ['Средняя оценка по итогам сессии', 'Средняя оценка за работы в семестре',
+                'Максимальная оценка по итогам сессии', 'Максимальная оценка по итогам работы в семестре',
+                'Минимальная оценка по итогам сессии', 'Минимальная оценка по итогам работы в семестре',
+                'Количество сданных работ в семестре']
         self.comboBox_4.addItems(ls_4)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(10, 260, 181, 32))
@@ -119,12 +122,44 @@ class FormStudentAnalytics(object):
         self.analytics_table_student_ui.label_6.setText(period)
         self.analytics_table_student_ui.label_8.setText(session)
 
-
         control = Control()
-        result: np.ndarray = control.analysis_student(self.session, student, session, period)
+        grade = Grade()
+        if type_analysis == 'Средняя оценка по итогам сессии':
+            result: np.ndarray = control.analysis_student_average_rating(self.session, student, session, period)
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            result: np.ndarray = control.analysis_student_rating(self.session, student, session, period, max=True)
+        elif type_analysis == 'Минимальная оценка по итогам сессии':
+            result: np.ndarray = control.analysis_student_rating(self.session, student, session, period, max=False)
+        elif type_analysis == 'Средняя оценка за работы в семестре':
+            result: np.ndarray = grade.analysis_student_average_rating(self.session, student, session, period)
+        elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
+            result: np.ndarray = grade.analysis_student_rating_semester(self.session, student, session, period, max=True)
+        elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
+            result: np.ndarray = grade.analysis_student_rating_semester(self.session, student, session, period, max=False)
+        elif type_analysis == 'Количество сданных работ в семестре':
+            result: np.ndarray = grade.analysis_student_number_works(self.session, student, session, period)
+
         self.analytics_table_student_ui.result = result
-        self.analytics_table_student_ui.tableWidget.setColumnCount(2)
-        table_header = ['Учебный год', 'Средняя оценка']
+        if type_analysis == 'Количество сданных работ в семестре':
+            self.analytics_table_student_ui.tableWidget.setColumnCount(3)
+        else:
+            self.analytics_table_student_ui.tableWidget.setColumnCount(2)
+
+        if type_analysis == 'Средняя оценка по итогам сессии':
+            table_header = ['Учебный год', 'Средняя оценка']
+        elif type_analysis == 'Средняя оценка за работы в семестре':
+            table_header = ['Учебный год', 'Средняя оценка']
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            table_header = ['Учебный год', 'Максимальная оценка']
+        elif type_analysis == 'Минимальная оценка по итогам сессии':
+            table_header = ['Учебный год', 'Минимальная оценка']
+        elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
+            table_header = ['Учебный год', 'Максимальная оценка']
+        elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
+            table_header = ['Учебный год', 'Минимальная оценка']
+        elif type_analysis == 'Количество сданных работ в семестре':
+            table_header = ['Учебный год', 'Количество сданных работ', 'Количество работ']
+
         self.analytics_table_student_ui.tableWidget.setHorizontalHeaderLabels(table_header)
         self.analytics_table_student_ui.tableWidget = set_items_to_table(self.analytics_table_student_ui.tableWidget, result)
         self.analytics_table_student_ui.tableWidget.resizeColumnsToContents()

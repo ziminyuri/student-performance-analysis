@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py.analytics import FormAnalytics
 from db.models import Group, Discipline
 from forms.py_analytics.choice_group import FormChoiceGroup
 from forms.py_analytics.group_analytics import FormGroupAnalytics
+from forms.py_analytics.choice_discipline import FormChoiceDiscipline
 
 
 class FormChoiceAnalyticsWindow(object):
@@ -43,8 +43,8 @@ class FormChoiceAnalyticsWindow(object):
         self.statusbar.setObjectName("statusbar")
         self.choice_analytics_window.setStatusBar(self.statusbar)
 
-        self.analytics_window = QtWidgets.QMainWindow()
-        self.analytics_ui = FormAnalytics(self)
+        self.choice_discipline_window = QtWidgets.QMainWindow()
+        self.choice_discipline_ui = FormChoiceDiscipline(self)
 
         self.choice_group_window = QtWidgets.QMainWindow()
         self.choice_group_ui = FormChoiceGroup(self)
@@ -76,13 +76,13 @@ class FormChoiceAnalyticsWindow(object):
     def show_analytics_window(self):
         group = Group()
         ls_name = group.show_name(self.session)
-        self.analytics_ui.comboBox_2.addItems(ls_name)
 
         discipline = Discipline
         d_name = discipline.show_name(self.session)
-        self.analytics_ui.comboBox.addItems(d_name)
+        self.choice_discipline_ui.comboBox.clear()
+        self.choice_discipline_ui.comboBox.addItems(d_name)
 
-        self.analytics_window.show()
+        self.choice_discipline_window.show()
         self.choice_analytics_window.hide()
 
     # Аналитика по группам

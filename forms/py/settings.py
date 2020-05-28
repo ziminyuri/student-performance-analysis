@@ -1,0 +1,55 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from settings import DARK_THEME
+
+
+class FormSettings(object):
+    def __init__(self, main_window):
+        self.dark_theme = False
+        self.main_window = main_window
+        self.settings_window = main_window.settings_window
+        self.settings_window.setObjectName("MainWindow")
+        self.settings_window.setFixedSize(301, 184)
+        self.centralwidget = QtWidgets.QWidget(self.settings_window)
+        self.centralwidget.setObjectName("centralwidget")
+        self.radioButton = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioButton.setGeometry(QtCore.QRect(10, 10, 251, 20))
+        self.radioButton.setObjectName("radioButton")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(180, 120, 112, 32))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.close_window)
+        self.line = QtWidgets.QFrame(self.centralwidget)
+        self.line.setGeometry(QtCore.QRect(10, 40, 281, 16))
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(10, 60, 281, 32))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.line_2 = QtWidgets.QFrame(self.centralwidget)
+        self.line_2.setGeometry(QtCore.QRect(10, 100, 281, 16))
+        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setObjectName("line_2")
+        self.settings_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.settings_window)
+        self.statusbar.setObjectName("statusbar")
+        self.settings_window.setStatusBar(self.statusbar)
+
+        self.retranslateUi(self.settings_window)
+        QtCore.QMetaObject.connectSlotsByName(self.settings_window)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Параметры"))
+        self.radioButton.setText(_translate("MainWindow", "Темная тема интерфейса"))
+        self.pushButton.setText(_translate("MainWindow", "Закрыть"))
+        self.pushButton_2.setText(_translate("MainWindow", "Импорт данных из LMS Moodle"))
+
+    def close_window(self):
+        if self.radioButton.isChecked():
+            dark = True
+        else:
+            dark = False
+        self.main_window.update(dark)
+        self.settings_window.close()

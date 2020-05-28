@@ -9,37 +9,28 @@ import csv
 
 class FormStudentList(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.group_number: str = ''
         self.session = main_window.session
         self.student_window = main_window.student_list_window
         self.student_window.setObjectName("MainWindow")
         self.student_window.setFixedSize(676, 530)
-        self.student_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.student_window)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 10, 241, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(160, 360, 141, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.update)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(530, 460, 141, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(20, 360, 141, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_3.clicked.connect(self.add)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 440, 641, 16))
@@ -49,16 +40,10 @@ class FormStudentList(object):
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(300, 360, 141, 32))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_4.clicked.connect(self.import_from_csv)
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setGeometry(QtCore.QRect(300, 390, 141, 32))
         self.pushButton_5.setObjectName("pushButton_5")
-        self.pushButton_5.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_5.clicked.connect(self.import_from_moodle)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(20, 30, 631, 321))
@@ -66,15 +51,10 @@ class FormStudentList(object):
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setHorizontalHeaderLabels(["ФИО", "Номер зачетной книжки"])
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-        self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-        self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-        self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
         self.tableWidget.resizeColumnsToContents()
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(160, 390, 141, 32))
         self.pushButton_6.setObjectName("pushButton_6")
-        self.pushButton_6.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
 
         self.pushButton_6.clicked.connect(self.delete)
         self.student_window.setCentralWidget(self.centralwidget)
@@ -160,3 +140,36 @@ class FormStudentList(object):
         self.tableWidget.setRowCount(0)
         self.student_window.close()
 
+    def update(self, dark_theme):
+        if dark_theme:
+            self.student_window.setStyleSheet("background-color: #1a222c")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_4.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_5.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
+            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
+            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
+            self.pushButton_6.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.student_window.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
+            self.pushButton_5.setStyleSheet("")
+            self.tableWidget.setStyleSheet("")
+            self.tableWidget.horizontalHeader().setStyleSheet("")
+            self.tableWidget.verticalHeader().setStyleSheet("")
+            self.pushButton_6.setStyleSheet("")
+            self.dark_theme = False

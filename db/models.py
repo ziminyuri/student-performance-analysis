@@ -1131,6 +1131,65 @@ class Control(Base):
             bd_error()
 
     @staticmethod
+    def analysis_group_maximin(session, group, stud_session, period, max: bool=True):
+        try:
+            if stud_session == 'Все сессии':
+                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade). \
+                    filter(Group.number == group).all()
+            else:
+                student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(
+                    SessionType). \
+                    filter(Group.number == group).filter(SessionType.name == stud_session).all()
+
+            ls = []
+            average_value = 0
+            year_begin = YEAR
+
+            if period == "За последний год":
+                period_all = 1
+            elif period == 'За последние 2 года':
+                period_all = 2
+            elif period == 'За последние 3 года':
+                period_all = 3
+            else:
+                period_all = 4
+
+            average_all = []
+            for i in range(period_all):
+                average_all1 = []
+                average_all1.append(str(year_begin))
+                average_all1.append(average_value)
+                average_all.append(average_all1)
+                year_begin -= 1
+
+            for j in average_all:
+                for i in student_control_all:
+                    if i.final_grade.type_final_grade.name == 'Экзамен':
+                        if int(j[0]) == i.date.year:
+                            if j[1] == 0:
+                                j[1] = i.value
+                            elif j[1] < i.value and max is True:
+                                j[1] = i.value
+                            elif j[1] > i.value and max is False:
+                                j[1] = i.value
+
+            for j in average_all:
+                if j[1] != 0:
+                    ls1 = []
+                    year = int(j[0])
+                    year_value = str(year - 1) + '-' + str(year)
+                    ls1.append(year_value)
+                    ls1.append(j[1])
+                    ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
     def analysis_group_average_rating_discipline(session, discipline):
         try:
             group_list = session.query(Group).all()

@@ -6,6 +6,7 @@ from db.models import Group
 
 class FormChoiceDisciplineGroupOrStudent(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.discipline = ""
         self.choice_discipline_window = main_window.choice_discipline_window
         self.session = main_window.session
@@ -70,3 +71,11 @@ class FormChoiceDisciplineGroupOrStudent(object):
             self.choice_discipline_student_group_window.show()
 
         self.choice_discipline_group_or_student_window.hide()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

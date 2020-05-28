@@ -7,6 +7,7 @@ from transform.items import set_items_to_table
 
 class FormChoiceDisciplineStudent(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.discipline = ""
         self.group_number = ''
         self.choice_discipline_student_group_window = main_window.choice_discipline_student_group_window
@@ -105,6 +106,15 @@ class FormChoiceDisciplineStudent(object):
         self.analytics_table_discipline_student_ui.label_6.setText(self.discipline)
         self.analytics_table_discipline_student_ui.label_4.setText(self.group_number)
         self.analytics_table_discipline_student_ui.label_2.setText(type_analysis)
+        self.analytics_table_discipline_student_ui.result = result
 
         self.choice_discipline_student_window.hide()
         self.analytics_table_discipline_student_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

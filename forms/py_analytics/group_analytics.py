@@ -7,76 +7,62 @@ from transform.items import set_items_to_table
 
 class FormGroupAnalytics(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.group_analytics_window = main_window.group_analytics_window
         self.group_analytics_window.setObjectName("MainWindow")
         self.group_analytics_window.setFixedSize(320, 369)
-        self.group_analytics_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.group_analytics_window)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 221, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 301, 32))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_2.setGeometry(QtCore.QRect(10, 100, 301, 32))
         self.comboBox_2.setObjectName("comboBox_2")
         ls_2 = ['Зимняя', 'Летняя', 'Все сессии']
         self.comboBox_2.addItems(ls_2)
-        self.comboBox_2.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
 
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 80, 58, 16))
         self.label_2.setObjectName("label_2")
-        self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(20, 140, 58, 16))
         self.label_3.setObjectName("label_3")
-        self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox_3 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_3.setGeometry(QtCore.QRect(10, 160, 301, 32))
         self.comboBox_3.setObjectName("comboBox_3")
         ls_3 = ['За последний год', 'За последние 2 года', 'За последние 3 года', 'За все время']
-        self.comboBox_3.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
 
         self.comboBox_3.addItems(ls_3)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(20, 200, 161, 16))
         self.label_4.setObjectName("label_4")
-        self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox_4 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_4.setGeometry(QtCore.QRect(10, 220, 301, 32))
         self.comboBox_4.setObjectName("comboBox_4")
-        self.comboBox_4.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
 
-        ls_4 = ['Средняя оценка по итогам сессии', 'Средняя оценка за работы в семестре']
+        ls_4 = ['Средняя оценка по итогам сессии',
+                'Максимальная оценка по итогам сессии',
+                'Минимальная оценка по итогам сессии']
         self.comboBox_4.addItems(ls_4)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(10, 260, 181, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
 
         self.pushButton.clicked.connect(self.analysis)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(10, 290, 181, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(200, 290, 111, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
 
         self.pushButton_3.clicked.connect(self.close_window)
         self.group_analytics_window.setCentralWidget(self.centralwidget)
@@ -119,13 +105,72 @@ class FormGroupAnalytics(object):
         self.analytics_table_group_ui.label_8.setText(session)
 
         control = Control()
-        result: np.ndarray = control.analysis_group(self.session, group, session, period)
+        if type_analysis == 'Средняя оценка по итогам сессии':
+            result: np.ndarray = control.analysis_group(self.session, group, session, period)
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            result: np.ndarray = control.analysis_group_maximin(self.session, group, session, period, max=True)
+        else:
+            result: np.ndarray = control.analysis_group_maximin(self.session, group, session, period, max=False)
+
         self.analytics_table_group_ui.result = result
         self.analytics_table_group_ui.tableWidget.setColumnCount(2)
-        table_header = ['Учебный год', 'Средняя оценка']
+
+        if type_analysis == 'Средняя оценка по итогам сессии':
+            self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в пропорциях")
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+            self.analytics_table_group_ui.group_diagram_ui.data = result
+        else:
+            self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+            self.analytics_table_group_ui.group_diagram_ui.data = result
+
+        if type_analysis == 'Средняя оценка по итогам сессии':
+            table_header = ['Учебный год', 'Средняя оценка']
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            table_header = ['Учебный год', 'Максимальная оценка']
+        else:
+            table_header = ['Учебный год', 'Минимальная оценка']
+
         self.analytics_table_group_ui.tableWidget.setHorizontalHeaderLabels(table_header)
         self.analytics_table_group_ui.tableWidget = set_items_to_table(self.analytics_table_group_ui.tableWidget, result)
         self.analytics_table_group_ui.tableWidget.resizeColumnsToContents()
 
         self.group_analytics_window.hide()
         self.analytics_table_group_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.group_analytics_window.setStyleSheet("background-color: #1a222c")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.comboBox_4.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.comboBox_3.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.comboBox.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.comboBox_2.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.group_analytics_window.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.comboBox_4.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.comboBox_3.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
+            self.comboBox_2.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.label_3.setStyleSheet("")
+            self.label_4.setStyleSheet("")
+            self.dark_theme = False

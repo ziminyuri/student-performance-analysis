@@ -7,6 +7,7 @@ from forms.py_analytics.analytics_table_discipline_group import FormAnalyticsTab
 
 class FormChoiceDisciplineGroup(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.discipline = ""
         self.session = main_window.session
         self.choice_discipline_group_or_student_window = main_window.choice_discipline_group_or_student_window
@@ -100,3 +101,11 @@ class FormChoiceDisciplineGroup(object):
 
         self.choice_discipline_group_window.hide()
         self.analytics_table_discipline_group_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

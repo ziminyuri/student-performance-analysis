@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtWidgets
 
 class form_add_subject(object):
     def __init__(self, MainWindow):
+        self.dark_theme = False
         self.add_subject_window = MainWindow.add_subject_window
         self.add_subject_window.setObjectName("MainWindow")
         self.add_subject_window.resize(493, 285)
@@ -58,3 +59,11 @@ class form_add_subject(object):
 
     def close_window(self):
         self.add_subject_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

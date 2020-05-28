@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class FormAnalyticsTableDisciplineGroup(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.choice_discipline_group_window = main_window.choice_discipline_group_window
         self.session = main_window.session
         self.analytics_table_discipline_group_window = main_window.analytics_table_discipline_group_window
@@ -66,3 +67,10 @@ class FormAnalyticsTableDisciplineGroup(object):
 
     def close_window(self):
         self.analytics_table_discipline_group_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+            self.dark_theme = False

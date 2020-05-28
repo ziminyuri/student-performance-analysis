@@ -7,12 +7,11 @@ from forms.py_analytics.choice_discipline import FormChoiceDiscipline
 
 class FormChoiceAnalyticsWindow(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.choice_analytics_window = main_window.choice_analytics_window
         self.choice_analytics_window.setObjectName("MainWindow")
         self.choice_analytics_window.setFixedSize(349, 172)
-        self.choice_analytics_window.setStyleSheet(
-            "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
         self.centralwidget = QtWidgets.QWidget(self.choice_analytics_window)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -20,23 +19,16 @@ class FormChoiceAnalyticsWindow(object):
         self.comboBox.setObjectName("comboBox")
         ls = ["Группа", 'Дисциплина', "Студент"]
         self.comboBox.addItems(ls)
-        self.comboBox.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(30, 20, 171, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(110, 100, 112, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.choice_analytics)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(220, 100, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.close_window)
         self.choice_analytics_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.choice_analytics_window)
@@ -104,3 +96,23 @@ class FormChoiceAnalyticsWindow(object):
 
     def close_window(self):
         self.choice_analytics_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.choice_analytics_window.setStyleSheet(
+                "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
+            self.comboBox.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.choice_analytics_window.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.dark_theme = False

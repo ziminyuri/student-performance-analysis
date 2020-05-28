@@ -4,38 +4,31 @@ from db.models import Group
 
 class FormAddGroup(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.combo = main_window.combo
         self.table = main_window.tableWidget
         self.add_group_window = main_window.add_group_window
         self.add_group_window.setObjectName("MainWindow")
         self.add_group_window.setFixedSize(410, 197)
-        self.add_group_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.add_group_window)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 70, 131, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(20, 90, 371, 21))
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit.setStyleSheet("color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f;")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(260, 120, 131, 41))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.add_group)
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 30, 391, 32))
-        self.comboBox.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
         self.comboBox.setObjectName("comboBox")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 10, 131, 16))
         self.label_2.setObjectName("label_2")
-        self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.add_group_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.add_group_window)
         self.statusbar.setObjectName("statusbar")
@@ -64,3 +57,24 @@ class FormAddGroup(object):
         self.comboBox.clear()
         self.lineEdit.clear()
         self.add_group_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.add_group_window.setStyleSheet("background-color: #1a222c")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.lineEdit.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.comboBox.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.add_group_window.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.lineEdit.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.dark_theme = False

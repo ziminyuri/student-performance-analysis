@@ -1,0 +1,153 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis, QBarCategoryAxis,\
+    QPieSeries, QPieSlice
+from PyQt5.QtGui import QPainter,QPen
+from PyQt5.QtCore import Qt
+from db.models import Control
+import numpy as np
+
+
+class FormStudentDiagramDiscipline(object):
+    def __init__(self, main_window):
+        self.dark_theme = False
+        self.analytics_table_discipline_student_window = main_window.analytics_table_discipline_student_window
+        self.session = main_window.session
+        self.student_diagram_discipline_window = main_window.student_diagram_discipline_window
+        self.student_diagram_discipline_window.setObjectName("MainWindow")
+        self.student_diagram_discipline_window.setFixedSize(900, 563)
+        self.student_diagram_discipline_window.setStyleSheet("background-color: #1a222c")
+        self.centralwidget = QtWidgets.QWidget(self.student_diagram_discipline_window)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(760, 500, 112, 32))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+        self.pushButton.clicked.connect(self.close_window)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(650, 500, 112, 32))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+
+        self.pushButton_2.clicked.connect(self.previous_page)
+        self.label_11 = QtWidgets.QLabel(self.centralwidget)
+        self.label_11.setGeometry(QtCore.QRect(10, 110, 551, 371))
+        self.label_11.setMinimumSize(QtCore.QSize(400, 0))
+        self.label_11.setObjectName("label_11")
+        self.label_11.hide()
+
+        chart = QChart()
+        self.chartview = QChartView(chart, self.centralwidget)
+        self.chartview.setGeometry(QtCore.QRect(10, 110, 551, 371))
+
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(10, 10, 61, 20))
+        self.label_3.setObjectName("label_3")
+        self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(70, 10, 361, 21))
+        self.label_4.setObjectName("label_4")
+        self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(370, 10, 51, 20))
+        self.label_5.setObjectName("label_5")
+        self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
+
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setGeometry(QtCore.QRect(425, 10, 141, 21))
+        self.label_7.setObjectName("label_7")
+        self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label_9 = QtWidgets.QLabel(self.centralwidget)
+        self.label_9.setGeometry(QtCore.QRect(10, 30, 90, 20))
+        self.label_9.setObjectName("label_9")
+        self.label_9.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label_10 = QtWidgets.QLabel(self.centralwidget)
+        self.label_10.setGeometry(QtCore.QRect(100, 30, 250, 20))
+        self.label_10.setObjectName("label_10")
+        self.label_10.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        self.label_8.setGeometry(QtCore.QRect(70, 50, 373, 21))
+        self.label_8.setObjectName("label_8")
+        self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 50, 58, 21))
+        self.label.setObjectName("label")
+        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+        self.student_diagram_discipline_window.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.student_diagram_discipline_window)
+        self.statusbar.setObjectName("statusbar")
+        self.student_diagram_discipline_window.setStatusBar(self.statusbar)
+
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(10, 500, 281, 32))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.setStyleSheet(
+            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+
+        self.pushButton_3.clicked.connect(self.show_proportional_chart)
+
+        self.retranslateUi(self.student_diagram_discipline_window)
+        QtCore.QMetaObject.connectSlotsByName(self.student_diagram_discipline_window)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Аналитика: вывод диаграммы"))
+        self.pushButton.setText(_translate("MainWindow", "Закрыть"))
+        self.pushButton_2.setText(_translate("MainWindow", "Назад"))
+        self.label_11.setText(_translate("MainWindow", "TextLabel"))
+        self.label_3.setText(_translate("MainWindow", "Студент:"))
+        self.label_4.setText(_translate("MainWindow", "ФИО"))
+        self.label_5.setText(_translate("MainWindow", "Сессия:"))
+        self.label_7.setText(_translate("MainWindow", "Тип сессии"))
+        self.label_9.setText(_translate("MainWindow", "Тип анализа:"))
+        self.label_10.setText(_translate("MainWindow", "Наименование типа анализа"))
+        self.label_8.setText(_translate("MainWindow", "Наименование периода"))
+        self.label.setText(_translate("MainWindow", "Период:"))
+        self.pushButton_3.setText(_translate("MainWindow", "Отобразить диаграмму в пропорциях"))
+
+    def close_window(self):
+        self.student_diagram_discipline_window.close()
+
+    def show_proportional_chart(self):
+        self.student_diagram_discipline_window.hide()
+
+        series = QPieSeries()
+        for i in self.data:
+            value = str(i[0]) + " / " + str(i[1])
+            series.append(value, float(i[1]))
+
+        # adding slice
+        slice = QPieSlice()
+        slice = series.slices()[0]
+        slice.setExploded(True)
+        slice.setLabelVisible(True)
+        slice.setPen(QPen(Qt.darkGreen, 2))
+        slice.setBrush(Qt.green)
+
+        chart = QChart()
+        chart.legend().hide()
+        chart.addSeries(series)
+        chart.createDefaultAxes()
+        chart.setAnimationOptions(QChart.SeriesAnimations)
+
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+        centralwidget = self.centralwidget
+        self.chartview = QChartView(chart, centralwidget)
+        self.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
+
+        self.pushButton_3.hide()
+        self.student_diagram_discipline_window.show()
+
+    def previous_page(self):
+        self.student_diagram_discipline_window.hide()
+        self.analytics_table_discipline_student_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

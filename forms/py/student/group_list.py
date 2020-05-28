@@ -6,47 +6,35 @@ from db.models import Specialty, Group
 
 class FormGroupWindow(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.combo = main_window.comboBox
         self.session = main_window.session
         self.group_window = main_window.group_window
         self.group_window.setObjectName("MainWindow")
         self.group_window.setFixedSize(661, 498)
-        self.group_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.group_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(170, 360, 151, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.show_update_group)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(540, 430, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.close_window)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(20, 10, 631, 341))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-        self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-        self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-        self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
         self.tableWidget.setHorizontalHeaderLabels(["Специальность", "Номер группы"])
-
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(20, 360, 151, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_3.clicked.connect(self.show_add_group)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(170, 390, 151, 32))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_4.clicked.connect(self.delete)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(30, 420, 621, 16))
@@ -119,3 +107,29 @@ class FormGroupWindow(object):
             self.combo.clear()
             ls_name = group.show_name(self.session)
             self.combo.addItems(ls_name)
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.group_window.setStyleSheet("background-color: #1a222c")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
+            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
+            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_4.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.group_window.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.tableWidget.setStyleSheet("")
+            self.tableWidget.horizontalHeader().setStyleSheet("")
+            self.tableWidget.verticalHeader().setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
+            self.dark_theme = False

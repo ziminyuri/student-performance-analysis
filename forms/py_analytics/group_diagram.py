@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis, QBarCategoryAxis
-from PyQt5.QtGui import QPainter
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis, QBarCategoryAxis,\
+    QPieSeries, QPieSlice
+from PyQt5.QtGui import QPainter, QPen
 from PyQt5.QtCore import Qt
 from db.models import Control
 import numpy as np
@@ -8,73 +9,54 @@ import numpy as np
 
 class FormGroupDiagram(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.analytics_table_group_window = main_window.analytics_table_group_window
         self.session = main_window.session
         self.group_diagram_window = main_window.group_diagram_window
         self.group_diagram_window.setObjectName("MainWindow")
-        self.group_diagram_window.setFixedSize(581, 563)
-        self.group_diagram_window.setStyleSheet("background-color: #1a222c")
+        self.group_diagram_window.setFixedSize(900, 563)
         self.centralwidget = QtWidgets.QWidget(self.group_diagram_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(460, 500, 112, 32))
+        self.pushButton.setGeometry(QtCore.QRect(760, 500, 112, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.close_window)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(350, 500, 112, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(650, 500, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_2.clicked.connect(self.previous_page)
         self.label_11 = QtWidgets.QLabel(self.centralwidget)
         self.label_11.setGeometry(QtCore.QRect(10, 110, 551, 371))
         self.label_11.setMinimumSize(QtCore.QSize(400, 0))
         self.label_11.setObjectName("label_11")
-        self.label_11.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(10, 10, 111, 20))
         self.label_3.setObjectName("label_3")
-        self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(115, 10, 361, 21))
         self.label_4.setObjectName("label_4")
-        self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(360, 10, 51, 20))
         self.label_5.setObjectName("label_5")
-        self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setGeometry(QtCore.QRect(415, 10, 141, 21))
         self.label_7.setObjectName("label_7")
-        self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_9 = QtWidgets.QLabel(self.centralwidget)
         self.label_9.setGeometry(QtCore.QRect(10, 30, 90, 20))
         self.label_9.setObjectName("label_9")
-        self.label_9.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_10 = QtWidgets.QLabel(self.centralwidget)
         self.label_10.setGeometry(QtCore.QRect(100, 30, 373, 20))
         self.label_10.setObjectName("label_10")
-        self.label_10.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(70, 45, 373, 31))
         self.label_8.setObjectName("label_8")
-        self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 50, 58, 21))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(10, 500, 281, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_3.clicked.connect(self.show_proportional_chart)
-
         self.group_diagram_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.group_diagram_window)
         self.statusbar.setObjectName("statusbar")
@@ -103,71 +85,137 @@ class FormGroupDiagram(object):
         self.group_diagram_window.close()
 
     def show_proportional_chart(self):
+        type_diagram = self.pushButton_3.text()
         self.group_diagram_window.hide()
-        group = self.label_4.text()
-        session = self.label_7.text()
-        period = self.label_8.text()
+        if type_diagram == "Отобразить диаграмму в пропорциях":
 
-        control = Control()
-        result: np.ndarray = control.analysis_group_proportional(self.session, group, session, period)
+            group = self.label_4.text()
+            session = self.label_7.text()
+            period = self.label_8.text()
 
-        r_len = len(result)
-        set0 = QBarSet('0-24')
-        set1 = QBarSet('25-49')
-        set2 = QBarSet('50-74')
-        set3 = QBarSet('75-100')
+            control = Control()
+            result: np.ndarray = control.analysis_group_proportional(self.session, group, session, period)
 
-        if r_len == 4:
-            set0 << int(result[0][1]) << int(result[1][1]) << int(result[2][1]) << int(result[3][1])
-            set1 << int(result[0][2]) << int(result[1][2]) << int(result[2][2]) << int(result[3][2])
-            set2 << int(result[0][3]) << int(result[1][3]) << int(result[2][3]) << int(result[3][3])
-            set3 << int(result[0][4]) << int(result[1][4]) << int(result[2][4]) << int(result[3][4])
+            r_len = len(result)
+            set0 = QBarSet('0-24')
+            set1 = QBarSet('25-49')
+            set2 = QBarSet('50-74')
+            set3 = QBarSet('75-100')
 
-        elif r_len == 3:
-            set0 << int(result[0][1]) << int(result[1][1]) << int(result[2][1])
-            set1 << int(result[0][2]) << int(result[1][2]) << int(result[2][2])
-            set2 << int(result[0][3]) << int(result[1][3]) << int(result[2][3])
-            set3 << int(result[0][4]) << int(result[1][4]) << int(result[2][4])
+            if r_len == 4:
+                set0 << int(result[0][1]) << int(result[1][1]) << int(result[2][1]) << int(result[3][1])
+                set1 << int(result[0][2]) << int(result[1][2]) << int(result[2][2]) << int(result[3][2])
+                set2 << int(result[0][3]) << int(result[1][3]) << int(result[2][3]) << int(result[3][3])
+                set3 << int(result[0][4]) << int(result[1][4]) << int(result[2][4]) << int(result[3][4])
 
-        elif r_len == 2:
-            set0 << int(result[0][1]) << int(result[1][1])
-            set1 << int(result[0][2]) << int(result[1][2])
-            set2 << int(result[0][3]) << int(result[1][3])
-            set3 << int(result[0][4]) << int(result[1][4])
+            elif r_len == 3:
+                set0 << int(result[0][1]) << int(result[1][1]) << int(result[2][1])
+                set1 << int(result[0][2]) << int(result[1][2]) << int(result[2][2])
+                set2 << int(result[0][3]) << int(result[1][3]) << int(result[2][3])
+                set3 << int(result[0][4]) << int(result[1][4]) << int(result[2][4])
+
+            elif r_len == 2:
+                set0 << int(result[0][1]) << int(result[1][1])
+                set1 << int(result[0][2]) << int(result[1][2])
+                set2 << int(result[0][3]) << int(result[1][3])
+                set3 << int(result[0][4]) << int(result[1][4])
+
+            else:
+                set0 << int(result[0][1])
+                set1 << int(result[0][2])
+                set2 << int(result[0][3])
+                set3 << int(result[0][4])
+
+            cat = []
+            for i in result:
+                cat.append(i[0])
+
+            series = QPercentBarSeries()
+            series.append(set0)
+            series.append(set1)
+            series.append(set2)
+            series.append(set3)
+
+            chart = QChart()
+            chart.addSeries(series)
+            chart.setAnimationOptions(QChart.SeriesAnimations)
+
+            axis = QBarCategoryAxis()
+            axis.append(cat)
+            chart.createDefaultAxes()
+            chart.setAxisX(axis, series)
+
+            chart.legend().setVisible(True)
+            chart.legend().setAlignment(Qt.AlignBottom)
+            centralwidget = self.centralwidget
+            self.chartview = QChartView(chart, centralwidget)
+            self.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
 
         else:
-            set0 << int(result[0][1])
-            set1 << int(result[0][2])
-            set2 << int(result[0][3])
-            set3 << int(result[0][4])
+            series = QPieSeries()
+            for i in self.data:
+                value = str(i[0]) + " / " + str(i[1])
+                series.append(value, int(i[1]))
 
-        cat = []
-        for i in result:
-            cat.append(i[0])
+            # adding slice
+            slice = QPieSlice()
+            slice = series.slices()[0]
+            slice.setExploded(True)
+            slice.setLabelVisible(True)
+            slice.setPen(QPen(Qt.darkGreen, 2))
+            slice.setBrush(Qt.green)
 
-        series = QPercentBarSeries()
-        series.append(set0)
-        series.append(set1)
-        series.append(set2)
-        series.append(set3)
+            chart = QChart()
+            chart.legend().hide()
+            chart.addSeries(series)
+            chart.createDefaultAxes()
+            chart.setAnimationOptions(QChart.SeriesAnimations)
 
-        chart = QChart()
-        chart.addSeries(series)
-        chart.setAnimationOptions(QChart.SeriesAnimations)
+            chart.legend().setVisible(True)
+            chart.legend().setAlignment(Qt.AlignBottom)
+            centralwidget = self.centralwidget
+            self.chartview = QChartView(chart, centralwidget)
+            self.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
 
-        axis = QBarCategoryAxis()
-        axis.append(cat)
-        chart.createDefaultAxes()
-        chart.setAxisX(axis, series)
-
-        chart.legend().setVisible(True)
-        chart.legend().setAlignment(Qt.AlignBottom)
-        centralwidget = self.centralwidget
-        self.chartview = QChartView(chart, centralwidget)
-        self.chartview.setGeometry(QtCore.QRect(10, 110, 551, 371))
         self.pushButton_3.hide()
         self.group_diagram_window.show()
 
     def previous_page(self):
         self.group_diagram_window.hide()
         self.analytics_table_group_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.group_diagram_window.setStyleSheet("background-color: #1a222c")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.label_11.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_10.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_9.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
+
+            self.dark_theme = True
+        else:
+            self.group_diagram_window.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.label_11.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.label_8.setStyleSheet("")
+            self.label_10.setStyleSheet("")
+            self.label_9.setStyleSheet("")
+            self.label_3.setStyleSheet("")
+            self.label_4.setStyleSheet("")
+            self.label_7.setStyleSheet("")
+            self.label_5.setStyleSheet("")
+            self.dark_theme = False

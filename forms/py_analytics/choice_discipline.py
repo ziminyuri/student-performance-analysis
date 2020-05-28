@@ -4,6 +4,7 @@ from forms.py_analytics.choice_discipline_group_or_student import FormChoiceDisc
 
 class FormChoiceDiscipline(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.choice_analytics_window = main_window.choice_analytics_window
         self.session = main_window.session
         self.choice_discipline_window = main_window.choice_discipline_window
@@ -52,3 +53,11 @@ class FormChoiceDiscipline(object):
         self.choice_discipline_group_or_student_ui.discipline = discipline
         self.choice_discipline_group_or_student_window.show()
         self.choice_discipline_window.hide()
+
+    def update(self, dark_theme):
+        if dark_theme:
+
+            self.dark_theme = True
+        else:
+
+            self.dark_theme = False

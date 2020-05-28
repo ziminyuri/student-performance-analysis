@@ -7,11 +7,11 @@ from transform.items import set_items_to_table
 
 class FormGrade(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.grade_window = main_window.grade_window
         self.grade_window.setObjectName("MainWindow")
         self.grade_window.setFixedSize(458, 132)
-        self.grade_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.grade_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
@@ -22,13 +22,9 @@ class FormGrade(object):
         sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
         self.pushButton_2.setSizePolicy(sizePolicy)
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.clicked.connect(self.show_teacher_journal_window)
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton.setGeometry(QtCore.QRect(210, 70, 147, 32))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -39,20 +35,15 @@ class FormGrade(object):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 10, 79, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(5, 30, 221, 32))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox_2.setGeometry(QtCore.QRect(230, 30, 221, 32))
         self.comboBox_2.setObjectName("comboBox_2")
-        self.comboBox_2.setStyleSheet("color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(240, 10, 44, 16))
         self.label_2.setObjectName("label_2")
-        self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.grade_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.grade_window)
         self.statusbar.setObjectName("statusbar")
@@ -86,13 +77,31 @@ class FormGrade(object):
 
         self.teacher_journal_window_ui.tableWidget.resizeColumnsToContents()
 
-        # self.teacher_journal_ui.group_number = group_number
-        # self.teacher_journal_ui.discipline_name = discipline_name
-        # d = "Дисциплина: " + str(discipline_name)
-        # self.teacher_journal_ui.label.setText(d)
-        # g = "Группа: №" + str(group_number)
-        # self.teacher_journal_ui.label_2.setText(g)
         self.teacher_journal_window.show()
 
     def close_window(self):
         self.grade_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.grade_window.setStyleSheet("background-color: #1a222c")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.comboBox_2.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
+            self.comboBox.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:2px; selection-color: white; selection-background-color: #1a222c;")
+            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.grade_window.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.comboBox_2.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.dark_theme = False

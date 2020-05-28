@@ -8,39 +8,30 @@ from transform.items import set_items_to_table
 
 class FormGroupChoice(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.group_choice_window = main_window.group_choice_window
         self.group_choice_window.setObjectName("MainWindow")
         self.group_choice_window.setFixedSize(510, 187)
-        self.group_choice_window.setStyleSheet("background-color: #1a222c")
         self.centralwidget = QtWidgets.QWidget(self.group_choice_window)
         self.centralwidget.setObjectName("centralwidget")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(10, 40, 241, 32))
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.setStyleSheet(
-            "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 141, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(380, 120, 121, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(280, 50, 221, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_3.clicked.connect(self.show_student_list)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(280, 20, 221, 32))
         self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
         self.pushButton_4.clicked.connect(self.show_group_window)
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(20, 100, 471, 16))
@@ -80,7 +71,6 @@ class FormGroupChoice(object):
         self.student_list_ui.group_number = str(group_number)
 
         self.student_list_window.show()
-        # self.group_choice_window.hide()
 
     def show_group_window(self):
         group = Group()
@@ -93,3 +83,25 @@ class FormGroupChoice(object):
     def close_window(self):
         self.comboBox.clear()
         self.group_choice_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.group_choice_window.setStyleSheet("background-color: #1a222c")
+            self.comboBox.setStyleSheet(
+                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_4.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.group_choice_window.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.dark_theme = False

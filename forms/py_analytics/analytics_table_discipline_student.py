@@ -1,8 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from forms.py_analytics.student_diagram_discipline import FormStudentDiagramDiscipline
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
+from PyQt5.QtCore import Qt
 
 
 class FormAnalyticsTableDisciplineStudent(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.choice_discipline_student_window = main_window.choice_discipline_student_window
         self.session = main_window.session
         self.analytics_table_discipline_student_window = main_window.analytics_table_discipline_student_window
@@ -30,6 +34,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(20, 370, 191, 32))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.show_diagram)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(550, 370, 111, 32))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -49,6 +54,9 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_discipline_student_window.setStatusBar(self.statusbar)
 
+        self.student_diagram_discipline_window = QtWidgets.QMainWindow()
+        self.student_diagram_discipline_ui = FormStudentDiagramDiscipline(self)
+
         self.retranslateUi(self.analytics_table_discipline_student_window)
         QtCore.QMetaObject.connectSlotsByName(self.analytics_table_discipline_student_window)
 
@@ -64,6 +72,40 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.pushButton_3.setText(_translate("MainWindow", "Закрыть"))
         self.label_5.setText(_translate("MainWindow", "Дисциплина:"))
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
+
+    def show_diagram(self):
+        self.student_diagram_discipline_ui.label_4.setText(self.label_2.text())
+        self.student_diagram_discipline_ui.label_7.hide()
+        self.student_diagram_discipline_ui.label_8.setText(self.label_6.text())
+        self.student_diagram_discipline_ui.label_10.setText(self.label_4.text())
+
+        max_value = 0
+        series = QBarSeries()
+        for i in self.result:
+            set0 = QBarSet(i[0])
+            set0.append(float(i[1]))
+            series.append(set0)
+            if max_value < (float(i[1])):
+                max_value = float(i[1])
+
+        axisY = QValueAxis()
+        axisY.setRange(0, max_value)
+
+        chart = QChart()
+        series.attachAxis(axisY)
+        chart.addSeries(series)
+        chart.setAnimationOptions(QChart.SeriesAnimations)
+
+        chart.addAxis(axisY, Qt.AlignLeft)
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+        centralwidget = self.student_diagram_discipline_ui.centralwidget
+        self.student_diagram_discipline_ui.chartview = QChartView(chart, centralwidget)
+        self.student_diagram_discipline_ui.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
+        self.student_diagram_discipline_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+        self.student_diagram_discipline_ui.pushButton_3.show()
+        self.student_diagram_discipline_ui.data = self.result
+        self.student_diagram_discipline_window.show()
 
     def previous_page(self):
         self.choice_discipline_student_window.show()

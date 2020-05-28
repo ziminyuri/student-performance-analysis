@@ -1,21 +1,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py_analytics.student_diagram import FormStudentDiagram
-import numpy as np
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
-from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import Qt
 
 
 class FormAnalyticsTableStudent(object):
     def __init__(self, main_window):
+        self.dark_theme = False
         self.session = main_window.session
         self.result: str = ''
         self.student_analytics_window = main_window.student_analytics_window
         self.analytics_table_student_window = main_window.analytics_table_student_window
         self.analytics_table_student_window.setObjectName("MainWindow")
         self.analytics_table_student_window.setFixedSize(800, 437)
-        self.analytics_table_student_window.setStyleSheet(
-            "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
         self.centralwidget = QtWidgets.QWidget(self.analytics_table_student_window)
         self.centralwidget.setObjectName("centralwidget")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -24,61 +21,42 @@ class FormAnalyticsTableStudent(object):
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-        self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-        self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-        self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 10, 58, 16))
         self.label.setObjectName("label")
-        self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(80, 10, 291, 16))
         self.label_2.setObjectName("label_2")
-        self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(20, 30, 91, 16))
         self.label_3.setObjectName("label_3")
-        self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(110, 30, 291, 16))
         self.label_4.setObjectName("label_4")
-        self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(20, 370, 191, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
         self.pushButton.clicked.connect(self.show_diagram)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(430, 370, 111, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(600, 370, 112, 32))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_3.setStyleSheet(
-            "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
-
         self.pushButton_3.clicked.connect(self.close_window)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(450, 10, 58, 16))
         self.label_5.setObjectName("label_5")
-        self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setGeometry(QtCore.QRect(510, 10, 150, 16))
         self.label_6.setObjectName("label_6")
-        self.label_6.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_7 = QtWidgets.QLabel(self.centralwidget)
         self.label_7.setGeometry(QtCore.QRect(450, 30, 58, 16))
         self.label_7.setObjectName("label_7")
-        self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.label_8 = QtWidgets.QLabel(self.centralwidget)
         self.label_8.setGeometry(QtCore.QRect(510, 30, 150, 16))
         self.label_8.setObjectName("label_8")
-        self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
         self.analytics_table_student_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_student_window)
         self.statusbar.setObjectName("statusbar")
@@ -140,6 +118,46 @@ class FormAnalyticsTableStudent(object):
         chart.legend().setAlignment(Qt.AlignBottom)
         centralwidget = self.student_diagram_ui.centralwidget
         self.student_diagram_ui.chartview = QChartView(chart, centralwidget)
-        self.student_diagram_ui.chartview.setGeometry(QtCore.QRect(10, 110, 551, 371))
+        self.student_diagram_ui.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
         self.student_diagram_ui.pushButton_3.show()
         self.student_diagram_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.analytics_table_student_window.setStyleSheet(
+                "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
+            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
+            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
+            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
+            self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_6.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.pushButton_3.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
+            self.pushButton_2.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
+            self.pushButton.setStyleSheet(
+                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
+            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.dark_theme = True
+        else:
+            self.analytics_table_student_window.setStyleSheet("")
+            self.tableWidget.setStyleSheet("")
+            self.tableWidget.horizontalHeader().setStyleSheet("")
+            self.tableWidget.verticalHeader().setStyleSheet("")
+            self.label_8.setStyleSheet("")
+            self.label_7.setStyleSheet("")
+            self.label_6.setStyleSheet("")
+            self.label_5.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.label_4.setStyleSheet("")
+            self.label_3.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.dark_theme = False

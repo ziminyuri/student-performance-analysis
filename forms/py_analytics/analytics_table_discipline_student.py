@@ -47,7 +47,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.label_5.setGeometry(QtCore.QRect(20, 10, 81, 16))
         self.label_5.setObjectName("label_5")
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(110, 10, 150, 16))
+        self.label_6.setGeometry(QtCore.QRect(110, 10, 250, 16))
         self.label_6.setObjectName("label_6")
         self.analytics_table_discipline_student_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_discipline_student_window)
@@ -74,9 +74,9 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
 
     def show_diagram(self):
-        self.student_diagram_discipline_ui.label_4.setText(self.label_2.text())
+        self.student_diagram_discipline_ui.label_4.setText(self.label_6.text())
         self.student_diagram_discipline_ui.label_7.hide()
-        self.student_diagram_discipline_ui.label_8.setText(self.label_6.text())
+        self.student_diagram_discipline_ui.label_8.setText(self.label_2.text())
         self.student_diagram_discipline_ui.label_10.setText(self.label_4.text())
 
         max_value = 0

@@ -1,4 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from forms.py_analytics.group_diagram_discipline import FormGroupDiagramDiscipline
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
+from PyQt5.QtCore import Qt
 
 
 class FormAnalyticsTableDisciplineGroup(object):
@@ -28,6 +31,7 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(20, 370, 191, 32))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.show_diagram)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(550, 370, 111, 32))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -46,6 +50,9 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_discipline_group_window)
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_discipline_group_window.setStatusBar(self.statusbar)
+
+        self.group_diagram_discipline_window = QtWidgets.QMainWindow()
+        self.group_diagram_discipline_ui = FormGroupDiagramDiscipline(self)
 
         self.retranslateUi(self.analytics_table_discipline_group_window)
         QtCore.QMetaObject.connectSlotsByName(self.analytics_table_discipline_group_window)
@@ -67,6 +74,38 @@ class FormAnalyticsTableDisciplineGroup(object):
 
     def close_window(self):
         self.analytics_table_discipline_group_window.close()
+
+    def show_diagram(self):
+        self.group_diagram_discipline_ui.label_4.setText(self.label_6.text())
+        self.group_diagram_discipline_ui.label_10.setText(self.label_2.text())
+
+        max_value = 0
+        series = QBarSeries()
+        for i in self.result:
+            set0 = QBarSet(i[0])
+            set0.append(float(i[1]))
+            series.append(set0)
+            if max_value < (float(i[1])):
+                max_value = float(i[1])
+
+        axisY = QValueAxis()
+        axisY.setRange(0, max_value)
+
+        chart = QChart()
+        series.attachAxis(axisY)
+        chart.addSeries(series)
+        chart.setAnimationOptions(QChart.SeriesAnimations)
+
+        chart.addAxis(axisY, Qt.AlignLeft)
+        chart.legend().setVisible(True)
+        chart.legend().setAlignment(Qt.AlignBottom)
+        centralwidget = self.group_diagram_discipline_ui.centralwidget
+        self.group_diagram_discipline_ui.chartview = QChartView(chart, centralwidget)
+        self.group_diagram_discipline_ui.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
+        self.group_diagram_discipline_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+        self.group_diagram_discipline_ui.pushButton_3.show()
+        self.group_diagram_discipline_ui.data = self.result
+        self.group_diagram_discipline_window.show()
 
     def update(self, dark_theme):
         if dark_theme:

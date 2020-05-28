@@ -98,6 +98,7 @@ class FormChoiceDisciplineGroup(object):
 
         self.analytics_table_discipline_group_ui.label_6.setText(self.discipline)
         self.analytics_table_discipline_group_ui.label_2.setText(type_analysis)
+        self.analytics_table_discipline_group_ui.result = result
 
         self.choice_discipline_group_window.hide()
         self.analytics_table_discipline_group_window.show()

@@ -13,32 +13,26 @@ class FormChoiceDisciplineStudent(object):
         self.session = main_window.session
         self.choice_discipline_student_window = main_window.choice_discipline_student_window
         self.choice_discipline_student_window.setObjectName("MainWindow")
-        self.choice_discipline_student_window.setFixedSize(417, 194)
+        self.choice_discipline_student_window.setFixedSize(417, 130)
         self.centralwidget = QtWidgets.QWidget(self.choice_discipline_student_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(290, 120, 112, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(290, 70, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(170, 120, 121, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(170, 70, 121, 32))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.analysis)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 10, 181, 16))
-        self.label.setObjectName("label")
-        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox.setGeometry(QtCore.QRect(10, 30, 391, 32))
-        self.comboBox.setObjectName("comboBox")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(20, 60, 111, 16))
+        self.label_2.setGeometry(QtCore.QRect(20, 10, 181, 16))
         self.label_2.setObjectName("label_2")
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_2.setGeometry(QtCore.QRect(10, 80, 391, 32))
+        self.comboBox_2.setGeometry(QtCore.QRect(10, 30, 391, 32))
         self.comboBox_2.setObjectName("comboBox_2")
-        ls = ['Средняя оценка по итогам сессии', 'Средняя оценка за работы в семестре',
-                'Максимальная оценка по итогам сессии', 'Максимальная оценка по итогам работы в семестре',
-                'Минимальная оценка по итогам сессии', 'Минимальная оценка по итогам работы в семестре',
+        ls = ['Оценка по итогам сессии', 'Средняя оценка за работы в семестре',
+                'Максимальная оценка по итогам работы в семестре',
+                'Минимальная оценка по итогам работы в семестре',
                 'Количество сданных работ в семестре']
         self.comboBox_2.clear()
         self.comboBox_2.addItems(ls)
@@ -58,7 +52,6 @@ class FormChoiceDisciplineStudent(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Аналитика"))
         self.pushButton_2.setText(_translate("MainWindow", "Назад"))
         self.pushButton_3.setText(_translate("MainWindow", "Далее"))
-        self.label.setText(_translate("MainWindow", "Студент"))
         self.label_2.setText(_translate("MainWindow", "Тип анализа"))
 
     def previous_page(self):
@@ -66,24 +59,26 @@ class FormChoiceDisciplineStudent(object):
         self.choice_discipline_student_window.hide()
 
     def analysis(self):
-        student = self.comboBox.currentText()
         type_analysis = self.comboBox_2.currentText()
-
-        self.analytics_table_discipline_student_ui.label_2.setText(student)
         self.analytics_table_discipline_student_ui.label_4.setText(type_analysis)
 
         grade = Grade()
+        control = Control()
         if type_analysis == 'Средняя оценка за работы в семестре':
-            result: np.ndarray = grade.analysis_student_average_rating_discipline(self.session, student,
-                                                                                  self.group_number, self.discipline)
+            result: np.ndarray = grade.analysis_student_average_rating_discipline(self.session, self.group_number,
+                                                                                  self.discipline)
         elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
-            result: np.ndarray = grade.analysis_student_rating_semester_discipline(self.session, student,
-                                                                        max=True)
+            result: np.ndarray = grade.analysis_student_rating_semester_discipline(self.session, self.group_number,
+                                                                                  self.discipline, max=True)
         elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
-            result: np.ndarray = grade.analysis_student_rating_semester_discipline(self.session, student,
-                                                                        max=False)
+            result: np.ndarray = grade.analysis_student_rating_semester_discipline(self.session, self.group_number,
+                                                                                  self.discipline, max=False)
+        elif type_analysis == 'Оценка по итогам сессии':
+            result: np.ndarray = control.analysis_student_average_rating_discipline(self.session, self.group_number,
+                                                                                   self.discipline)
         else:
-            result: np.ndarray = grade.analysis_student_number_works_discipline(self.session, student)
+            result: np.ndarray = grade.analysis_student_number_works_discipline(self.session, self.group_number,
+                                                                                  self.discipline)
 
         self.analytics_table_discipline_student_ui.result = result
         if type_analysis == 'Количество сданных работ в семестре':
@@ -92,18 +87,24 @@ class FormChoiceDisciplineStudent(object):
             self.analytics_table_discipline_student_ui.tableWidget.setColumnCount(2)
 
         if type_analysis == 'Средняя оценка за работы в семестре':
-            table_header = ['Учебный год', 'Средняя оценка']
+            table_header = ['Студент', 'Средняя оценка']
         elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
-            table_header = ['Учебный год', 'Максимальная оценка']
+            table_header = ['Студент', 'Максимальная оценка']
         elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
-            table_header = ['Учебный год', 'Минимальная оценка']
+            table_header = ['Студент', 'Минимальная оценка']
+        elif type_analysis == 'Оценка по итогам сессии':
+            table_header = ['Студент', 'Оценка']
         else:
-            table_header = ['Учебный год', 'Количество сданных работ', 'Количество работ']
+            table_header = ['Студент', 'Количество сданных работ', 'Количество работ']
 
         self.analytics_table_discipline_student_ui.tableWidget.setHorizontalHeaderLabels(table_header)
         self.analytics_table_discipline_student_ui.tableWidget = set_items_to_table(self.analytics_table_discipline_student_ui.tableWidget,
                                                                          result)
         self.analytics_table_discipline_student_ui.tableWidget.resizeColumnsToContents()
+
+        self.analytics_table_discipline_student_ui.label_6.setText(self.discipline)
+        self.analytics_table_discipline_student_ui.label_4.setText(self.group_number)
+        self.analytics_table_discipline_student_ui.label_2.setText(type_analysis)
 
         self.choice_discipline_student_window.hide()
         self.analytics_table_discipline_student_window.show()

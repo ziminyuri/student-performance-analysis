@@ -43,7 +43,7 @@ class FormChoiceDisciplineStudentGroup(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Аналитика"))
         self.pushButton_2.setText(_translate("MainWindow", "Назад"))
         self.pushButton_3.setText(_translate("MainWindow", "Далее"))
-        self.label.setText(_translate("MainWindow", "Группа студента"))
+        self.label.setText(_translate("MainWindow", "Группа студентов"))
 
     def previous_page(self):
         self.choice_discipline_student_group_window.hide()
@@ -51,10 +51,6 @@ class FormChoiceDisciplineStudentGroup(object):
 
     def next_page(self):
         group_number = self.comboBox.currentText()
-        student = Student()
-        student_name = student.all_name(self.session, group_number)
-        self.choice_discipline_student_ui.comboBox.clear()
-        self.choice_discipline_student_ui.comboBox.addItems(student_name)
         self.choice_discipline_student_ui.group_number = group_number
         self.choice_discipline_student_ui.discipline = self.discipline
         self.choice_discipline_student_window.show()

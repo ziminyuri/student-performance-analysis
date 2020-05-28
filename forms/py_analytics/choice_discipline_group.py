@@ -1,4 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from db.models import Control, Grade
+import numpy as np
+from transform.items import set_items_to_table
+from forms.py_analytics.analytics_table_discipline_group import FormAnalyticsTableDisciplineGroup
 
 
 class FormChoiceDisciplineGroup(object):
@@ -8,33 +12,35 @@ class FormChoiceDisciplineGroup(object):
         self.choice_discipline_group_or_student_window = main_window.choice_discipline_group_or_student_window
         self.choice_discipline_group_window = main_window.choice_discipline_group_window
         self.choice_discipline_group_window.setObjectName("MainWindow")
-        self.choice_discipline_group_window.setFixedSize(417, 194)
+        self.choice_discipline_group_window.setFixedSize(417, 130)
         self.centralwidget = QtWidgets.QWidget(self.choice_discipline_group_window)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(290, 120, 112, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(290, 70, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(170, 120, 121, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(170, 70, 121, 32))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.analysis)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(20, 60, 111, 16))
+        self.label_2.setGeometry(QtCore.QRect(20, 10, 111, 16))
         self.label_2.setObjectName("label_2")
         self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
-        self.comboBox_2.setGeometry(QtCore.QRect(10, 80, 391, 32))
+        self.comboBox_2.setGeometry(QtCore.QRect(10, 30, 391, 32))
         self.comboBox_2.setObjectName("comboBox_2")
         ls = ['Средняя оценка по итогам сессии', 'Средняя оценка за работы в семестре',
                 'Максимальная оценка по итогам сессии', 'Максимальная оценка по итогам работы в семестре',
-                'Минимальная оценка по итогам сессии', 'Минимальная оценка по итогам работы в семестре',
-                'Количество сданных работ в семестре']
+                'Минимальная оценка по итогам сессии', 'Минимальная оценка по итогам работы в семестре']
         self.comboBox_2.clear()
         self.comboBox_2.addItems(ls)
         self.choice_discipline_group_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.choice_discipline_group_window)
         self.statusbar.setObjectName("statusbar")
         self.choice_discipline_group_window.setStatusBar(self.statusbar)
+
+        self.analytics_table_discipline_group_window = QtWidgets.QMainWindow()
+        self.analytics_table_discipline_group_ui = FormAnalyticsTableDisciplineGroup(self)
 
         self.retranslateUi(self.choice_discipline_group_window)
         QtCore.QMetaObject.connectSlotsByName(self.choice_discipline_group_window)
@@ -51,4 +57,46 @@ class FormChoiceDisciplineGroup(object):
         self.choice_discipline_group_or_student_window.show()
 
     def analysis(self):
-        pass
+        type_analysis = self.comboBox_2.currentText()
+
+        grade = Grade()
+        control = Control()
+        if type_analysis == 'Средняя оценка за работы в семестре':
+            result: np.ndarray = grade.analysis_group_average_rating_discipline(self.session, self.discipline)
+        elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
+            result: np.ndarray = grade.analysis_group_rating_semester_discipline(self.session, self.discipline, max=True)
+        elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
+            result: np.ndarray = grade.analysis_group_rating_semester_discipline(self.session, self.discipline, max=False)
+        elif type_analysis == 'Средняя оценка по итогам сессии':
+            result: np.ndarray = control.analysis_group_average_rating_discipline(self.session, self.discipline)
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            result: np.ndarray = control.analysis_group_maxmin_discipline(self.session, self.discipline, max=True)
+        else:
+            result: np.ndarray = control.analysis_group_maxmin_discipline(self.session, self.discipline,max=False)
+
+        self.analytics_table_discipline_group_ui.tableWidget.setColumnCount(2)
+
+        if type_analysis == 'Средняя оценка за работы в семестре':
+            table_header = ['Учебная группа', 'Средняя оценка']
+        elif type_analysis == 'Максимальная оценка по итогам работы в семестре':
+            table_header = ['Учебная группа', 'Максимальная оценка']
+        elif type_analysis == 'Минимальная оценка по итогам работы в семестре':
+            table_header = ['Учебная группа', 'Минимальная оценка']
+        elif type_analysis == 'Средняя оценка по итогам сессии':
+            table_header = ['Учебная группа', 'Средняя оценка']
+        elif type_analysis == 'Максимальная оценка по итогам сессии':
+            table_header = ['Учебная группа', 'Максимальная оценка']
+        else:
+            table_header = ['Учебная группа', 'Минимальная оценка']
+
+        self.analytics_table_discipline_group_ui.tableWidget.setHorizontalHeaderLabels(table_header)
+        self.analytics_table_discipline_group_ui.tableWidget = set_items_to_table(
+            self.analytics_table_discipline_group_ui.tableWidget,
+            result)
+        self.analytics_table_discipline_group_ui.tableWidget.resizeColumnsToContents()
+
+        self.analytics_table_discipline_group_ui.label_6.setText(self.discipline)
+        self.analytics_table_discipline_group_ui.label_2.setText(type_analysis)
+
+        self.choice_discipline_group_window.hide()
+        self.analytics_table_discipline_group_window.show()

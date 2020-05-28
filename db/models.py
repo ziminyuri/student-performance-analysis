@@ -431,25 +431,31 @@ class Grade(Base):
             bd_error()
 
     @staticmethod
-    def analysis_student_average_rating_discipline(session, student, group_number, discipline):
+    def analysis_student_average_rating_discipline(session, group_number, discipline):
         try:
             ls = []
             average_value = 0
             count = 0
 
+            student_list_all = session.query(Student).join(Group).filter(Group.number == group_number).\
+                order_by(Student.name).all()
             student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline).\
-                filter(Student.name == student).filter(Group.number == group_number).\
-                filter(Discipline.name == discipline).all()
+                filter(Group.number == group_number).filter(Discipline.name == discipline).all()
 
-            for i in student_grade_all:
-                average_value += i.value
-                count += 1
+            for j in student_list_all:
+                for i in student_grade_all:
+                    if j.id_student == i.id_student:
+                        average_value += i.value
+                        count += 1
 
-            ls1 = []
-            value = average_value / j[2]
-            value = round(value,2)
-            ls1.append(value)
-            ls.append(ls1)
+                ls1 = []
+                value = average_value / count
+                value = round(value, 2)
+                ls1.append(j.name)
+                ls1.append(value)
+                ls.append(ls1)
+                average_value = 0
+                count = 0
 
             ls = np.array(ls)
             return ls
@@ -532,6 +538,41 @@ class Grade(Base):
             session.rollback()
             bd_error()
 
+    @staticmethod
+    def analysis_student_rating_semester_discipline(session, group_number, discipline, max: bool=True):
+        try:
+            ls: list = []
+            maxmin: int = 0
+
+            student_list_all = session.query(Student).join(Group).filter(Group.number == group_number). \
+                order_by(Student.name).all()
+            student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline). \
+                filter(Group.number == group_number).filter(Discipline.name == discipline).all()
+
+            for j in student_list_all:
+                for i in student_grade_all:
+                    if j.id_student == i.id_student:
+                        if maxmin == 0:
+                            maxmin: int = i.value
+                        elif maxmin < i.value and max is True:
+                            maxmin: int = i.value
+                        elif maxmin > i.value and max is False:
+                            maxmin: int = i.value
+
+                ls1 = []
+                value = maxmin
+                value = round(value, 2)
+                ls1.append(j.name)
+                ls1.append(value)
+                ls.append(ls1)
+                maxmin = 0
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
 
     @staticmethod
     def analysis_student_number_works(session, student, stud_session, period):
@@ -591,6 +632,109 @@ class Grade(Base):
                 value = j[2]
                 ls1.append(value)
                 ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_student_number_works_discipline(session, group_number, discipline):
+        try:
+            ls: list = []
+            work: int = 0
+            works: int = 0
+
+            student_list_all = session.query(Student).join(Group).filter(Group.number == group_number). \
+                order_by(Student.name).all()
+            student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline). \
+                filter(Group.number == group_number).filter(Discipline.name == discipline).all()
+
+            for j in student_list_all:
+                for i in student_grade_all:
+                    if j.id_student == i.id_student:
+                        if i.value >= 25:
+                            work += 1
+                        works += 1
+
+                ls1 = []
+                ls1.append(j.name)
+                ls1.append(work)
+                ls1.append(works)
+                ls.append(ls1)
+                work = 0
+                works = 0
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    # Анализ по дисциплинам по группам средняя оценка за семестр
+    @staticmethod
+    def analysis_group_average_rating_discipline(session, discipline):
+        try:
+            ls: list = []
+            average_value: int = 0
+            count: int = 0
+
+            group_list = session.query(Group).all()
+            student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline).\
+                filter(Discipline.name == discipline).all()
+
+            for i in group_list:
+                for j in student_grade_all:
+                    if i.id_group == j.work.id_group:
+                        average_value += j.value
+                        count += 1
+                if count != 0:
+                    ls1 = []
+                    value = average_value / count
+                    value = round(value, 2)
+                    ls1.append(i.number)
+                    ls1.append(value)
+                    ls.append(ls1)
+                    average_value = 0
+                    count = 0
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    # Анализ по дисциплинам по группам maxmin за семестр
+    @staticmethod
+    def analysis_group_rating_semester_discipline(session, discipline, max:bool=True):
+        try:
+            ls: list = []
+            maxmin: int = 0
+
+            group_list = session.query(Group).all()
+            student_grade_all = session.query(Grade).join(Student).join(Group).join(Work).join(Discipline).\
+                filter(Discipline.name == discipline).all()
+
+            for i in group_list:
+                for j in student_grade_all:
+                    if i.id_group == j.work.id_group:
+                        if maxmin == 0:
+                            maxmin: int = j.value
+                        elif maxmin < j.value and max is True:
+                            maxmin: int = j.value
+                        elif maxmin > j.value and max is False:
+                            maxmin: int = j.value
+
+                if maxmin != 0:
+                    ls1 = []
+                    ls1.append(i.number)
+                    ls1.append(maxmin)
+                    ls.append(ls1)
+                    maxmin = 0
 
             ls = np.array(ls)
             return ls
@@ -692,6 +836,34 @@ class Control(Base):
                     value = j[1] / j[2]
                     ls1.append(value)
                     ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_student_average_rating_discipline(session, group_number, discipline):
+        try:
+            student_list_all = session.query(Student).join(Group).filter(Group.number == group_number). \
+                order_by(Student.name).all()
+            discipline = session.query(Discipline).filter_by(name=discipline).first()
+            id_discipline = discipline.id_discipline
+            student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(Discipline). \
+                filter(Group.number == group_number).all()
+
+            ls = []
+
+            for i in student_list_all:
+                for j in student_control_all:
+                    if i.id_student == j.id_student and id_discipline == j.final_grade.id_discipline:
+                        ls1 = []
+                        ls1.append(i.name)
+                        ls1.append(j.value)
+                        ls.append(ls1)
+                        break
 
             ls = np.array(ls)
             return ls
@@ -950,6 +1122,76 @@ class Control(Base):
                 value = j[4]
                 ls1.append(value)
                 ls.append(ls1)
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_group_average_rating_discipline(session, discipline):
+        try:
+            group_list = session.query(Group).all()
+            student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(Discipline).\
+                filter(Discipline.name == discipline).all()
+            discipline = session.query(Discipline).filter_by(name=discipline).first()
+            id_discipline = discipline.id_discipline
+
+            ls = []
+            average_value = 0
+            count = 0
+
+            for i in group_list:
+                for j in student_control_all:
+                    if i.id_group == j.final_grade.id_group and id_discipline == j.final_grade.id_discipline:
+                        average_value += j.value
+                        count += 1
+                if count != 0:
+                    ls1 = []
+                    ls1.append(i.number)
+                    value = average_value / count
+                    value = round(value, 2)
+                    ls1.append(value)
+                    ls.append(ls1)
+                    average_value = 0
+                    count = 0
+
+            ls = np.array(ls)
+            return ls
+
+        except Exception as e:
+            session.rollback()
+            bd_error()
+
+    @staticmethod
+    def analysis_group_maxmin_discipline(session, discipline, max: bool =True):
+        try:
+            group_list = session.query(Group).all()
+            student_control_all = session.query(Control).join(Student).join(Group).join(FinalGrade).join(Discipline).\
+                filter(Discipline.name == discipline).all()
+            discipline = session.query(Discipline).filter_by(name=discipline).first()
+            id_discipline = discipline.id_discipline
+
+            ls = []
+            maxmin = 0
+
+            for i in group_list:
+                for j in student_control_all:
+                    if i.id_group == j.final_grade.id_group and id_discipline == j.final_grade.id_discipline:
+                        if maxmin == 0:
+                            maxmin: int = j.value
+                        elif maxmin < j.value and max is True:
+                            maxmin: int = j.value
+                        elif maxmin > j.value and max is False:
+                            maxmin: int = j.value
+                if maxmin !=0:
+                    ls1 = []
+                    ls1.append(i.number)
+                    ls1.append(maxmin)
+                    ls.append(ls1)
+                    maxmin = 0
 
             ls = np.array(ls)
             return ls

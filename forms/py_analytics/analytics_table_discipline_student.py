@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py_analytics.student_diagram_discipline import FormStudentDiagramDiscipline
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
+from style.dark_theme import table_css, table_header_css, label_css, button_css, window_css
 
 
 class FormAnalyticsTableDisciplineStudent(object):
@@ -105,6 +106,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.student_diagram_discipline_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
         self.student_diagram_discipline_ui.pushButton_3.show()
         self.student_diagram_discipline_ui.data = self.result
+        self.student_diagram_discipline_ui.update(self.dark_theme)
         self.student_diagram_discipline_window.show()
 
     def previous_page(self):
@@ -113,3 +115,38 @@ class FormAnalyticsTableDisciplineStudent(object):
 
     def close_window(self):
         self.analytics_table_discipline_student_window.close()
+
+    def update(self, dark_theme):
+        if dark_theme:
+            self.analytics_table_discipline_student_window.setStyleSheet(window_css)
+            self.tableWidget.setStyleSheet(table_css)
+            self.tableWidget.horizontalHeader().setStyleSheet(table_header_css)
+            self.tableWidget.verticalHeader().setStyleSheet(table_header_css)
+            self.label.setStyleSheet(label_css)
+            self.label_2.setStyleSheet(label_css)
+            self.label_3.setStyleSheet(label_css)
+            self.label_4.setStyleSheet(label_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.label_5.setStyleSheet(label_css)
+            self.label_6.setStyleSheet(label_css)
+
+            self.dark_theme = True
+
+        else:
+            self.analytics_table_discipline_student_window.setStyleSheet("")
+            self.tableWidget.setStyleSheet("")
+            self.tableWidget.horizontalHeader().setStyleSheet("")
+            self.tableWidget.verticalHeader().setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.label_3.setStyleSheet("")
+            self.label_4.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.label_5.setStyleSheet("")
+            self.label_6.setStyleSheet("")
+
+            self.dark_theme = False

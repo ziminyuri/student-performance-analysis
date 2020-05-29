@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from db.models import Student
+from style.dark_theme import label_css, button_css, window_css, line_edit_css
 
 
 class FormUpdateStudent(object):
@@ -61,15 +62,12 @@ class FormUpdateStudent(object):
 
     def update_window(self, dark_theme):
         if dark_theme:
-            self.update_student_window.setStyleSheet("background-color: #1a222c")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.lineEdit_2.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f;")
-            self.lineEdit.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f;")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.update_student_window.setStyleSheet(window_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.lineEdit_2.setStyleSheet(line_edit_css)
+            self.lineEdit.setStyleSheet(line_edit_css)
+            self.label.setStyleSheet(label_css)
+            self.label_2.setStyleSheet(label_css)
             self.dark_theme = True
         else:
             self.update_student_window.setStyleSheet("")

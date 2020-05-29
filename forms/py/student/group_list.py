@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py.student.add_group import FormAddGroup
 from forms.py.student.update_group import FormUpdateGroup
 from db.models import Specialty, Group
+from style.dark_theme import label_css, button_css, window_css, combobox_css, table_header_css, table_css
 
 
 class FormGroupWindow(object):
@@ -70,6 +71,7 @@ class FormGroupWindow(object):
         specialty = Specialty()
         ls_name = specialty.show_name(self.session)
         self.add_group_ui.comboBox.addItems(ls_name)
+        self.add_group_ui.update(self.dark_theme)
         self.add_group_window.show()
 
     def show_update_group(self):
@@ -91,6 +93,7 @@ class FormGroupWindow(object):
             self.update_group_ui.update_value = number
             self.update_group_ui.row = row
 
+            self.update_group_ui.update_window(self.dark_theme)
             self.update_group_window.show()
             break
 
@@ -110,18 +113,14 @@ class FormGroupWindow(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.group_window.setStyleSheet("background-color: #1a222c")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_2.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
-            self.pushButton_3.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_4.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.group_window.setStyleSheet(window_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.tableWidget.setStyleSheet(table_css)
+            self.tableWidget.horizontalHeader().setStyleSheet(table_header_css)
+            self.tableWidget.verticalHeader().setStyleSheet(table_header_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.pushButton_4.setStyleSheet(button_css)
             self.dark_theme = True
         else:
             self.group_window.setStyleSheet("")

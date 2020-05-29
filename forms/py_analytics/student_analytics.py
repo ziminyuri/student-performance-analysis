@@ -3,6 +3,7 @@ from forms.py_analytics.analytics_table_student import FormAnalyticsTableStudent
 from db.models import Control, Grade
 import numpy as np
 from transform.items import set_items_to_table
+from style.dark_theme import window_css, combobox_css, label_css, button_css
 
 
 class FormStudentAnalytics(object):
@@ -152,33 +153,29 @@ class FormStudentAnalytics(object):
             self.analytics_table_student_ui.student_diagram_ui.data = result
 
         self.analytics_table_student_ui.tableWidget.setHorizontalHeaderLabels(table_header)
-        self.analytics_table_student_ui.tableWidget = set_items_to_table(self.analytics_table_student_ui.tableWidget, result)
+        self.analytics_table_student_ui.tableWidget = set_items_to_table(self.analytics_table_student_ui.tableWidget,
+                                                                         result, DARK_THEME=self.dark_theme)
+        self.analytics_table_student_ui.update(self.dark_theme)
         self.analytics_table_student_ui.tableWidget.resizeColumnsToContents()
 
         self.student_analytics_window.hide()
+
         self.analytics_table_student_window.show()
 
     def update(self, dark_theme):
         if dark_theme:
-            self.student_analytics_window.setStyleSheet("background-color: #1a222c")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.comboBox.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
-            self.comboBox_2.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
-            self.pushButton_3.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_2.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.comboBox_3.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
-            self.comboBox_4.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
+            self.student_analytics_window.setStyleSheet(window_css)
+            self.label.setStyleSheet(label_css)
+            self.comboBox.setStyleSheet(combobox_css)
+            self.comboBox_2.setStyleSheet(combobox_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.label_4.setStyleSheet(label_css)
+            self.label_3.setStyleSheet(label_css)
+            self.label_2.setStyleSheet(label_css)
+            self.comboBox_3.setStyleSheet(combobox_css)
+            self.comboBox_4.setStyleSheet(combobox_css)
 
             self.dark_theme = True
         else:

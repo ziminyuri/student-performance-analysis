@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from db.models import Discipline
 from transform.query import query_to_list_of_name
+from style.dark_theme import label_css, window_css, list_css
 
 
 class FormSubjectList(object):
@@ -39,9 +40,9 @@ class FormSubjectList(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.subject_window.setStyleSheet("background-color: #1a222c")
-            self.listWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.subject_window.setStyleSheet(window_css)
+            self.listWidget.setStyleSheet(list_css)
+            self.label.setStyleSheet(label_css)
             self.dark_theme = True
         else:
             self.subject_window.setStyleSheet("")

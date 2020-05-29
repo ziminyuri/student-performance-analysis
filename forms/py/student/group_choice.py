@@ -4,6 +4,7 @@ from forms.py.student.group_list import FormGroupWindow
 from db.models import Group, Student
 import numpy as np
 from transform.items import set_items_to_table
+from style.dark_theme import label_css, button_css, window_css, combobox_css
 
 
 class FormGroupChoice(object):
@@ -65,19 +66,21 @@ class FormGroupChoice(object):
         group_number: str = self.comboBox.currentText()
         ls_all: list = student.all(self.session, group_number)
         ls_all: np.ndarray = np.array(ls_all)
-        self.student_list_ui.tableWidget = set_items_to_table(self.student_list_ui.tableWidget, ls_all)
+        self.student_list_ui.tableWidget = set_items_to_table(self.student_list_ui.tableWidget, ls_all, DARK_THEME=self.dark_theme)
+        self.student_list_ui.update_window(self.dark_theme)
         self.student_list_ui.tableWidget.resizeColumnsToContents()
         self.student_list_ui.label.setText("Список группы: №" + str(group_number))
         self.student_list_ui.group_number = str(group_number)
-
         self.student_list_window.show()
 
     def show_group_window(self):
         group = Group()
         ls_all = group.show_all(self.session)
         ls_all = np.array(ls_all)
-        self.group_ui.tableWidget = set_items_to_table(self.group_ui.tableWidget, ls_all)
+        self.group_ui.tableWidget = set_items_to_table(self.group_ui.tableWidget, ls_all, DARK_THEME=self.dark_theme)
+        self.group_ui.update(self.dark_theme)
         self.group_ui.tableWidget.resizeColumnsToContents()
+
         self.group_window.show()
 
     def close_window(self):
@@ -86,16 +89,12 @@ class FormGroupChoice(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.group_choice_window.setStyleSheet("background-color: #1a222c")
-            self.comboBox.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.pushButton_2.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_4.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_3.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
+            self.group_choice_window.setStyleSheet(window_css)
+            self.comboBox.setStyleSheet(combobox_css)
+            self.label.setStyleSheet(label_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton_4.setStyleSheet(button_css)
+            self.pushButton_3.setStyleSheet(button_css)
             self.dark_theme = True
         else:
             self.group_choice_window.setStyleSheet("")

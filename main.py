@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets
-from forms.py.mainwindow1 import FormMainwindow
+from forms.py.mainwindow import FormMainwindow
 import sys
 
 from sqlalchemy import *

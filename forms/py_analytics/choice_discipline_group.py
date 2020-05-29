@@ -3,6 +3,7 @@ from db.models import Control, Grade
 import numpy as np
 from transform.items import set_items_to_table
 from forms.py_analytics.analytics_table_discipline_group import FormAnalyticsTableDisciplineGroup
+from style.dark_theme import window_css, label_css, button_css, combobox_css
 
 
 class FormChoiceDisciplineGroup(object):
@@ -93,7 +94,8 @@ class FormChoiceDisciplineGroup(object):
         self.analytics_table_discipline_group_ui.tableWidget.setHorizontalHeaderLabels(table_header)
         self.analytics_table_discipline_group_ui.tableWidget = set_items_to_table(
             self.analytics_table_discipline_group_ui.tableWidget,
-            result)
+            result, DARK_THEME=self.dark_theme)
+        self.analytics_table_discipline_group_ui.update(self.dark_theme)
         self.analytics_table_discipline_group_ui.tableWidget.resizeColumnsToContents()
 
         self.analytics_table_discipline_group_ui.label_6.setText(self.discipline)
@@ -105,8 +107,16 @@ class FormChoiceDisciplineGroup(object):
 
     def update(self, dark_theme):
         if dark_theme:
-
+            self.choice_discipline_group_window.setStyleSheet(window_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.label_2.setStyleSheet(label_css)
+            self.comboBox_2.setStyleSheet(combobox_css)
             self.dark_theme = True
         else:
-
+            self.choice_discipline_group_window.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.label_2.setStyleSheet("")
+            self.comboBox_2.setStyleSheet("")
             self.dark_theme = False

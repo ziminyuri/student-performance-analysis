@@ -1,3 +1,2 @@
 YEAR = 2020
-global DARK_THEME
-DARK_THEME = False
+

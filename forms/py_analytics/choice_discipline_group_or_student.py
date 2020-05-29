@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py_analytics.choice_discipline_student_group import FormChoiceDisciplineStudentGroup
 from forms.py_analytics.choice_discipline_group import FormChoiceDisciplineGroup
 from db.models import Group
+from style.dark_theme import window_css, label_css, combobox_css, button_css
 
 
 class FormChoiceDisciplineGroupOrStudent(object):
@@ -61,6 +62,7 @@ class FormChoiceDisciplineGroupOrStudent(object):
 
         if choice == 'По группам':
             self.choice_discipline_group_ui.discipline = self.discipline
+            self.choice_discipline_group_ui.update(self.dark_theme)
             self.choice_discipline_group_window.show()
         else:
             group = Group()
@@ -68,14 +70,23 @@ class FormChoiceDisciplineGroupOrStudent(object):
             self.choice_discipline_student_group_ui.comboBox.clear()
             self.choice_discipline_student_group_ui.comboBox.addItems(ls_name)
             self.choice_discipline_student_group_ui.discipline = self.discipline
+            self.choice_discipline_student_group_ui.update(self.dark_theme)
             self.choice_discipline_student_group_window.show()
 
         self.choice_discipline_group_or_student_window.hide()
 
     def update(self, dark_theme):
         if dark_theme:
-
+            self.choice_discipline_group_or_student_window.setStyleSheet(window_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.label.setStyleSheet(label_css)
+            self.comboBox.setStyleSheet(combobox_css)
             self.dark_theme = True
         else:
-
+            self.choice_discipline_group_or_student_window.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.pushButton_3.setStyleSheet("")
+            self.label.setStyleSheet("")
+            self.comboBox.setStyleSheet("")
             self.dark_theme = False

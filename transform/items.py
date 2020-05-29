@@ -1,9 +1,8 @@
 import numpy as np
 from PyQt5 import QtWidgets, QtGui
-from settings import DARK_THEME
 
 
-def set_items_to_table(table, items: np.ndarray):
+def set_items_to_table(table, items: np.ndarray, DARK_THEME=False):
     try:
         rows, columns = items.shape
     except:

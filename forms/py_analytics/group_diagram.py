@@ -1,10 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis, QBarCategoryAxis,\
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarCategoryAxis,\
     QPieSeries, QPieSlice
-from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtGui import QPen
 from PyQt5.QtCore import Qt
 from db.models import Control
 import numpy as np
+from style.dark_theme import window_css, label_css, button_css
 
 
 class FormGroupDiagram(object):
@@ -186,22 +187,19 @@ class FormGroupDiagram(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.group_diagram_window.setStyleSheet("background-color: #1a222c")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.pushButton_2.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.label_11.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.pushButton_3.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_10.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_9.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.group_diagram_window.setStyleSheet(window_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.label_11.setStyleSheet(label_css)
+            self.label.setStyleSheet(label_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.label_8.setStyleSheet(label_css)
+            self.label_10.setStyleSheet(label_css)
+            self.label_9.setStyleSheet(label_css)
+            self.label_3.setStyleSheet(label_css)
+            self.label_4.setStyleSheet(label_css)
+            self.label_7.setStyleSheet(label_css)
+            self.label_5.setStyleSheet(label_css)
 
             self.dark_theme = True
         else:

@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
+from style.dark_theme import window_css, table_header_css, table_css, button_css
 
 
 class FormTeacherJournal(object):
@@ -48,13 +49,11 @@ class FormTeacherJournal(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.teacher_journal_window.setStyleSheet(
-                "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
-            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
+            self.teacher_journal_window.setStyleSheet(window_css)
+            self.tableWidget.setStyleSheet(table_css)
+            self.tableWidget.horizontalHeader().setStyleSheet(table_header_css)
+            self.tableWidget.verticalHeader().setStyleSheet(table_header_css)
+            self.pushButton.setStyleSheet(button_css)
             self.dark_theme = True
         else:
             self.teacher_journal_window.setStyleSheet("")

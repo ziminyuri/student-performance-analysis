@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from settings import DARK_THEME
+from style.dark_theme import button_css, window_css, radio_css
 
 
 class FormSettings(object):
@@ -53,3 +53,20 @@ class FormSettings(object):
             dark = False
         self.main_window.update(dark)
         self.settings_window.close()
+        self.main_window.show()
+
+    def update(self, dark_theme):
+        if dark_theme is True:
+            self.settings_window.setStyleSheet(window_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.radioButton.setStyleSheet(radio_css)
+
+            self.dark_theme = True
+        else:
+            self.settings_window.setStyleSheet("")
+            self.pushButton.setStyleSheet("")
+            self.pushButton_2.setStyleSheet("")
+            self.radioButton.setStyleSheet("")
+
+            self.dark_theme = False

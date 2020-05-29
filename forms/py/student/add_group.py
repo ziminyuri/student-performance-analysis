@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from db.models import Group
+from style.dark_theme import label_css, button_css, window_css, line_edit_css, combobox_css
 
 
 class FormAddGroup(object):
@@ -60,15 +61,12 @@ class FormAddGroup(object):
 
     def update(self, dark_theme):
         if dark_theme:
-            self.add_group_window.setStyleSheet("background-color: #1a222c")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.lineEdit.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f;")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; margin:5px; color: #c2cdd9;")
-            self.comboBox.setStyleSheet(
-                "color: #c2cdd9; background-color: #344c68; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; selection-color: white; selection-background-color: #1a222c;")
-            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.add_group_window.setStyleSheet(window_css)
+            self.label.setStyleSheet(label_css)
+            self.lineEdit.setStyleSheet(line_edit_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.comboBox.setStyleSheet(combobox_css)
+            self.label_2.setStyleSheet(label_css)
             self.dark_theme = True
         else:
             self.add_group_window.setStyleSheet("")

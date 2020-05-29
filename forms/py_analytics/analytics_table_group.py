@@ -1,9 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from forms.py_analytics.group_diagram import FormGroupDiagram
-import numpy as np
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
-from PyQt5.QtGui import QPainter
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
+from style.dark_theme import window_css, table_header_css, table_css, button_css, label_css
 
 
 class FormAnalyticsTableGroup(object):
@@ -40,11 +39,11 @@ class FormAnalyticsTableGroup(object):
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.show_diagram)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(430, 370, 111, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(550, 370, 111, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(600, 370, 112, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(640, 370, 112, 32))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.close_window)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
@@ -122,31 +121,26 @@ class FormAnalyticsTableGroup(object):
         self.group_diagram_ui.chartview = QChartView(chart, centralwidget)
         self.group_diagram_ui.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
         self.group_diagram_ui.pushButton_3.show()
+        self.group_diagram_ui.update(self.dark_theme)
         self.group_diagram_window.show()
 
     def update(self, dark_theme):
         if dark_theme:
-            self.analytics_table_group_window.setStyleSheet(
-                "background-color: #1a222c; border-color: #24303f; border-width: 1px;")
-            self.tableWidget.setStyleSheet("color: #c2cdd9; font: 12px;")
-            self.tableWidget.horizontalHeader().setStyleSheet("background-color: #344c68; font: 14px;")
-            self.tableWidget.verticalHeader().setStyleSheet("background-color: #344c68; font: 14px; ")
-            self.label_8.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_7.setStyleSheet("font-weight: bold")
-            self.label_7.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_6.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_5.setStyleSheet("font-weight: bold")
-            self.label_5.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.pushButton_3.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
-            self.pushButton_2.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
-            self.pushButton.setStyleSheet(
-                "background-color: #24303f; border-width: 1px; border-radius: 10px; border-color: #24303f; font: 12px; min-width: 10em; padding: 6px; margin:5px; color: #c2cdd9;")
-            self.label_4.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_3.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label.setStyleSheet("font: 12px; color: #c2cdd9;")
-            self.label_2.setStyleSheet("font: 12px; color: #c2cdd9;")
+            self.analytics_table_group_window.setStyleSheet(window_css)
+            self.tableWidget.setStyleSheet(table_css)
+            self.tableWidget.horizontalHeader().setStyleSheet(table_header_css)
+            self.tableWidget.verticalHeader().setStyleSheet(table_header_css)
+            self.label_8.setStyleSheet(label_css)
+            self.label_7.setStyleSheet(label_css)
+            self.label_6.setStyleSheet(label_css)
+            self.label_5.setStyleSheet(label_css)
+            self.pushButton_3.setStyleSheet(button_css)
+            self.pushButton_2.setStyleSheet(button_css)
+            self.pushButton.setStyleSheet(button_css)
+            self.label_4.setStyleSheet(label_css)
+            self.label_3.setStyleSheet(label_css)
+            self.label.setStyleSheet(label_css)
+            self.label_2.setStyleSheet(label_css)
             self.dark_theme = True
         else:
             self.analytics_table_group_window.setStyleSheet("")

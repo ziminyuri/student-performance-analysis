@@ -138,6 +138,12 @@ class FormGroupAnalytics(object):
         self.analytics_table_group_ui.update(self.dark_theme)
         self.analytics_table_group_ui.tableWidget.resizeColumnsToContents()
 
+        self.analytics_table_group_ui.group = group
+        self.analytics_table_group_ui.type_analysis = type_analysis
+        self.analytics_table_group_ui.period = period
+        self.analytics_table_group_ui.stud_session = session
+        self.analytics_table_group_ui.table_header = table_header
+
         self.group_analytics_window.hide()
         self.analytics_table_group_window.show()
 

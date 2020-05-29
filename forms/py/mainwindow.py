@@ -9,6 +9,7 @@ from forms.py.not_submitted_work import form_not_submitted_work
 from db.models import Group, Discipline, Grade
 from transform.items import set_items_to_table
 from forms.py.settings import FormSettings
+from report import list_of_report_name
 
 
 class FormMainwindow(object):
@@ -158,6 +159,8 @@ class FormMainwindow(object):
         self.choice_analytics_window.show()
 
     def show_report_window(self):
+        self.report_ui.comboBox.clear()
+        self.report_ui.comboBox.addItems(list_of_report_name)
         self.report_window.show()
 
     def show_settings_window(self):

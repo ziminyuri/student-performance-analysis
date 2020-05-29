@@ -3,13 +3,21 @@ from forms.py_analytics.group_diagram import FormGroupDiagram
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
 from style.dark_theme import window_css, table_header_css, table_css, button_css, label_css
+from report import Report, list_of_report_name, list_of_report_object
 
 
 class FormAnalyticsTableGroup(object):
     def __init__(self, main_window):
+        self.group = None
+        self.type_analysis = None
+        self.period = None
+        self.stud_session = None
+        self.table_header = None
+        self.result: str = ''
+
         self.dark_theme = False
         self.session = main_window.session
-        self.result: str = ''
+
         self.group_analytics_window = main_window.group_analytics_window
         self.analytics_table_group_window = main_window.analytics_table_group_window
         self.analytics_table_group_window.setObjectName("MainWindow")
@@ -43,7 +51,7 @@ class FormAnalyticsTableGroup(object):
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(640, 370, 112, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(660, 370, 112, 32))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.close_window)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
@@ -62,6 +70,10 @@ class FormAnalyticsTableGroup(object):
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_group_window)
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_group_window.setStatusBar(self.statusbar)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(210, 370, 181, 32))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.report)
 
         self.group_diagram_window = QtWidgets.QMainWindow()
         self.group_diagram_ui = FormGroupDiagram(self)
@@ -83,6 +95,7 @@ class FormAnalyticsTableGroup(object):
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
         self.label_7.setText(_translate("MainWindow", "Сессия:"))
         self.label_8.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton_4.setText(_translate("MainWindow", "Сформировать отчет"))
 
     def close_window(self):
         self.analytics_table_group_window.close()
@@ -90,6 +103,19 @@ class FormAnalyticsTableGroup(object):
     def previous_page(self):
         self.analytics_table_group_window.hide()
         self.group_analytics_window.show()
+
+    def report(self):
+        r = Report()
+        r.group_number = self.group
+        r.type_analysis = self.type_analysis
+        r.period = self.period
+        r.session = self.stud_session
+        r.header_table = self.table_header
+        r.body_table = self.result
+        name = self.type_analysis + "|" + self.group
+        r.name = name
+        list_of_report_object.append(r)
+        list_of_report_name.append(name)
 
     def show_diagram(self):
         self.group_diagram_ui.label_4.setText(self.label_2.text())
@@ -141,6 +167,7 @@ class FormAnalyticsTableGroup(object):
             self.label_3.setStyleSheet(label_css)
             self.label.setStyleSheet(label_css)
             self.label_2.setStyleSheet(label_css)
+            self.pushButton_4.setStyleSheet(button_css)
             self.dark_theme = True
         else:
             self.analytics_table_group_window.setStyleSheet("")
@@ -158,5 +185,6 @@ class FormAnalyticsTableGroup(object):
             self.label_3.setStyleSheet("")
             self.label.setStyleSheet("")
             self.label_2.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
             self.dark_theme = False
 

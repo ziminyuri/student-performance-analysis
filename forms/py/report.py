@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from report import Report, list_of_report_object, list_of_report_name
 
 
 class FormReport(object):
@@ -15,19 +16,19 @@ class FormReport(object):
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(0, 30, 551, 32))
         self.comboBox.setObjectName("comboBox")
-        ls = ['Оценки | Группа №342342',
-              'Количество сданных лабораторных точек | Группа №342342']
-        self.comboBox.addItems(ls)
+        self.comboBox.addItems(list_of_report_name)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(0, 90, 171, 32))
+        self.pushButton.setGeometry(QtCore.QRect(0, 90, 261, 31))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.clear_report)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(440, 120, 112, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.close_window)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(0, 60, 171, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(0, 60, 261, 32))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.save_report)
         self.report_window.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(self.report_window)
         self.statusbar.setObjectName("statusbar")
@@ -40,9 +41,22 @@ class FormReport(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Сохранить отчет"))
         self.label.setText(_translate("MainWindow", "Выберите отчет"))
-        self.pushButton.setText(_translate("MainWindow", "Сохранить отчет"))
+        self.pushButton.setText(_translate("MainWindow", "Удалить сформированные отчеты"))
         self.pushButton_2.setText(_translate("MainWindow", "Закрыть"))
-        self.pushButton_3.setText(_translate("MainWindow", "Показать отчет"))
+        self.pushButton_3.setText(_translate("MainWindow", "Сохранить отчет"))
 
     def close_window(self):
         self.report_window.close()
+
+    def clear_report(self):
+        self.comboBox.clear()
+        self.report_window.hide()
+        self.report_window.show()
+
+    def save_report(self):
+        name = self.comboBox.currentText()
+        for r in list_of_report_object:
+            if r.name == name:
+                finish_report = r.make_report()
+                print('готово')
+                break

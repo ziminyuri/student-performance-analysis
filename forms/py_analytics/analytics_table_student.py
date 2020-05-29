@@ -62,6 +62,10 @@ class FormAnalyticsTableStudent(object):
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_student_window)
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_student_window.setStatusBar(self.statusbar)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(210, 370, 181, 32))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.report)
 
         self.student_diagram_window = QtWidgets.QMainWindow()
         self.student_diagram_ui = FormStudentDiagram(self)
@@ -83,6 +87,7 @@ class FormAnalyticsTableStudent(object):
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
         self.label_7.setText(_translate("MainWindow", "Сессия:"))
         self.label_8.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton_4.setText(_translate("MainWindow", "Сформировать отчет"))
 
     def close_window(self):
         self.analytics_table_student_window.close()
@@ -124,6 +129,9 @@ class FormAnalyticsTableStudent(object):
         self.student_diagram_ui.update(self.dark_theme)
         self.student_diagram_window.show()
 
+    def report(self):
+        pass
+
     def update(self, dark_theme):
         if dark_theme:
             self.analytics_table_student_window.setStyleSheet(window_css)
@@ -141,6 +149,7 @@ class FormAnalyticsTableStudent(object):
             self.label_3.setStyleSheet(label_css)
             self.label_2.setStyleSheet(label_css)
             self.label.setStyleSheet(label_css)
+            self.pushButton_4.setStyleSheet(button_css)
             self.dark_theme = True
         else:
             self.analytics_table_student_window.setStyleSheet("")
@@ -158,4 +167,5 @@ class FormAnalyticsTableStudent(object):
             self.label_3.setStyleSheet("")
             self.label_2.setStyleSheet("")
             self.label.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
             self.dark_theme = False

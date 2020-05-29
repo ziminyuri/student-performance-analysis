@@ -5,7 +5,6 @@ from PyQt5.QtCore import Qt
 from style.dark_theme import table_css, table_header_css, label_css, button_css, window_css
 
 
-
 class FormAnalyticsTableDisciplineGroup(object):
     def __init__(self, main_window):
         self.dark_theme = False
@@ -52,6 +51,10 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_discipline_group_window)
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_discipline_group_window.setStatusBar(self.statusbar)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(210, 370, 181, 32))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.report)
 
         self.group_diagram_discipline_window = QtWidgets.QMainWindow()
         self.group_diagram_discipline_ui = FormGroupDiagramDiscipline(self)
@@ -69,6 +72,7 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.pushButton_3.setText(_translate("MainWindow", "Закрыть"))
         self.label_5.setText(_translate("MainWindow", "Дисциплина:"))
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton_4.setText(_translate("MainWindow", "Сформировать отчет"))
 
     def previous_page(self):
         self.choice_discipline_group_window.show()
@@ -110,6 +114,9 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.group_diagram_discipline_ui.update(self.dark_theme)
         self.group_diagram_discipline_window.show()
 
+    def report(self):
+        pass
+
     def update(self, dark_theme):
         if dark_theme:
             self.analytics_table_discipline_group_window.setStyleSheet(window_css)
@@ -124,6 +131,7 @@ class FormAnalyticsTableDisciplineGroup(object):
             self.pushButton_3.setStyleSheet(button_css)
             self.label_5.setStyleSheet(label_css)
             self.label_6.setStyleSheet(label_css)
+            self.pushButton_4.setStyleSheet(button_css)
 
             self.dark_theme = True
         else:
@@ -139,5 +147,6 @@ class FormAnalyticsTableDisciplineGroup(object):
             self.pushButton_3.setStyleSheet("")
             self.label_5.setStyleSheet("")
             self.label_6.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
 
             self.dark_theme = False

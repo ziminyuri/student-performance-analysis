@@ -54,6 +54,10 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.statusbar = QtWidgets.QStatusBar(self.analytics_table_discipline_student_window)
         self.statusbar.setObjectName("statusbar")
         self.analytics_table_discipline_student_window.setStatusBar(self.statusbar)
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(210, 370, 181, 32))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.report)
 
         self.student_diagram_discipline_window = QtWidgets.QMainWindow()
         self.student_diagram_discipline_ui = FormStudentDiagramDiscipline(self)
@@ -73,6 +77,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.pushButton_3.setText(_translate("MainWindow", "Закрыть"))
         self.label_5.setText(_translate("MainWindow", "Дисциплина:"))
         self.label_6.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton_4.setText(_translate("MainWindow", "Сформировать отчет"))
 
     def show_diagram(self):
         self.student_diagram_discipline_ui.label_4.setText(self.label_6.text())
@@ -116,6 +121,9 @@ class FormAnalyticsTableDisciplineStudent(object):
     def close_window(self):
         self.analytics_table_discipline_student_window.close()
 
+    def report(self):
+        pass
+
     def update(self, dark_theme):
         if dark_theme:
             self.analytics_table_discipline_student_window.setStyleSheet(window_css)
@@ -131,6 +139,7 @@ class FormAnalyticsTableDisciplineStudent(object):
             self.pushButton_3.setStyleSheet(button_css)
             self.label_5.setStyleSheet(label_css)
             self.label_6.setStyleSheet(label_css)
+            self.pushButton_4.setStyleSheet(button_css)
 
             self.dark_theme = True
 
@@ -148,5 +157,6 @@ class FormAnalyticsTableDisciplineStudent(object):
             self.pushButton_3.setStyleSheet("")
             self.label_5.setStyleSheet("")
             self.label_6.setStyleSheet("")
+            self.pushButton_4.setStyleSheet("")
 
             self.dark_theme = False

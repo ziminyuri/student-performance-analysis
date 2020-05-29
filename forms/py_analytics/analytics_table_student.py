@@ -3,10 +3,20 @@ from forms.py_analytics.student_diagram import FormStudentDiagram
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
 from style.dark_theme import label_css, window_css, table_css, table_header_css, button_css
+from report import Report, list_of_report_name, list_of_report_object
+from PyQt5.QtWidgets import QMessageBox
 
 
 class FormAnalyticsTableStudent(object):
     def __init__(self, main_window):
+        self.student = None
+        self.type_analysis = None
+        self.period = None
+        self.stud_session = None
+        self.table_header = None
+        self.group = None
+        self.result = None
+
         self.dark_theme = False
         self.session = main_window.session
         self.result: str = ''
@@ -130,7 +140,25 @@ class FormAnalyticsTableStudent(object):
         self.student_diagram_window.show()
 
     def report(self):
-        pass
+        r = Report()
+        r.student = self.student
+        r.type_analysis = self.type_analysis
+        r.period = self.period
+        r.session = self.stud_session
+        r.header_table = self.table_header
+        r.body_table = self.result
+        r.group = self.group
+        name = self.type_analysis + " | " + self.group + " | " + self.student
+        r.name = name
+        list_of_report_object.append(r)
+        list_of_report_name.append(name)
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Отчет сформирован")
+        msg.setInformativeText('Ваш отчет сформирован.')
+        msg.setWindowTitle("Отчет сформирован")
+        msg.exec_()
 
     def update(self, dark_theme):
         if dark_theme:

@@ -61,6 +61,7 @@ class FormChoiceGroup(object):
         self.student_analytics_ui.comboBox.clear()
         self.student_analytics_ui.comboBox.addItems(student_name)
         self.student_analytics_ui.update(self.dark_theme)
+        self.student_analytics_ui.group = group_number
         self.student_analytics_window.show()
 
     def update(self, dark_theme):

@@ -8,6 +8,7 @@ from style.dark_theme import window_css, combobox_css, label_css, button_css
 
 class FormStudentAnalytics(object):
     def __init__(self, main_window):
+        self.group = None
         self.dark_theme = False
         self.session = main_window.session
         self.choice_group_window = main_window.choice_group_window
@@ -157,6 +158,14 @@ class FormStudentAnalytics(object):
                                                                          result, DARK_THEME=self.dark_theme)
         self.analytics_table_student_ui.update(self.dark_theme)
         self.analytics_table_student_ui.tableWidget.resizeColumnsToContents()
+
+        self.analytics_table_student_ui.student = student
+        self.analytics_table_student_ui.type_analysis = type_analysis
+        self.analytics_table_student_ui.period = period
+        self.analytics_table_student_ui.stud_session = session
+        self.analytics_table_student_ui.table_header = table_header
+        self.analytics_table_student_ui.group = self.group
+        self.analytics_table_student_ui.result = result
 
         self.student_analytics_window.hide()
 

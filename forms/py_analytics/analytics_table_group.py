@@ -4,6 +4,7 @@ from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
 from style.dark_theme import window_css, table_header_css, table_css, button_css, label_css
 from report import Report, list_of_report_name, list_of_report_object
+from PyQt5.QtWidgets import QMessageBox
 
 
 class FormAnalyticsTableGroup(object):
@@ -112,10 +113,17 @@ class FormAnalyticsTableGroup(object):
         r.session = self.stud_session
         r.header_table = self.table_header
         r.body_table = self.result
-        name = self.type_analysis + "|" + self.group
+        name = self.type_analysis + " | " + self.group
         r.name = name
         list_of_report_object.append(r)
         list_of_report_name.append(name)
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Отчет сформирован")
+        msg.setInformativeText('Ваш отчет сформирован.')
+        msg.setWindowTitle("Отчет сформирован")
+        msg.exec_()
 
     def show_diagram(self):
         self.group_diagram_ui.label_4.setText(self.label_2.text())

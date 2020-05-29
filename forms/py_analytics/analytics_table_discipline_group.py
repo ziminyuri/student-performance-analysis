@@ -3,10 +3,17 @@ from forms.py_analytics.group_diagram_discipline import FormGroupDiagramDiscipli
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
 from PyQt5.QtCore import Qt
 from style.dark_theme import table_css, table_header_css, label_css, button_css, window_css
+from report import Report, list_of_report_name, list_of_report_object
+from PyQt5.QtWidgets import QMessageBox
 
 
 class FormAnalyticsTableDisciplineGroup(object):
     def __init__(self, main_window):
+        self.type_analysis = None
+        self.table_header = None
+        self.result = None
+        self.discipline = None
+
         self.dark_theme = False
         self.choice_discipline_group_window = main_window.choice_discipline_group_window
         self.session = main_window.session
@@ -115,7 +122,22 @@ class FormAnalyticsTableDisciplineGroup(object):
         self.group_diagram_discipline_window.show()
 
     def report(self):
-        pass
+        r = Report()
+        r.type_analysis = self.type_analysis
+        r.header_table = self.table_header
+        r.body_table = self.result
+        r.discipline = self.discipline
+        name = self.type_analysis + " | " + self.discipline
+        r.name = name
+        list_of_report_object.append(r)
+        list_of_report_name.append(name)
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Отчет сформирован")
+        msg.setInformativeText('Ваш отчет сформирован.')
+        msg.setWindowTitle("Отчет сформирован")
+        msg.exec_()
 
     def update(self, dark_theme):
         if dark_theme:

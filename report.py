@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
-from fpdf import FPDF, HTMLMixin
+from fpdf import FPDF
 
 list_of_report_object = []
 list_of_report_name = []
@@ -44,7 +45,7 @@ class Report:
             pdf.cell(0, 5, 'Сессия: ' + self.session, ln=1)
             pdf.cell(0, 5, '', ln=1)
 
-        col_width = pdf.w / 4.5
+        col_width = pdf.w / 3
         row_height = pdf.font_size
         spacing = 2
 
@@ -67,6 +68,47 @@ class Report:
             name.append(str(i[0]))
             value.append(float(i[1]))
 
+        x_len = len(self.body_table)
+        x = np.arange(0, x_len)
+
+        fig, ax = plt.subplots()
+        ax.bar(x, value)
+        ax.set_ylabel(self.header_table[1])
+        ax.set_xlabel(self.header_table[0])
+        ax.set_xticks(x)
+        ax.set_xticklabels(name)
+
+        for rect in ax.patches:
+            y_value = rect.get_height()
+            x_value = rect.get_x() + rect.get_width() / 2
+
+            space = spacing
+            va = 'bottom'
+
+            if y_value < 0:
+                space *= -1
+                va = 'top'
+
+            label = "{:.1f}".format(y_value)
+
+            ax.annotate(
+                label,
+                (x_value, y_value),
+                xytext=(0, space),
+                textcoords="offset points",
+                ha='center',
+                va=va)
+
+        fig.tight_layout()
+        image_path = 'temp/bar.png'
+        plt.savefig(image_path)
+
+        pdf.add_page()
+        pdf.cell(0, 5, 'Столбчатая диаграмма:', ln=1)
+        pdf.cell(0, 5, '', ln=1)
+        pdf.image(image_path, x=40, y=20, w=100)
+
+        """
         plt.pie(value,  # Значения сколько раз встречается определенная степень образования
                labels=name,  # title для частей
                shadow=1,  # Тень
@@ -81,5 +123,6 @@ class Report:
         pdf.cell(0, 5, 'Круговая диаграмма:', ln=1)
         pdf.cell(0, 5, '', ln=1)
         pdf.image(image_path, x=70, y=8, w=100)
+        """
         pdf.output("simple_demo.pdf")
 

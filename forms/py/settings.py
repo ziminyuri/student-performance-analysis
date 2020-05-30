@@ -1,9 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from style.dark_theme import button_css, window_css, radio_css
+from forms.py.moodle_settings import FormMoodleSettings
 
 
 class FormSettings(object):
     def __init__(self, main_window):
+        self.session = main_window.session
         self.dark_theme = False
         self.main_window = main_window
         self.settings_window = main_window.settings_window
@@ -26,6 +28,7 @@ class FormSettings(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(10, 60, 281, 32))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.clicked.connect(self.show_moodle)
         self.line_2 = QtWidgets.QFrame(self.centralwidget)
         self.line_2.setGeometry(QtCore.QRect(10, 100, 281, 16))
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -35,6 +38,9 @@ class FormSettings(object):
         self.statusbar = QtWidgets.QStatusBar(self.settings_window)
         self.statusbar.setObjectName("statusbar")
         self.settings_window.setStatusBar(self.statusbar)
+
+        self.moodle_settings_window = QtWidgets.QMainWindow()
+        self.moodle_settings_ui = FormMoodleSettings(self)
 
         self.retranslateUi(self.settings_window)
         QtCore.QMetaObject.connectSlotsByName(self.settings_window)
@@ -54,6 +60,10 @@ class FormSettings(object):
         self.main_window.update(dark)
         self.settings_window.close()
         self.main_window.show()
+
+    def show_moodle(self):
+        self.moodle_settings_ui.update(self.dark_theme)
+        self.moodle_settings_window.show()
 
     def update(self, dark_theme):
         if dark_theme is True:

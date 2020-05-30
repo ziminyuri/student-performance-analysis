@@ -41,6 +41,17 @@ class Discipline(Base):
             print(str(e))
 
     @staticmethod
+    def add(session, name):
+        try:
+            new_discipline = Discipline(name=name)
+            session.add(new_discipline)
+            session.flush()
+        except Exception as e:
+            session.rollback()
+            print(str(e))
+
+
+    @staticmethod
     def all_for_table(session):
         try:
             list_name = session.query(Discipline.name).order_by(Discipline.name).all()

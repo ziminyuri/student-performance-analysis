@@ -18,7 +18,6 @@ def parser_moodle(address, login, password, session) -> int:
     driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
 
     try:
-
         driver.get(login_address)
         username = driver.find_element_by_id('username')
         username.click()

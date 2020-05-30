@@ -29,21 +29,27 @@ class Report:
         pdf.set_font('DejaVu', '', 12)
         pdf.cell(0, 5, 'Тип анализа: ' + self.type_analysis, ln=1)
         pdf.cell(0, 5, '', ln=1)
+        y_bar = 40
         if self.group_number is not None:
             pdf.cell(0, 5, 'Группа: ' + self.group_number, ln=1)
             pdf.cell(0, 5, '', ln=1)
+            y_bar += 10
         if self.discipline is not None:
             pdf.cell(0, 5, 'Дисциплина: ' + self.discipline, ln=1)
             pdf.cell(0, 5, '', ln=1)
+            y_bar += 10
         if self.period is not None:
             pdf.cell(0, 5, 'Период: ' + self.period, ln=1)
             pdf.cell(0, 5, '', ln=1)
+            y_bar += 10
         if self.student is not None:
             pdf.cell(0, 5, 'Студент: ' + self.student, ln=1)
             pdf.cell(0, 5, '', ln=1)
+            y_bar += 10
         if self.session is not None:
             pdf.cell(0, 5, 'Сессия: ' + self.session, ln=1)
             pdf.cell(0, 5, '', ln=1)
+            y_bar += 10
 
         col_width = pdf.w / 3
         row_height = pdf.font_size
@@ -54,6 +60,7 @@ class Report:
             pdf.cell(col_width, row_height * spacing,
                      txt=item, border=1)
         pdf.ln(row_height * spacing)
+        y_bar += 10
 
         pdf.set_font('DejaVu', '', 12)
         for row in self.body_table:
@@ -61,6 +68,7 @@ class Report:
                 pdf.cell(col_width, row_height * spacing,
                          txt=item, border=1)
             pdf.ln(row_height * spacing)
+            y_bar += 10
 
         name = []
         value = []
@@ -103,10 +111,11 @@ class Report:
         image_path = 'temp/bar.png'
         plt.savefig(image_path)
 
-        pdf.add_page()
+       #  pdf.add_page()
+        pdf.cell(0, 5, '', ln=1)
         pdf.cell(0, 5, 'Столбчатая диаграмма:', ln=1)
         pdf.cell(0, 5, '', ln=1)
-        pdf.image(image_path, x=40, y=20, w=100)
+        pdf.image(image_path, x=7, y=y_bar, w=150)
 
         """
         plt.pie(value,  # Значения сколько раз встречается определенная степень образования

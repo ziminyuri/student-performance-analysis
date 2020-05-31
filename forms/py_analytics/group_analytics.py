@@ -1,9 +1,10 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.analytics_table_group import FormAnalyticsTableGroup
-from db.models import Control
 import numpy as np
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from db.models import Control
+from forms.py_analytics.analytics_table_group import FormAnalyticsTableGroup
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 from transform.items import set_items_to_table
-from style.dark_theme import window_css, combobox_css, button_css, label_css
 
 
 class FormGroupAnalytics(object):

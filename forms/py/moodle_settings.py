@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from style.dark_theme import window_css, button_css, label_css, line_edit_css
-from parsers.moodle import parser_moodle
 from PyQt5.QtWidgets import QMessageBox
+
+from parsers.moodle import parser_moodle
+from style.dark_theme import button_css, label_css, line_edit_css, window_css
 
 
 class FormMoodleSettings(object):

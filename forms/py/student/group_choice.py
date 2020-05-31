@@ -1,10 +1,11 @@
-from PyQt5 import QtCore, QtWidgets
-from forms.py.student.student_list import FormStudentList
-from forms.py.student.group_list import FormGroupWindow
-from db.models import Group, Student
 import numpy as np
+from PyQt5 import QtCore, QtWidgets
+
+from db.models import Group, Student
+from forms.py.student.group_list import FormGroupWindow
+from forms.py.student.student_list import FormStudentList
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 from transform.items import set_items_to_table
-from style.dark_theme import label_css, button_css, window_css, combobox_css
 
 
 class FormGroupChoice(object):

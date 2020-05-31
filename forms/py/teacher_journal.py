@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
-from style.dark_theme import window_css, table_header_css, table_css, button_css
+
+from style.dark_theme import (button_css, table_css, table_header_css,
+                              window_css)
 
 
 class FormTeacherJournal(object):

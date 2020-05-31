@@ -1,10 +1,11 @@
-from sqlalchemy import *
-from sqlalchemy.orm import *
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
-from transform.errors import bd_error
-from settings import YEAR
 import numpy as np
+from sqlalchemy import *
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import *
+from sqlalchemy.orm import relationship
+
+from settings import YEAR
+from transform.errors import bd_error
 
 Base = declarative_base()
 

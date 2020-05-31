@@ -1,15 +1,16 @@
 from PyQt5 import QtCore, QtWidgets
-from forms.py.login import FormLogin
-from forms.py_analytics.choice_analytics import FormChoiceAnalyticsWindow
-from forms.py.subject.subject_list import FormSubjectList
-from forms.py.student.group_choice import FormGroupChoice
-from forms.py.report import FormReport
+
+from db.models import Discipline, Grade, Group
 from forms.py.grade.grades import FormGrade
+from forms.py.login import FormLogin
 from forms.py.not_submitted_work import form_not_submitted_work
-from db.models import Group, Discipline, Grade
-from transform.items import set_items_to_table
+from forms.py.report import FormReport
 from forms.py.settings import FormSettings
+from forms.py.student.group_choice import FormGroupChoice
+from forms.py.subject.subject_list import FormSubjectList
+from forms.py_analytics.choice_analytics import FormChoiceAnalyticsWindow
 from report import list_of_report_name
+from transform.items import set_items_to_table
 
 
 class FormMainwindow(object):
@@ -51,6 +52,7 @@ class FormMainwindow(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
+        self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         self.gridLayout.addWidget(self.tableWidget, 3, 0, 1, 7)
         self.pushButton_grade = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_grade.setObjectName("pushButton_grade")

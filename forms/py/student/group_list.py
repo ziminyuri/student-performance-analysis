@@ -1,8 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+from db.models import Group, Specialty
 from forms.py.student.add_group import FormAddGroup
 from forms.py.student.update_group import FormUpdateGroup
-from db.models import Specialty, Group
-from style.dark_theme import label_css, button_css, window_css, combobox_css, table_header_css, table_css
+from style.dark_theme import (button_css, combobox_css, label_css, table_css,
+                              table_header_css, window_css)
 
 
 class FormGroupWindow(object):

@@ -1,9 +1,12 @@
+import csv
+
 from PyQt5 import QtCore, QtWidgets
+
 from db.models import Student
 from forms.py.student.add_student import FormAddStudent
 from forms.py.student.update_student import FormUpdateStudent
-import csv
-from style.dark_theme import label_css, table_css, table_header_css, button_css, window_css
+from style.dark_theme import (button_css, label_css, table_css,
+                              table_header_css, window_css)
 
 
 class FormStudentList(object):

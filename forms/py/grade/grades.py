@@ -1,9 +1,10 @@
-from PyQt5 import QtCore, QtWidgets
-from forms.py.teacher_journal import FormTeacherJournal
-from db.models import Work, Grade
 import numpy as np
+from PyQt5 import QtCore, QtWidgets
+
+from db.models import Grade, Work
+from forms.py.teacher_journal import FormTeacherJournal
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 from transform.items import set_items_to_table
-from style.dark_theme import label_css, button_css, window_css, combobox_css
 
 
 class FormGrade(object):

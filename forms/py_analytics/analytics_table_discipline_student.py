@@ -1,10 +1,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.student_diagram_discipline import FormStudentDiagramDiscipline
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarSeries, QValueAxis
+from PyQt5.QtChart import (QBarSeries, QBarSet, QChart, QChartView,
+                           QPercentBarSeries, QValueAxis)
 from PyQt5.QtCore import Qt
-from style.dark_theme import table_css, table_header_css, label_css, button_css, window_css
-from report import Report, list_of_report_name, list_of_report_object
 from PyQt5.QtWidgets import QMessageBox
+
+from forms.py_analytics.student_diagram_discipline import \
+    FormStudentDiagramDiscipline
+from report import Report, list_of_report_name, list_of_report_object
+from style.dark_theme import (button_css, label_css, table_css,
+                              table_header_css, window_css)
 
 
 class FormAnalyticsTableDisciplineStudent(object):
@@ -28,6 +32,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
+        self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(440, 10, 101, 16))
         self.label.setObjectName("label")

@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.choice_discipline_group_or_student import FormChoiceDisciplineGroupOrStudent
-from style.dark_theme import window_css, combobox_css, label_css, button_css
+
+from forms.py_analytics.choice_discipline_group_or_student import \
+    FormChoiceDisciplineGroupOrStudent
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 
 
 class FormChoiceDiscipline(object):

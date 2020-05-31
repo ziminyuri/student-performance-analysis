@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 from db.models import Discipline
+from style.dark_theme import label_css, list_css, window_css
 from transform.query import query_to_list_of_name
-from style.dark_theme import label_css, window_css, list_css
 
 
 class FormSubjectList(object):

@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.student_analytics import FormStudentAnalytics
+
 from db.models import Student
-from style.dark_theme import window_css, label_css, combobox_css, button_css
+from forms.py_analytics.student_analytics import FormStudentAnalytics
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 
 
 class FormChoiceGroup(object):
@@ -79,4 +80,3 @@ class FormChoiceGroup(object):
             self.comboBox.setStyleSheet("")
             self.label.setStyleSheet("")
             self.dark_theme = False
-

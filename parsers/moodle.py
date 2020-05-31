@@ -1,8 +1,10 @@
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
 import time
-from db.models import Discipline, Group, Student
 from random import randint
+
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+from db.models import Discipline, Group, Student
 
 
 def parser_moodle(address, login, password, session) -> int:

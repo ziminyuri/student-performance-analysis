@@ -1,9 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from db.models import Group, Discipline
+
+from db.models import Discipline, Group
+from forms.py_analytics.choice_discipline import FormChoiceDiscipline
 from forms.py_analytics.choice_group import FormChoiceGroup
 from forms.py_analytics.group_analytics import FormGroupAnalytics
-from forms.py_analytics.choice_discipline import FormChoiceDiscipline
-from style.dark_theme import window_css, button_css, label_css, combobox_css
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 
 
 class FormChoiceAnalyticsWindow(object):
@@ -83,6 +84,7 @@ class FormChoiceAnalyticsWindow(object):
     def show_group_analytics_window(self):
         group = Group()
         ls_name = group.show_name(self.session)
+        self.group_analytics_ui.comboBox.clear()
         self.group_analytics_ui.comboBox.addItems(ls_name)
 
         self.choice_analytics_window.hide()
@@ -93,6 +95,7 @@ class FormChoiceAnalyticsWindow(object):
     def show_student_analytics_window(self):
         group = Group()
         ls_name = group.show_name(self.session)
+        self.choice_group_ui.comboBox.clear()
         self.choice_group_ui.comboBox.addItems(ls_name)
         self.choice_analytics_window.hide()
         self.choice_group_ui.update(self.dark_theme)

@@ -1,5 +1,5 @@
 import numpy as np
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtGui, QtWidgets
 
 
 def set_items_to_table(table, items: np.ndarray, DARK_THEME=False):

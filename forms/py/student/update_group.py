@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 from db.models import Group
-from style.dark_theme import label_css, button_css, window_css, combobox_css, line_edit_css
+from style.dark_theme import (button_css, combobox_css, label_css,
+                              line_edit_css, window_css)
 
 
 class FormUpdateGroup(object):

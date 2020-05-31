@@ -1,10 +1,10 @@
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtChart import QChart, QChartView
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-from matplotlib.figure import Figure
+from style.dark_theme import button_css, label_css, window_css
 
-from style.dark_theme import window_css, label_css, button_css
 
 class FormGroupDiagramDiscipline(object):
     def __init__(self, main_window):

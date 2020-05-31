@@ -1,10 +1,14 @@
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.group_diagram import FormGroupDiagram
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis
+from PyQt5.QtChart import QBarSeries, QBarSet, QChart, QChartView, QValueAxis
 from PyQt5.QtCore import Qt
-from style.dark_theme import window_css, table_header_css, table_css, button_css, label_css
-from report import Report, list_of_report_name, list_of_report_object
 from PyQt5.QtWidgets import QMessageBox
+
+from db.models import Control
+from forms.py_analytics.group_diagram import FormGroupDiagram
+from report import Report, list_of_report_name, list_of_report_object
+from style.dark_theme import (button_css, label_css, table_css,
+                              table_header_css, window_css)
 
 
 class FormAnalyticsTableGroup(object):
@@ -114,6 +118,12 @@ class FormAnalyticsTableGroup(object):
         r.header_table = self.table_header
         r.body_table = self.result
         name = "Группа: " + self.group + "/" + self.type_analysis
+
+        if self.type_analysis == "Средняя оценка по итогам сессии":
+            control = Control()
+            proportional_result: np.ndarray = control.analysis_group_proportional(self.session, self.group, self.stud_session, self.period)
+            r.proportional_result = proportional_result
+
         r.name = name
         list_of_report_object.append(r)
         list_of_report_name.append(name)
@@ -195,4 +205,3 @@ class FormAnalyticsTableGroup(object):
             self.label_2.setStyleSheet("")
             self.pushButton_4.setStyleSheet("")
             self.dark_theme = False
-

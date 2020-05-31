@@ -1,9 +1,11 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from db.models import Control, Grade
 import numpy as np
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from db.models import Control, Grade
+from forms.py_analytics.analytics_table_discipline_group import \
+    FormAnalyticsTableDisciplineGroup
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 from transform.items import set_items_to_table
-from forms.py_analytics.analytics_table_discipline_group import FormAnalyticsTableDisciplineGroup
-from style.dark_theme import window_css, label_css, button_css, combobox_css
 
 
 class FormChoiceDisciplineGroup(object):

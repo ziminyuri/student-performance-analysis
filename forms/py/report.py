@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from report import Report, list_of_report_object, list_of_report_name
+
+from report import Report, list_of_report_name, list_of_report_object
 
 
 class FormReport(object):
@@ -58,5 +59,5 @@ class FormReport(object):
         for r in list_of_report_object:
             if r.name == name:
                 name = QtWidgets.QFileDialog.getSaveFileName(self.report_window, 'Save File', "Отчет аналитики.pdf")
-                finish_report = r.make_report(name[0])
+                r.make_report(name[0])
                 break

@@ -1,11 +1,12 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtChart import QChart, QChartView, QBarSet, QPercentBarSeries, QBarCategoryAxis,\
-    QPieSeries, QPieSlice
-from PyQt5.QtGui import QPen
-from PyQt5.QtCore import Qt
-from db.models import Control
 import numpy as np
-from style.dark_theme import window_css, combobox_css, label_css, button_css
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtChart import (QBarCategoryAxis, QBarSet, QChart, QChartView,
+                           QPercentBarSeries, QPieSeries, QPieSlice)
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPen
+
+from db.models import Control
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 
 
 class FormStudentDiagram(object):

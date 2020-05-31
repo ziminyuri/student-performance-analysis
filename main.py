@@ -1,11 +1,12 @@
-from PyQt5 import QtWidgets
-from forms.py.mainwindow import FormMainwindow
 import sys
 
+from PyQt5 import QtWidgets
 from sqlalchemy import *
-from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import *
+
 from connecting import my_databases
+from forms.py.mainwindow import FormMainwindow
 
 engine = create_engine(my_databases, pool_size=10, max_overflow=20)
 

@@ -1,9 +1,11 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from forms.py_analytics.analytics_table_student import FormAnalyticsTableStudent
-from db.models import Control, Grade
 import numpy as np
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from db.models import Control, Grade
+from forms.py_analytics.analytics_table_student import \
+    FormAnalyticsTableStudent
+from style.dark_theme import button_css, combobox_css, label_css, window_css
 from transform.items import set_items_to_table
-from style.dark_theme import window_css, combobox_css, label_css, button_css
 
 
 class FormStudentAnalytics(object):

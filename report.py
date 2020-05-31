@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
 from fpdf import FPDF
 
 list_of_report_object = []
@@ -18,6 +17,7 @@ class Report:
         self.student = None
         self.session = None
         self.type_analysis = None
+        self.proportional_result = None
 
     def make_report(self, path_to_save_file) -> None:
         pdf = FPDF()
@@ -138,21 +138,57 @@ class Report:
         pdf.cell(0, 5, '', ln=1)
         pdf.image(image_path, x=7, y=y_bar, w=150)
 
-        """
-        plt.pie(value,  # Значения сколько раз встречается определенная степень образования
-               labels=name,  # title для частей
-               shadow=1,  # Тень
-               startangle=90,  # Угол с которого будет начинаться первая доля
-               autopct='%1.1f%%'  # Указываем, что необходимо отобраджать проценты
-               )
-        image_path = 'temp/pie.png'
+        try:
+            pdf.add_page()
+            y = 26
+            flag_pie = 0
+            i = 0
+            for row in self.proportional_result:
+                if flag_pie == 2:
+                    pdf.add_page()
+                    y = 26
+                if flag_pie == 1 or flag_pie == 3:
+                    for i in range(0, 15):
+                        pdf.cell(0, 5, '', ln=10)
 
-        plt.savefig(image_path)
+                value = []
+                name = []
+                if row[1] != '0':
+                    value.append(row[1])
+                    name.append('0-24')
+                if row[2] != '0':
+                    value.append(row[2])
+                    name.append('25-49')
+                if row[3] != '0':
+                    value.append(row[3])
+                    name.append('50-74')
+                if row[4] != '0':
+                    value.append(row[4])
+                    name.append('75-100')
+                # fig, ax = plt.subplots()
+                fig = plt.figure()
+                ax = fig.add_subplot(1, 1, 1)
+                ax.pie(value,  # Значения сколько раз встречается определенная степень образования
+                          labels=name,  # title для частей
+                          shadow=1,  # Тень
+                          startangle=90,  # Угол с которого будет начинаться первая доля
+                          autopct='%1.1f%%'  # Указываем, что необходимо отобраджать проценты
+                        )
+                image_path = "temp/pie" + str(i) + ".png"
+                i += 1
 
-        pdf.add_page()
-        pdf.cell(0, 5, 'Круговая диаграмма:', ln=1)
-        pdf.cell(0, 5, '', ln=1)
-        pdf.image(image_path, x=70, y=8, w=100)
-        """
+                plt.savefig(image_path)
+                pdf.cell(0, 5, 'Анализ оценок, полученных за ' + row[0] + ' год.', ln=1)
+                pdf.cell(0, 5, '', ln=1)
+                pdf.cell(0, 5, 'Круговая диаграмма:', ln=1)
+                pdf.cell(0, 5, '', ln=1)
+                pdf.image(image_path, x=5, y=y, w=100)
+                y += 100
+                flag_pie += 1
+                fig.clf()
+
+
+        except:
+            pass
+
         pdf.output(path_to_save_file)
-

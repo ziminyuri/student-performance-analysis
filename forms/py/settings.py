@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from style.dark_theme import button_css, window_css, radio_css
+
 from forms.py.moodle_settings import FormMoodleSettings
+from style.dark_theme import button_css, radio_css, window_css
 
 
 class FormSettings(object):

@@ -49,11 +49,11 @@ class FormAnalyticsTableStudent(object):
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.show_diagram)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(430, 370, 111, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(550, 370, 111, 32))
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.clicked.connect(self.previous_page)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(600, 370, 112, 32))
+        self.pushButton_3.setGeometry(QtCore.QRect(660, 370, 112, 32))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.close_window)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
@@ -148,7 +148,7 @@ class FormAnalyticsTableStudent(object):
         r.header_table = self.table_header
         r.body_table = self.result
         r.group = self.group
-        name = self.type_analysis + " | " + self.group + " | " + self.student
+        name = "Студент: " + self.student + "/" + self.type_analysis + "/" + self.group
         r.name = name
         list_of_report_object.append(r)
         list_of_report_name.append(name)

@@ -113,7 +113,7 @@ class FormAnalyticsTableGroup(object):
         r.session = self.stud_session
         r.header_table = self.table_header
         r.body_table = self.result
-        name = self.type_analysis + " | " + self.group
+        name = "Группа: " + self.group + "/" + self.type_analysis
         r.name = name
         list_of_report_object.append(r)
         list_of_report_name.append(name)

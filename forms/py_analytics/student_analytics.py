@@ -151,6 +151,7 @@ class FormStudentAnalytics(object):
             self.analytics_table_student_ui.student_diagram_ui.pushButton_3.setText("Отобразить диаграмму в пропорциях")
         else:
             self.analytics_table_student_ui.student_diagram_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+            self.analytics_table_student_ui.student_diagram_ui.pushButton_3.hide()
             self.analytics_table_student_ui.student_diagram_ui.data = result
 
         self.analytics_table_student_ui.tableWidget.setHorizontalHeaderLabels(table_header)

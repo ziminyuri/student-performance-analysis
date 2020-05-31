@@ -117,7 +117,7 @@ class FormAnalyticsTableDisciplineStudent(object):
         self.student_diagram_discipline_ui.chartview = QChartView(chart, centralwidget)
         self.student_diagram_discipline_ui.chartview.setGeometry(QtCore.QRect(10, 110, 880, 371))
         self.student_diagram_discipline_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
-        self.student_diagram_discipline_ui.pushButton_3.show()
+        self.student_diagram_discipline_ui.pushButton_3.hide()
         self.student_diagram_discipline_ui.data = self.result
         self.student_diagram_discipline_ui.update(self.dark_theme)
         self.student_diagram_discipline_window.show()
@@ -134,8 +134,9 @@ class FormAnalyticsTableDisciplineStudent(object):
         r.type_analysis = self.type_analysis
         r.header_table = self.table_header
         r.body_table = self.result
-        r.group = self.group
-        name = self.type_analysis + " | " + self.group
+        r.group_number = self.group
+        r.discipline = self.discipline
+        name = "Дисциплина: " + self.discipline + "/" + self.type_analysis + "/" + self.group
         r.name = name
         list_of_report_object.append(r)
         list_of_report_name.append(name)

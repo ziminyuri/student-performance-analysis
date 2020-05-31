@@ -51,7 +51,7 @@ class Report:
             pdf.cell(0, 5, '', ln=1)
             y_bar += 10
 
-        col_width = pdf.w / 3
+        col_width = pdf.w / 2.2
         row_height = pdf.font_size
         spacing = 2
 
@@ -63,10 +63,28 @@ class Report:
         y_bar += 10
 
         pdf.set_font('DejaVu', '', 12)
+
+        name_student = []
+        flag_name = 0
+
+        count = self.name.count('Дисциплина')
+        if count == 1 and self.student == None:
+            flag_students = 1
+        else:
+            flag_students = 0
+
         for row in self.body_table:
             for item in row:
-                pdf.cell(col_width, row_height * spacing,
-                         txt=item, border=1)
+                if flag_students == 1 and flag_name == 0:
+                    value = item.split(' ')[0]
+                    pdf.cell(col_width, row_height * spacing,
+                             txt=value, border=1)
+                    name_student.append(value)
+                    flag_name = 1
+                else:
+                    pdf.cell(col_width, row_height * spacing,
+                             txt=item, border=1)
+                    flag_name = 0
             pdf.ln(row_height * spacing)
             y_bar += 10
 
@@ -84,7 +102,10 @@ class Report:
         ax.set_ylabel(self.header_table[1])
         ax.set_xlabel(self.header_table[0])
         ax.set_xticks(x)
-        ax.set_xticklabels(name)
+        if flag_students == 1:
+            ax.set_xticklabels(name_student)
+        else:
+            ax.set_xticklabels(name)
 
         for rect in ax.patches:
             y_value = rect.get_height()

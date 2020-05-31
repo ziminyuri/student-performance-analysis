@@ -120,9 +120,11 @@ class FormGroupAnalytics(object):
             self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в пропорциях")
         elif type_analysis == 'Максимальная оценка по итогам сессии':
             self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+            self.analytics_table_group_ui.group_diagram_ui.pushButton_3.hide()
             self.analytics_table_group_ui.group_diagram_ui.data = result
         else:
             self.analytics_table_group_ui.group_diagram_ui.pushButton_3.setText("Отобразить диаграмму в круговом виде")
+            self.analytics_table_group_ui.group_diagram_ui.pushButton_3.hide()
             self.analytics_table_group_ui.group_diagram_ui.data = result
 
         if type_analysis == 'Средняя оценка по итогам сессии':

@@ -19,7 +19,7 @@ class Report:
         self.session = None
         self.type_analysis = None
 
-    def make_report(self):
+    def make_report(self, path_to_save_file) -> None:
         pdf = FPDF()
         pdf.add_page()
         pdf.add_font('DejaVu', '', 'font/DejaVuSansCondensed.ttf', uni=True)
@@ -111,7 +111,7 @@ class Report:
         image_path = 'temp/bar.png'
         plt.savefig(image_path)
 
-       #  pdf.add_page()
+        #  pdf.add_page()
         pdf.cell(0, 5, '', ln=1)
         pdf.cell(0, 5, 'Столбчатая диаграмма:', ln=1)
         pdf.cell(0, 5, '', ln=1)
@@ -133,5 +133,5 @@ class Report:
         pdf.cell(0, 5, '', ln=1)
         pdf.image(image_path, x=70, y=8, w=100)
         """
-        pdf.output("simple_demo.pdf")
+        pdf.output(path_to_save_file)
 

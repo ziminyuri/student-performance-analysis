@@ -57,6 +57,6 @@ class FormReport(object):
         name = self.comboBox.currentText()
         for r in list_of_report_object:
             if r.name == name:
-                finish_report = r.make_report()
-                print('готово')
+                name = QtWidgets.QFileDialog.getSaveFileName(self.report_window, 'Save File', "Отчет аналитики.pdf")
+                finish_report = r.make_report(name[0])
                 break

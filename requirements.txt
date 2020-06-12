@@ -19,7 +19,6 @@ PyQt5==5.14.2
 PyQt5-sip==12.7.2
 PyQt5-stubs==5.14.2.0
 PyQtChart==5.14.0
-pyqtgraph==0.10.0
 python-dateutil==2.8.1
 python-docx==0.8.10
 requests==2.23.0

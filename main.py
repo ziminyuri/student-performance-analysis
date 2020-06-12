@@ -8,7 +8,8 @@ from sqlalchemy.orm import *
 from connecting import my_databases
 from forms.py.mainwindow import FormMainwindow
 
-engine = create_engine(my_databases, pool_size=10, max_overflow=20)
+# engine = create_engine(my_databases, pool_size=10, max_overflow=20)
+engine = create_engine(my_databases)
 
 Session = sessionmaker(bind=engine)
 
